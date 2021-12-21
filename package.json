@@ -16,9 +16,17 @@
     "url": "https://github.com/dstyle0210/moneybookTest/issues"
   },
   "homepage": "https://github.com/dstyle0210/moneybookTest#readme",
-  "dependencies": {
+  "devDependencies": {
+    "@babel/core": "^7.16.5",
+    "@babel/plugin-transform-react-jsx": "^7.16.5",
+    "@babel/preset-react": "^7.16.5",
     "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
     "gulp-sass": "^5.0.0",
     "sass": "^1.45.1"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.16.5",
+    "gulp-concat": "^2.6.1"
   }
 }

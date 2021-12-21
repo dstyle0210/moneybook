@@ -5,10 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Welcome to Firebase Hosting</title>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script crossorigin src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
     <script defer src="/__/firebase/9.6.1/firebase-app-compat.js"></script>
     <script defer src="/__/firebase/9.6.1/firebase-database-compat.js"></script>
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+    <script defer src="./js/uikit.js"></script>
+    <script defer src="./js/page.js"></script>
+    
     
 
     <style media="screen">
@@ -19,6 +24,8 @@
     <div>로딩중</div>
     <div id="data"></div>
     <div id="load"></div>
+    <div id="reactRoot"></div>
+    <div id="reactRoot2"></div>
 
     <script>
       // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
@@ -56,6 +63,7 @@
           firebase.database().ref('/payment').on('value', snapshot => {
             $data.text(JSON.stringify(snapshot.val()));
           });
+           
 
         } catch (e) {
           console.error(e);
