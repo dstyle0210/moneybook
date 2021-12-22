@@ -10,6 +10,7 @@
     <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
     <script defer src="/__/firebase/9.6.1/firebase-app-compat.js"></script>
     <script defer src="/__/firebase/9.6.1/firebase-database-compat.js"></script>
+    <script defer src="/__/firebase/9.6.1/firebase-auth-compat.js"></script>
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
     <script defer src="./js/uikit.js"></script>
     <script defer src="./js/page.js"></script>
@@ -21,6 +22,15 @@
     </style>
   </head>
   <body>
+
+
+    <a href="#" onclick="login();return false;">로그인</a>
+    <a href="write.html">등록하기</a>
+    
+
+    
+
+
     <div>로딩중</div>
     <div id="data"></div>
     <div id="load"></div>
@@ -28,6 +38,14 @@
     <div id="reactRoot2"></div>
 
     <script>
+      
+
+
+
+      
+
+
+
       // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
         // // The Firebase SDK is initialized and available here!
         //
@@ -42,10 +60,69 @@
         // firebase.performance(); // call to activate
         //
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+        var gtoken,guser;
+        function login(){
+          const $data = $("#data");
+          var provider = new firebase.auth.GoogleAuthProvider();
+          firebase.auth().signInWithPopup(provider).then(function(result) {
+            
+            firebase.auth().onAuthStateChanged(user => { 
+              console.log(user);
+            });
+
+            var user2 = result.user;
+            console.log(user2);
+          
+            firebase.database().ref('/payment').on('value', snapshot => {
+              $data.text(JSON.stringify(snapshot.val()));
+            });
+
+            }).catch(function(error) {
+              // Handle Errors here.
+              var errorCode = error.code;
+              var errorMessage = error.message;
+              // The email of the user's account used.
+              var email = error.email;
+              // The firebase.auth.AuthCredential type that was used.
+              var credential = error.credential;
+              // ...
+            });
+        };
       $(function(){
         const $load = $("#load");
         const $data = $("#data");
         try {
+          firebase.auth().onAuthStateChanged(user => { 
+            console.log(user);
+          });
+
+          // 구글 인증 기능 추가
+          /*
+          var provider = new firebase.auth.GoogleAuthProvider();
+          firebase.auth().signInWithPopup(provider);
+          // 인증하기
+          firebase.auth().signInWithPopup(provider).then(function(result) {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            var token = gtoken = result.credential.accessToken;
+            // The signed-in user info.
+            var user = result.user;
+            guser = firebase.auth().currentUser;
+            
+            console.log(user)		// 인증 후 어떤 데이터를 받아오는지 확인해보기 위함.
+          }).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            // ...
+          });
+          */
+
+
+
           let app = firebase.app();
           let features = [
             'auth', 

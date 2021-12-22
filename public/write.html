@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="autocomplete" content="off">
+    <title>Welcome to Firebase Hosting</title>
+
+    <script crossorigin src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script defer src="/__/firebase/9.6.1/firebase-app-compat.js"></script>
+    <script defer src="/__/firebase/9.6.1/firebase-database-compat.js"></script>
+    <script defer src="/__/firebase/9.6.1/firebase-auth-compat.js"></script>
+    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+    <script defer src="./js/uikit.js"></script>
+    
+    
+    
+
+    <style media="screen">
+      
+    </style>
+  </head>
+  <body>
+      <div id="test"></div>
+      <div id="data"></div>
+      <textarea name="" id="tete" cols="30" rows="10"></textarea>
+      <button onclick="upload();">업로드</button>
+      <script>
+          var pKey = 0;
+          $(function(){
+            firebase.auth().onAuthStateChanged(user => { 
+                if(user){
+                    $("#test").text(user.email);
+                }else{
+                    console.log(user);
+                    $("#test").text(user);
+                }
+            });
+            const $data = $("#data");
+            firebase.database().ref('/users').on('value', snapshot => {
+                pKey = snapshot.val().length;
+                console.log(snapshot.val());
+              $data.text(JSON.stringify(snapshot.val()));
+            });
+          });
+          function upload(){
+              var text = $("#tete").val();
+              console.log(text);
+              writeUserData({pkey:pKey,text:text});
+          };
+          function writeUserData(value) {
+              console.log(value);
+            firebase.database().ref('users/'+pKey).set(value);
+            // pKey++;
+        }
+
+      </script>
+
+  </body>
+</html>
