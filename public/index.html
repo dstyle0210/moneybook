@@ -25,10 +25,14 @@
 
 
     <a href="#" onclick="login();return false;">로그인</a>
-    <a href="write.html">등록하기</a>
+    <button id="write">등록하기</button>
+    <button id="upload">업로드</button>
     
 
-    
+
+    <textarea id="sms"></textarea>
+
+        
 
 
     <div>로딩중</div>
@@ -146,6 +150,26 @@
           console.error(e);
           $load.text('Error loading the Firebase SDK, check the console.');
         };
+
+
+
+
+
+        $("#sms").hide();
+        $("#write").on("click",() => {
+          navigator.clipboard.readText().then((text) => {
+            if( (/국민카드/).test(text) ){
+              firebase.database().ref('/payment/test').set(text);
+            }else{
+              $("#sms").show();
+            }
+            // console.log('Pasted content: ', ); 
+          });
+          // alert("test");
+        });
+
+
+
       });
     </script>
   </body>

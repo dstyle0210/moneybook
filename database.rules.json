@@ -1,6 +1,6 @@
 {
   "rules": {
     ".read":"auth.email=='dstyle0210@gmail.com'",
-    ".write":"auth.email=='dstyle0210@gmail.com'"
+    ".write":true
   }
 }
