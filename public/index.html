@@ -26,6 +26,9 @@
 
     <a href="#" onclick="login();return false;">로그인</a>
     <button id="write">등록하기</button>
+
+    <input type="text" id="paymentMethod" />
+
     <button id="upload">업로드</button>
     
 
@@ -78,7 +81,8 @@
             console.log(user2);
           
             firebase.database().ref('/payment').on('value', snapshot => {
-              $data.text(JSON.stringify(snapshot.val()));
+              console.log(snapshot.val());
+              // $data.text(JSON.stringify(snapshot.val()));
             });
 
             }).catch(function(error) {
@@ -141,7 +145,13 @@
           ].filter(feature => typeof app[feature] === 'function');
           $load.text(`Firebase SDK loaded with ${features.join(', ')}`);
 
-          firebase.database().ref('/payment').on('value', snapshot => {
+          firebase.database().ref('/bills').on('value', snapshot => {
+            var data = snapshot.val();
+            var date = (new Date()).getFullYear() +""+ ((new Date()).getMonth()+1);
+            console.log(date);
+            for(bill of data[date]){
+              console.log(bill);
+            };
             $data.text(JSON.stringify(snapshot.val()));
           });
            
@@ -172,5 +182,6 @@
 
       });
     </script>
+    <p>[Web발신]\nKB국민카드9*4*승인\n원*봉\n4,900원 일시불\n12/27 14:05\n리디 주식회사\n누적2,854,464원</p>
   </body>
 </html>
