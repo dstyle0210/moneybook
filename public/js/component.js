@@ -16,7 +16,6 @@ const C_receiptList = ({
 const M_receipt = ({
   receipts
 }) => {
-  console.log(receipts);
   return /*#__PURE__*/React.createElement("article", {
     className: "m-receipt"
   }, /*#__PURE__*/React.createElement("strong", {

@@ -1,5 +1,4 @@
 const M_receipt = ({receipts}) => {
-    console.log(receipts);
     return (<article className="m-receipt">
     <strong className="a-price">{receipts.price}</strong>
     <span className="a-date">{receipts.datetime}</span>
