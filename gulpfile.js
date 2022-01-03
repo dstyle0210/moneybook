@@ -12,15 +12,15 @@ function defaultTask(cb) {
 
 
 task("jsx:component",function(done){
-    return watch("./src/component/**/*.jsx").on("change",function(){
+    return watch("./src/component/**/*.jsx").on("change",function(path){
         src("./src/component/**/*.jsx")
         .pipe(concat("component.jsx"))
         .pipe(babel({
             plugins:["@babel/plugin-transform-react-jsx"]
         }))
         .pipe(dest("./public/js"))
-        .on("end",function(file){
-            console.log(file);
+        .on("end",function(){
+            console.log(path);
         })
     }).on("ready",function(){
         done();
@@ -28,15 +28,13 @@ task("jsx:component",function(done){
 });
 task("jsx:page",function(done){
     return watch("./src/page/**/*.jsx").on("change",function(path,stats){
-        var dist = path.replace("src\\page\\","").replace(".jsx","");
-        console.log(dist);
         src(path)
         .pipe(babel({
             plugins:["@babel/plugin-transform-react-jsx"]
         }))
         .pipe(flatten())
         .pipe(dest("./public/page"))
-        .on("end",function(path){
+        .on("end",function(){
             console.log(path);
         });
     }).on("ready",function(){

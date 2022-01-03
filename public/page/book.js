@@ -8,6 +8,7 @@ $(function () {
     bookReceiptsUI(Receipts);
     createReceipt(); // 등록하기 기능추가
   });
+  $("#createReceipt").on("click", createReceipt);
 });
 
 function bookReceiptsUI(receipts) {
@@ -30,8 +31,20 @@ const receiptVo = {
 
 
 var _sms = "[Web발신]\nKB국민카드9*4*승인\n원*봉\n4,900원 일시불\n12/27 14:05\n리디 주식회사\n누적2,854,464원";
+var receipt = {
+  comment: "co",
+  datetime: "",
+  outCategory: "",
+  payment: "",
+  price: 0,
+  store: 0,
+  useYn: "Y"
+};
 
 function createReceipt() {
+  navigator.clipboard.readText().then(text => {}).then(function () {});
+  firebase.database().ref("/receipt/" + Receipts.length).set(receipt);
+
   var smsData = _sms.split("\n");
 
   var receipt = {
