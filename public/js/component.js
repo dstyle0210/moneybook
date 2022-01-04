@@ -9,7 +9,7 @@ const C_receiptList = ({
     })));
   });
   return /*#__PURE__*/React.createElement("ul", {
-    className: "c_receiptList"
+    className: "c-receiptList"
   }, receiptList); // return <React.Fragment>{receiptList}</React.Fragment>;
 };
 

@@ -14,26 +14,24 @@ $(function(){
 
 
 const S_receiptsUpdate = ({receipt}) => {
-    return (<React.Fragment><div>
-        <label for="write_dateTime">결제시간</label>
-        <input type="datetime-local" id="write_dateTime" value={receipt.datetime} /> 
-    </div>
+    return (<React.Fragment>
+        <M_receiptUpdateDateTime label="결제시간" value={receipt.datetime}></M_receiptUpdateDateTime>
     <div>
         <label for="write_store">사용처</label>
-        <input type="text" id="write_store" />
+        <input type="text" id="write_store" value={receipt.store} />
         
     </div>
     <div>
         <label for="write_price">금액</label>
-        <input type="text" id="write_price" />
+        <input type="text" id="write_price" value={receipt.price} />
     </div>
     <div>
-        <label for="write_payment">결제수단</label>
-        <input type="text" id="write_payment" />
+        <label for="write_method">결제수단</label>
+        <input type="text" id="write_method" value={receipt.method} />
     </div>
     <div>
         <label for="write_comment">상세내역</label>
-        <input type="text" id="write_comment" />
+        <input type="text" id="write_comment" value={receipt.comment} />
     </div>
     <div>
         <label>지출성격</label>
@@ -43,3 +41,14 @@ const S_receiptsUpdate = ({receipt}) => {
         <label><input type="radio" name="write_outgoingsType" /> 기타</label>
     </div></React.Fragment>);
 };
+
+
+
+const M_receiptUpdateDateTime = ({label="결제시간",value}) => {
+    return (
+    <div className="m-receiptUpdate -dateTime">
+        <label for="update_dateTime">{label}</label>
+        <input type="datetime-local" id="update_dateTime" value={value} /> 
+    </div>
+    );
+}
