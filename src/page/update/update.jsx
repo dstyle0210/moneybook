@@ -1,46 +1,46 @@
-let Receipts; // 전체 영수증 목록
+let Receipt, // 대상 영수증, 
+setReceiptState, // 영수증 State Change 함수
+receiptIdx; // 대상 영수증 인덱스 번호
 $(function(){
     firebase.auth(); // 인증체크
-    console.log("test");
     firebase.database().ref("/receipt").on("value", (snapshot) => {
-        var url = new URL(location.href);
-        Receipts = snapshot.val();
-
+        const url = new URL(location.href);
+        receiptIdx = url.searchParams.get("idx");
+        Receipt = (snapshot.val())[receiptIdx]; // 영수증 저장
+        
         const $reactRoot = $("#receiptsUpdateForm");
-        ReactDOM.render( <S_receiptsUpdate receipt={Receipts[url.searchParams.get("idx")]} /> ,$reactRoot.get(0));
+        ReactDOM.render( <S_receiptsUpdate receipt={Receipt} /> ,$reactRoot.get(0));
+
+        $("#updateReceipt").on("click",updateReceipt);
     });
 });
 
-
-
-const M_receiptUpdateDateTime = ({label,datetime,setDatetime}) => {
-    return (
-    <div className="m-receiptUpdate -dateTime">
-        <label htmlFor="update_dateTime">{label}</label>
-        <input type="datetime-local" id="update_dateTime" defaultValue={datetime} onChange={(e) => {setDatetime(e.target.value)}} />
-    </div>
-    );
+function setReceipt(updateData){
+    Object.assign(Receipt,updateData);
+    setReceiptState(Receipt);
 };
-var test = {};
+
+function updateReceipt(){
+    firebase.database().ref("/receipt/"+receiptIdx).set(Receipt);
+    return false;
+};
+
 const S_receiptsUpdate = ({receipt}) => {
-    const [datetime,setDatetime] = React.useState(receipt.datetime); // 상태 관리용 HOOK
+    [Receipt,setReceiptState] = React.useState( receipt ); // 상태 관리용 HOOK
     return (<React.Fragment>
-        <M_receiptUpdateDateTime label="결제시간" datetime={datetime} setDatetime={setDatetime}></M_receiptUpdateDateTime>
-    <div>
-        <label htmlFor="write_store">사용처{datetime}</label>
-        <input type="text" id="write_store" defaultValue={receipt.store} />
-    </div>
+        <M_receiptUpdateDateTime label="결제시간" value={Receipt.datetime}></M_receiptUpdateDateTime>
+        <M_receiptUpdateStore label="사용처" value={Receipt.store}></M_receiptUpdateStore>
     <div>
         <label htmlFor="write_price">금액</label>
-        <input type="text" id="write_price" defaultValue={receipt.price} />
+        <input type="text" id="write_price" defaultValue={Receipt.price} />
     </div>
     <div>
         <label htmlFor="write_method">결제수단</label>
-        <input type="text" id="write_method" defaultValue={receipt.method} />
+        <input type="text" id="write_method" defaultValue={Receipt.method} />
     </div>
     <div>
         <label htmlFor="write_comment">상세내역</label>
-        <input type="text" id="write_comment" defaultValue={receipt.comment} />
+        <input type="text" id="write_comment" defaultValue={Receipt.comment} />
     </div>
     <div>
         <label>지출성격</label>
@@ -49,4 +49,23 @@ const S_receiptsUpdate = ({receipt}) => {
         <label><input type="radio" name="write_outgoingsType" defaultChecked /> 변동</label>
         <label><input type="radio" name="write_outgoingsType" /> 기타</label>
     </div></React.Fragment>);
+};
+
+
+const M_receiptUpdateDateTime = ({label,value}) => {
+    return (
+    <div className="m-receiptUpdate -dateTime">
+        <label htmlFor="update_dateTime">{label}</label>
+        <input type="datetime-local" id="update_dateTime" defaultValue={value} onChange={(e) => {setReceipt({datetime:e.target.value})}} />
+    </div>
+    );
+};
+
+const M_receiptUpdateStore = ({label,value}) => {
+    return (
+    <div className="m-receiptUpdate -store">
+        <label htmlFor="write_store">{label}</label>
+        <input type="text" id="write_store" defaultValue={value} onChange={(e) => {setReceipt({store:e.target.value})}} />
+    </div>
+    );
 };
