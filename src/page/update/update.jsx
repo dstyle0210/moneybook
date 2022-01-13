@@ -8,6 +8,8 @@ $(function(){
         receiptIdx = url.searchParams.get("idx");
         Receipt = (snapshot.val())[receiptIdx]; // 영수증 저장
         
+        console.log(Receipt);
+
         const $reactRoot = $("#receiptsUpdateForm");
         ReactDOM.render( <S_receiptsUpdate receipt={Receipt} /> ,$reactRoot.get(0));
 
@@ -30,18 +32,9 @@ const S_receiptsUpdate = ({receipt}) => {
     return (<React.Fragment>
         <M_receiptUpdateDateTime label="결제시간" value={Receipt.datetime}></M_receiptUpdateDateTime>
         <M_receiptUpdateStore label="사용처" value={Receipt.store}></M_receiptUpdateStore>
-    <div>
-        <label htmlFor="write_price">금액</label>
-        <input type="text" id="write_price" defaultValue={Receipt.price} />
-    </div>
-    <div>
-        <label htmlFor="write_method">결제수단</label>
-        <input type="text" id="write_method" defaultValue={Receipt.method} />
-    </div>
-    <div>
-        <label htmlFor="write_comment">상세내역</label>
-        <input type="text" id="write_comment" defaultValue={Receipt.comment} />
-    </div>
+        <M_receiptUpdatePrice label="금액" value={Receipt.price}></M_receiptUpdatePrice>
+        <M_receiptUpdateMethod label="결제수단" value={Receipt.method}></M_receiptUpdateMethod>
+        <M_receiptUpdateComment label="상세내역" value={Receipt.comment}></M_receiptUpdateComment>
     <div>
         <label>지출성격</label>
         <label><input type="radio" name="write_outgoingsType" /> 고정</label>
@@ -50,7 +43,6 @@ const S_receiptsUpdate = ({receipt}) => {
         <label><input type="radio" name="write_outgoingsType" /> 기타</label>
     </div></React.Fragment>);
 };
-
 
 const M_receiptUpdateDateTime = ({label,value}) => {
     return (
@@ -64,8 +56,47 @@ const M_receiptUpdateDateTime = ({label,value}) => {
 const M_receiptUpdateStore = ({label,value}) => {
     return (
     <div className="m-receiptUpdate -store">
-        <label htmlFor="write_store">{label}</label>
-        <input type="text" id="write_store" defaultValue={value} onChange={(e) => {setReceipt({store:e.target.value})}} />
+        <label htmlFor="update_store">{label}</label>
+        <input type="text" id="update_store" defaultValue={value} onChange={(e) => {setReceipt({store:e.target.value})}} />
     </div>
+    );
+};
+
+const M_receiptUpdatePrice = ({label,value}) => {
+    return (
+    <div className="m-receiptUpdate -price">
+        <label htmlFor="update_price">{label}</label>
+        <input type="text" id="update_price" defaultValue={value} onChange={(e) => {setReceipt({price:e.target.value})}} />
+    </div>
+    );
+};
+
+const M_receiptUpdateMethod = ({label,value}) => {
+    return (
+    <div className="m-receiptUpdate -method">
+        <label htmlFor="update_method">{label}</label>
+        <input type="text" id="update_method" defaultValue={value} onChange={(e) => {setReceipt({method:e.target.value})}} />
+    </div>
+    );
+};
+
+const M_receiptUpdateComment = ({label,value}) => {
+    return (
+    <div className="m-receiptUpdate -comment">
+        <label htmlFor="update_comment">{label}</label>
+        <input type="text" id="update_comment" defaultValue={value} onChange={(e) => {setReceipt({comment:e.target.value})}} />
+    </div>
+    );
+};
+
+const M_receiptUpdateOutCategory = ({label,value}) => {
+    return (
+    <fieldset className="m-receiptUpdate -outCategory">
+        <legend>{label}</legend>
+        <label><input type="radio" name="write_outgoingsType" value="" onChange={(e) => {setReceipt({outCategory:e.target.value})}} /> 고정</label>
+        <label><input type="radio" name="write_outgoingsType" onChange={(e) => {setReceipt({outCategory:e.target.value})}} /> 필수</label>
+        <label><input type="radio" name="write_outgoingsType" onChange={(e) => {setReceipt({outCategory:e.target.value})}} defaultChecked /> 변동</label>
+        <label><input type="radio" name="write_outgoingsType" onChange={(e) => {setReceipt({outCategory:e.target.value})}} /> 기타</label>
+    </fieldset>
     );
 };
