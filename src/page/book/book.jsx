@@ -3,7 +3,12 @@ $(function(){
     firebase.auth(); // 인증체크
     firebase.database().ref("/receipt").on("value", (snapshot) => {
         Receipts = snapshot.val();
-        bookReceiptsUI(Receipts);
+        console.log(Receipts);
+        if(Receipts){
+            bookReceiptsUI(Receipts);
+        }else{
+            Receipts = [];
+        };
     });
 
     $("#createReceipt").on("click",createReceipt);
@@ -28,6 +33,7 @@ const receiptVo = {
 }
 */
 var _sms = "[Web발신]\nKB국민카드9*4*승인\n원*봉\n4,900원 일시불\n12/27 14:05\n리디 주식회사\n누적2,854,464원";
+/*
 var receipt = {
     comment:"comment",
     datetime:"2022-01-03T16:05",
@@ -37,15 +43,32 @@ var receipt = {
     store:"가게명(쇼핑몰)",
     useYn:"Y"
 };
+*/
 
 function createReceipt(){
     navigator.clipboard.readText().then((text) => {
-
+        alert(text);
+        return text;
+    }).then(function(origin){
+        let receipt = {
+            comment:"코멘트",
+            datetime:"",
+            outCategory:"",
+            method:"",
+            price:0,
+            store:"",
+            useYn:"Y",
+            origin:origin
+        };
+        alert(receipt);
+        return firebase.database().ref("/receipt/"+Receipts.length).set(receipt);
     }).then(function(){
+        alert(Receipts.length);
         console.log(Receipts.length);
-        firebase.database().ref("/receipt/"+Receipts.length).set(receipt);
-        location.href = "update.html?idx="+(Receipts.length-1); 
-    });
+        setTimeout(function(){
+            location.href = "update.html?idx="+(Receipts.length-1);
+        },200);
+    }); 
 };
 
 function convertISODateTime(text){
