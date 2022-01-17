@@ -41,7 +41,19 @@ task("jsx:page",function(done){
         done();
     });
 });
-task("jsx",series("jsx:component","jsx:page"));
+task("jsx:service",function(done){
+    return watch("./src/service/**/*.js").on("change",function(path){
+        src("./src/service/**/*.js")
+        .pipe(concat("service.js"))
+        .pipe(dest("./public/js"))
+        .on("end",function(){
+            console.log(path);
+        })
+    }).on("ready",function(){
+        done();
+    });
+});
+task("jsx",series("jsx:component","jsx:page","jsx:service"));
 
 
 task("scss",function(done){
