@@ -57,10 +57,16 @@ task("jsx",series("jsx:component","jsx:page","jsx:service"));
 
 
 task("scss",function(done){
-    return src("./src/scss/*.scss")
-    .pipe(sass())
-    .pipe(dest("./public/css"))
-    .on("end",function(){
+    return watch("./src/**/*.scss").on("change",function(path){
+        return src("./src/scss/*.scss")
+        .pipe(sass())
+        .pipe(dest("./src/css"))
+        .pipe(dest("./public/css"))
+        .on("end",function(){
+            console.log(path);
+        });
+    }).on("ready",function(){
         done();
+        console.log("scss:watch Ready");
     });
 });

@@ -1,1 +1,16 @@
-.a-btn{background:red;}
+.a-btn{display:inline-block;padding:3px 10px;min-height:30px;font-size:15px;line-height:23px;color:#fff;text-decoration:none;border-radius:10px;text-align:center;
+    &.-c,&.-cancel{background:#BDBDBD;}
+    &.-s,&.-submit{background:#2F80ED;}
+    &.-a,&.-action{background:#F2994A;}
+    &.-l,&.-link{background:#fff;color:#000;border:1px solid #999;}
+}
+
+
+.m-btnsWrap{display:flex;
+    .a-btn{flex:1;}
+
+    &.-col3{
+        .a-btn{margin-left:20px;}
+        .a-btn:first-child{margin-left:0;}
+    }
+}
