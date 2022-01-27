@@ -4,33 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>가계부</title>
-    <script crossorigin src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script defer src="/__/firebase/9.6.1/firebase-app-compat.js"></script>
-    <script defer src="/__/firebase/9.6.1/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+    <meta http-equiv="refresh" content="0;URL='/v1/'" />
   </head>
   <body>
-    <main>
-      <div class="login"><a href="#" onclick="login();return false;">구글 로그인</a></div>
-    </main>
-    <script>
-      function login(){
-          const $data = $("#data");
-          var provider = new firebase.auth.GoogleAuthProvider();
-          firebase.auth().signInWithPopup(provider).then(function(result) {
-            checkUser();
-          });
-        };
-        function checkUser(){
-          firebase.auth().onAuthStateChanged(user => { 
-              if(user.email=="dstyle0210@gmail.com"){
-                location.href = "/book.html";
-              }
-          });
-        };
-        $(function(){
-          checkUser();
-        });
-    </script>
+    이동중
   </body>
 </html>

@@ -17,6 +17,7 @@ $(function(){
     });
 });
 
+
 function setReceipt(updateData){
     Object.assign(Receipt,updateData);
     setReceiptState(Receipt);
@@ -28,7 +29,6 @@ function updateReceipt(){
 };
 
 const S_receiptsUpdate = ({receipt}) => {
-    [Receipt,setReceiptState] = React.useState( receipt ); // 상태 관리용 HOOK
     return (<React.Fragment>
         <M_receiptUpdateDateTime label="결제시간" value={Receipt.datetime}></M_receiptUpdateDateTime>
         <M_receiptUpdateStore label="사용처" value={Receipt.store}></M_receiptUpdateStore>

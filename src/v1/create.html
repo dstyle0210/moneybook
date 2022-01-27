@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>MoneyBook - Dstyle</title>
+    <link rel="stylesheet" href="./css/style.css">
+  </head>
+  <body>
+    <main class="p-create">
+
+      <header><h1>가계부 작성</h1></header>
+
+      <section class="s-receiptsForm">
+
+        <div class="m-receiptForm -dateTime">
+            <label for="form_dateTime">결제시간</label>
+            <div class="m-receiptForm__inputs"><input type="datetime-local" id="form_dateTime" value="" /></div>
+        </div>
+
+        <div class="m-receiptForm -store">
+            <label for="form_store">사용처</label>
+            <div class="m-receiptForm__inputs"><input type="text" id="form_store" value="국민카드" /></div>
+        </div>
+
+        <div class="m-receiptForm -price">
+            <label for="form_price">금액</label>
+            <div class="m-receiptForm__inputs"><input type="number" id="form_price" value="" /></div>
+        </div>
+
+        <div class="m-receiptForm -method">
+            <label for="form_method">결제수단</label>
+            <div class="m-receiptForm__inputs">
+                <select>
+                    <option value="kb">국민카드 - 봉올림</option>
+                    <option value="kb">국민카드 - 마올림</option>
+                    <option value="hd">현대카드 - 스마일</option>
+                    <option value="">김포페이</option>
+                    <option value="">네이버페이</option>
+                    <option value="">계좌이체</option>
+                    <option value="">현금</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="m-receiptForm -comment">
+            <label for="form_comment">상세내역</label>
+            <div class="m-receiptForm__inputs"><input type="text" id="form_comment" value="" /></div>
+        </div>
+
+        <div class="m-receiptForm -tag">
+            <label>지출항목</label>
+            <div class="m-receiptForm__tags">
+                <label><input type="radio" name="tag"> <span class="a-tag -f">고정</span></label>
+                <label><input type="radio" name="tag"> <span class="a-tag -r">필수</span></label>
+                <label><input type="radio" name="tag"> <span class="a-tag -c">변동</span></label>
+                <label><input type="radio" name="tag"> <span class="a-tag -o">기타</span></label>
+            </div>
+        </div>
+
+        <div class="m-btnsWrap -col3">
+            <a href="#" class="a-btn -c">취소</a> <!-- -cancel -->
+            <a href="#" class="a-btn -s">저장</a> <!-- -submit -->
+            <a href="#" class="a-btn -a">붙여넣기</a> <!-- -action -->
+        </div>
+
+
+    </section>
+
+    </main>
+  </body>
+</html>
