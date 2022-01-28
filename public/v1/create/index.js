@@ -16,70 +16,47 @@ let Receipt = {
 $(function () {
   var auth = firebase.auth(); // 인증체크
 
-  console.log(auth);
   firebase.database().ref("/receipt").on("value", snapshot => {
     Receipts = snapshot.val();
     Idx = Receipts ? Receipts.length : 0;
+    firebase.auth().onAuthStateChanged(user => {
+      Receipt.writer = user.email.replace("@gmail.com", ""); // createPage
+
+      const $reactRoot = $("#createPage");
+      ReactDOM.render( /*#__PURE__*/React.createElement(S_receiptsCreateForm, {
+        _receipt: Receipt,
+        receiptIdx: Idx
+      }), $reactRoot.get(0));
+      setTimeout(function () {
+        $("#pasteReceiptBtn").on("click", createReceipt);
+      }, 1000);
+    });
   });
-  firebase.auth().onAuthStateChanged(user => {
-    Receipt.writer = user.email.replace("@gmail.com", "");
-  }); // createPage
-
-  const $reactRoot = $("#createPage");
-  ReactDOM.render( /*#__PURE__*/React.createElement(S_receiptsForm, {
-    receipt: Receipt
-  }), $reactRoot.get(0));
 });
+alert("v1");
 
-const S_receiptsForm = () => {
-  [Receipt, setReceiptState] = React.useState(Receipt); // 상태 관리용 HOOK
+function createReceipt() {
+  alert("test");
+  navigator.clipboard.readText().then(text => {
+    return text;
+  }).then(function (origin) {
+    let receipt = {};
+    receipt.datetime = getSmsDateTime(origin);
+    receipt.price = getSmsPrice(origin);
+    Object.assign(receipt, {
+      comment: "코멘트",
+      tag: "",
+      method: "",
+      store: "",
+      useYn: "N",
+      origin: origin
+    });
+    return firebase.database().ref("/receipt/" + Receipts.length).set(receipt);
+  }).then(function () {
+    setTimeout(function () {
+      location.href = "update.html?idx=" + (Receipts.length - 1);
+    }, 200);
+  });
+}
 
-  const setReceipt = function (updateData) {
-    Object.assign(Receipt, updateData);
-    setReceiptState(Receipt);
-  };
-
-  const initReceipt = function () {
-    firebase.database().ref("/receipt/" + Idx).set(Receipt);
-    location.href = "/v1/book/";
-    return false;
-  };
-
-  const back = function () {
-    history.back();
-    return false;
-  };
-
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(M_receiptFormDateTime, {
-    receipt: Receipt,
-    setReceipt: setReceipt
-  }), /*#__PURE__*/React.createElement(M_receiptFormStore, {
-    receipt: Receipt,
-    setReceipt: setReceipt
-  }), /*#__PURE__*/React.createElement(M_receiptFormPrice, {
-    receipt: Receipt,
-    setReceipt: setReceipt
-  }), /*#__PURE__*/React.createElement(M_receiptFormMethod, {
-    receipt: Receipt,
-    setReceipt: setReceipt
-  }), /*#__PURE__*/React.createElement(M_receiptFormComment, {
-    receipt: Receipt,
-    setReceipt: setReceipt
-  }), /*#__PURE__*/React.createElement(M_receiptFormTag, {
-    receipt: Receipt,
-    setReceipt: setReceipt
-  }), /*#__PURE__*/React.createElement("div", {
-    className: "m-btnsWrap"
-  }, /*#__PURE__*/React.createElement("a", {
-    href: "#",
-    className: "a-btn -c",
-    onClick: back
-  }, "\uCDE8\uC18C"), /*#__PURE__*/React.createElement("a", {
-    href: "#",
-    className: "a-btn -s",
-    onClick: initReceipt
-  }, "\uC800\uC7A5"), /*#__PURE__*/React.createElement("a", {
-    href: "#",
-    className: "a-btn -a"
-  }, "\uBD99\uC5EC\uB123\uAE30")));
-};
+;
