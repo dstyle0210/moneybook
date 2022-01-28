@@ -179,3 +179,95 @@ const M_receiptFormTag = ({
     className: "a-tag -o"
   }, "\uAE30\uD0C0"))));
 };
+
+const S_nowMonthTotal = ({
+  receipts
+}) => {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(C_monthTotal, {
+    receipts: receipts
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "-writeBtn"
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "/v1/create/",
+    className: "a-btn -l"
+  }, "\uB4F1\uB85D")));
+};
+
+const C_monthTotal = ({
+  receipts
+}) => {
+  let monthTotal = 0;
+  const tagTotal = {
+    f: 0,
+    r: 0,
+    c: 0,
+    o: 0
+  };
+
+  for (receipt of receipts) {
+    tagTotal[getTagCode(receipt.tag)] += receipt.price;
+    monthTotal += receipt.price;
+  }
+
+  ;
+  return /*#__PURE__*/React.createElement("article", {
+    className: "c-monthTotal"
+  }, /*#__PURE__*/React.createElement("h2", null, "2022\uB144 1\uC6D4 \uC9C0\uCD9C\uAE08\uC561"), /*#__PURE__*/React.createElement("details", null, /*#__PURE__*/React.createElement("summary", null, /*#__PURE__*/React.createElement("span", {
+    className: "a-price -xl"
+  }, monthTotal.toLocaleString())), /*#__PURE__*/React.createElement("ul", {
+    className: "m-tagByTotal"
+  }, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", {
+    className: "a-tag -f"
+  }, "\uACE0\uC815"), " ", /*#__PURE__*/React.createElement("span", {
+    className: "a-price"
+  }, tagTotal.f.toLocaleString())), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", {
+    className: "a-tag -r"
+  }, "\uD544\uC218"), " ", /*#__PURE__*/React.createElement("span", {
+    className: "a-price"
+  }, tagTotal.r.toLocaleString())), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", {
+    className: "a-tag -c"
+  }, "\uBCC0\uB3D9"), " ", /*#__PURE__*/React.createElement("span", {
+    className: "a-price"
+  }, tagTotal.c.toLocaleString())), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", {
+    className: "a-tag -o"
+  }, "\uAE30\uD0C0"), " ", /*#__PURE__*/React.createElement("span", {
+    className: "a-price"
+  }, tagTotal.o.toLocaleString())))));
+};
+
+const S_receiptsList = ({
+  receipts
+}) => {
+  const receiptList = receipts.map(function (receipt, index) {
+    return /*#__PURE__*/React.createElement("li", {
+      key: index
+    }, /*#__PURE__*/React.createElement("a", null, /*#__PURE__*/React.createElement(M_receipt, {
+      receipt: receipt
+    })));
+  });
+  return /*#__PURE__*/React.createElement(React.Fragment, null, receiptList);
+};
+
+const M_receipt = ({
+  receipt
+}) => {
+  return /*#__PURE__*/React.createElement("article", {
+    className: "m-receipt"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "a-date"
+  }, getMonthDate(receipt.datetime)), /*#__PURE__*/React.createElement("div", {
+    className: "-info"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "a-comment"
+  }, receipt.comment), /*#__PURE__*/React.createElement("span", {
+    className: "a-store"
+  }, receipt.store), /*#__PURE__*/React.createElement("span", {
+    className: "a-payment"
+  }, receipt.method)), /*#__PURE__*/React.createElement("div", {
+    className: "-price"
+  }, /*#__PURE__*/React.createElement("strong", {
+    className: "a-price"
+  }, (receipt.price * 1).toLocaleString()), /*#__PURE__*/React.createElement("label", {
+    className: "a-tag -" + getTagCode(receipt.tag)
+  }, receipt.tag)));
+};

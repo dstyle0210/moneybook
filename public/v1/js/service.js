@@ -1,3 +1,9 @@
+function getMonthDate(datetime){
+    var dateObj = new Date(datetime);
+    var month = ((dateObj.getMonth()+1) < 9) ? "0"+(dateObj.getMonth()+1) : ""+(dateObj.getMonth()+1);
+    var date = (dateObj.getDate()<9) ? "0"+dateObj.getDate() : ""+dateObj.getDate();
+    return month+"."+date;
+};
 function getSmsDateTime(text){ 
     const num = "[0-9]{2}";
     const date = new Date();
@@ -28,3 +34,10 @@ function getSmsPrice(text){
         
     }
 }; 
+function getTagCode(tag){ 
+    if(tag=="고정"){return "f"};
+    if(tag=="필수"){return "r"};
+    if(tag=="변동"){return "c"};
+    if(tag=="기타"){return "o"};
+    if(tag=="용돈"){return "b"};
+};

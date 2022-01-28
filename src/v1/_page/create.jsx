@@ -4,20 +4,20 @@ let Receipt = { // 작성될 영수증 정보
     datetime:getSmsDateTime(), // 현재시간
     store:"",
     price:"",
-    method:"cash",
+    method:"현금",
     comment:"",
-    tag:""
+    tag:"",
+    useYn:"Y"
 };
 $(function () { 
-    firebase.auth(); // 인증체크
+    var auth = firebase.auth(); // 인증체크
+    console.log(auth);
     firebase.database().ref("/receipt").on("value", snapshot => {
         Receipts = snapshot.val();
-        if(Receipts){
-            Idx = Receipts.length; 
-        }else{
-            Idx = 0;
-        };
-        console.log(Idx);
+        Idx = (Receipts) ? Receipts.length : 0;
+    });
+    firebase.auth().onAuthStateChanged(user => {
+        Receipt.writer = (user.email).replace("@gmail.com","");
     });
 
     // createPage

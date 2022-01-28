@@ -14,6 +14,7 @@
       <div class="login"><a href="#" onclick="login();return false;">구글 로그인</a></div>
     </main>
     <script>
+      alert('a');
       function login(){
           const $data = $("#data");
           var provider = new firebase.auth.GoogleAuthProvider();
@@ -23,9 +24,7 @@
         };
         function checkUser(){
           firebase.auth().onAuthStateChanged(user => { 
-              if(user.email=="dstyle0210@gmail.com"){
-                location.href = "/v1/book/";
-              }
+            location.href = "/v1/book/";
           });
         };
         $(function(){
