@@ -235,6 +235,144 @@ const C_monthTotal = ({
   }, tagTotal.o.toLocaleString())))));
 };
 
+const S_receiptsUpdateForm = ({
+  _receipt,
+  receiptIdx
+}) => {
+  let receipt, setReceiptState;
+  [receipt, setReceiptState] = React.useState(_receipt); // 상태 관리용 HOOK
+
+  const setReceipt = function (updateData) {
+    Object.assign(receipt, updateData);
+    setReceiptState(receipt);
+  };
+
+  const updateReceipt = function () {
+    firebase.database().ref("/receipt/" + receiptIdx).set(receipt);
+    location.href = "/v1/book/";
+    return false;
+  };
+
+  const back = function () {
+    history.back();
+    return false;
+  };
+
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(M_receiptFormDateTime, {
+    receipt: Receipt,
+    setReceipt: setReceipt
+  }), /*#__PURE__*/React.createElement(M_receiptFormStore, {
+    receipt: Receipt,
+    setReceipt: setReceipt
+  }), /*#__PURE__*/React.createElement(M_receiptFormPrice, {
+    receipt: Receipt,
+    setReceipt: setReceipt
+  }), /*#__PURE__*/React.createElement(M_receiptFormMethod, {
+    receipt: Receipt,
+    setReceipt: setReceipt
+  }), /*#__PURE__*/React.createElement(M_receiptFormComment, {
+    receipt: Receipt,
+    setReceipt: setReceipt
+  }), /*#__PURE__*/React.createElement(M_receiptFormTag, {
+    receipt: Receipt,
+    setReceipt: setReceipt
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "m-btnsWrap"
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "#",
+    className: "a-btn -c",
+    onClick: back
+  }, "\uCDE8\uC18C"), /*#__PURE__*/React.createElement("a", {
+    href: "#",
+    className: "a-btn -s",
+    onClick: updateReceipt
+  }, "\uC218\uC815")));
+};
+
+const S_receiptsCreateForm = ({
+  _receipt,
+  receiptIdx
+}) => {
+  let receipt, setReceiptState;
+  [receipt, setReceiptState] = React.useState(_receipt); // 상태 관리용 HOOK
+
+  const setReceipt = function (updateData) {
+    console.log(receipt);
+    Object.assign(receipt, updateData);
+    setReceiptState(receipt);
+  };
+
+  const initReceipt = function () {
+    firebase.database().ref("/receipt/" + receiptIdx).set(receipt);
+    location.href = "/v1/book/";
+    return false;
+  };
+
+  const back = function () {
+    history.back();
+    return false;
+  };
+
+  const pasteReceipt = function () {
+    // createReceipt();
+
+    /*
+    navigator.clipboard.readText().then((text) => {
+        return text;
+    }).then(function(origin){
+        alert(origin);
+        setReceipt({ 
+            datetime:getSmsDateTime(origin),
+            price:getSmsPrice(origin),
+            useYn:"N",
+            origin:origin
+        });
+        alert(receipt);
+        firebase.database().ref("/receipt/"+receiptIdx).set(receipt);
+    }).then(function(){
+        setTimeout(function(){
+            location.href = "/v1/update/?idx="+receiptIdx;
+        },200);
+    });
+    */
+    return false;
+  };
+
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(M_receiptFormDateTime, {
+    receipt: Receipt,
+    setReceipt: setReceipt
+  }), /*#__PURE__*/React.createElement(M_receiptFormStore, {
+    receipt: Receipt,
+    setReceipt: setReceipt
+  }), /*#__PURE__*/React.createElement(M_receiptFormPrice, {
+    receipt: Receipt,
+    setReceipt: setReceipt
+  }), /*#__PURE__*/React.createElement(M_receiptFormMethod, {
+    receipt: Receipt,
+    setReceipt: setReceipt
+  }), /*#__PURE__*/React.createElement(M_receiptFormComment, {
+    receipt: Receipt,
+    setReceipt: setReceipt
+  }), /*#__PURE__*/React.createElement(M_receiptFormTag, {
+    receipt: Receipt,
+    setReceipt: setReceipt
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "m-btnsWrap"
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "#",
+    className: "a-btn -c",
+    onClick: back
+  }, "\uCDE8\uC18C"), /*#__PURE__*/React.createElement("a", {
+    href: "#",
+    className: "a-btn -s",
+    onClick: initReceipt
+  }, "\uC800\uC7A5"), /*#__PURE__*/React.createElement("a", {
+    href: "#",
+    className: "a-btn -a",
+    id: "pasteReceiptBtn"
+  }, "\uBD99\uC5EC\uB123\uAE30")));
+};
+
 const S_receiptsList = ({
   receipts
 }) => {

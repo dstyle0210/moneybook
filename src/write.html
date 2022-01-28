@@ -27,37 +27,9 @@
       <div id="test"></div>
       <div id="data"></div>
       <textarea name="" id="tete" cols="30" rows="10"></textarea>
+      
       <button onclick="upload();">업로드</button>
-      <script>
-          var pKey = 0;
-          $(function(){
-            firebase.auth().onAuthStateChanged(user => { 
-                if(user){
-                    $("#test").text(user.email);
-                }else{
-                    console.log(user);
-                    $("#test").text(user);
-                }
-            });
-            const $data = $("#data");
-            firebase.database().ref('/users').on('value', snapshot => {
-                pKey = snapshot.val().length;
-                console.log(snapshot.val());
-              $data.text(JSON.stringify(snapshot.val()));
-            });
-          });
-          function upload(){
-              var text = $("#tete").val();
-              console.log(text);
-              writeUserData({pkey:pKey,text:text});
-          };
-          function writeUserData(value) {
-              console.log(value);
-            firebase.database().ref('users/'+pKey).set(value);
-            // pKey++;
-        }
-
-      </script>
+      
 
   </body>
 </html>
