@@ -201,6 +201,12 @@ const M_receiptFormTag = ({
   }, "\uAE30\uD0C0"))));
 };
 
+const S_copyright = () => {
+  return /*#__PURE__*/React.createElement("section", {
+    className: "s-copyright"
+  }, "Dstyle-MoneyBook v1");
+};
+
 const S_nowMonthTotal = ({
   receipts
 }) => {
