@@ -1,6 +1,10 @@
 const S_receiptsList = ({receipts}) =>{
+    const updateReceipt = function(idx){
+        location.href = "/v1/update/?idx="+idx;
+        return false;
+    };
     const receiptList = receipts.map(function(receipt,index){
-        return (<li key={index}><a><M_receipt receipt={receipt}></M_receipt></a></li>);
+        return (<li key={index}><a onClick={updateReceipt.bind(this,receipt.idx)}><M_receipt receipt={receipt}></M_receipt></a></li>);
     });
     return (<React.Fragment>
         {receiptList}

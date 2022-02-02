@@ -1,5 +1,6 @@
 .p-book{
-    header{padding:10px;}
+    header{position:relative;padding:10px;}
+    .-login{position:absolute;top:5px;right:5px;}
     .s-receiptsList{border-top:1px solid #999;}
     .s-nowMonthTotal{position:fixed;bottom:0;left:0;right:0;}
 }

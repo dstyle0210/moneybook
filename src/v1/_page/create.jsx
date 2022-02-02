@@ -7,50 +7,45 @@ let Receipt = { // 작성될 영수증 정보
     method:"현금",
     comment:"",
     tag:"",
-    useYn:"Y"
+    useYn:"Y",
+    origin:""
 };
 $(function () { 
     var auth = firebase.auth(); // 인증체크
-    firebase.database().ref("/receipt").on("value", snapshot => {
+    firebase.database().ref(getReceiptsUrl()).on("value", snapshot => {
         Receipts = snapshot.val();
         Idx = (Receipts) ? Receipts.length : 0;
 
-        firebase.auth().onAuthStateChanged(user => {
-            Receipt.writer = (user.email).replace("@gmail.com","");
+         // createPage
+         const $reactRoot = $("#createPage");
+         ReactDOM.render( <S_receiptsCreateForm _receipt={Receipt} receiptIdx={Idx} /> ,$reactRoot.get(0)); 
 
-            // createPage
-            const $reactRoot = $("#createPage");
-            ReactDOM.render( <S_receiptsCreateForm _receipt={Receipt} receiptIdx={Idx} /> ,$reactRoot.get(0));
-
-            setTimeout(function(){
-                $("#pasteReceiptBtn").on("click",createReceipt); 
-            },1000);
-            
-        });
+         setTimeout(function(){
+             $("#pasteReceiptBtn").on("click",createReceipt);
+         },1000);
+    });
+    firebase.auth().onAuthStateChanged(user => {
+        if(user.uid){
+            Receipt.writer = getAuthUser(user.uid); // 작성자 등록
+            ReactDOM.render( <A_user uid={user.uid} /> ,$("#userSide").get(0));
+        };
     });
 });
-
-alert("v1");
 function createReceipt(){
-    alert("test");
     navigator.clipboard.readText().then((text) => {
         return text;
     }).then(function(origin){
-        let receipt = {};
-        receipt.datetime = getSmsDateTime(origin);
-        receipt.price = getSmsPrice(origin);
-        Object.assign(receipt,{
-            comment:"코멘트",
-            tag:"", 
-            method:"",
-            store:"",
-            useYn:"N",
-            origin:origin
-        });
-        return firebase.database().ref("/receipt/"+Receipts.length).set(receipt);
+        Receipt.idx = Idx;
+        Receipt.datetime = getSmsDateTime(origin);
+        Receipt.price = getSmsPrice(origin);
+        Receipt.method = getSmsMethod(origin);
+        Receipt.store = getSmsStore(origin);
+        Receipt.useYn = "N";
+        Receipt.origin = origin;
+        return firebase.database().ref(getReceiptsUrl(Idx)).set(Receipt);
     }).then(function(){
         setTimeout(function(){
-            location.href = "update.html?idx="+(Receipts.length-1);
+            location.href = "/v1/update/?idx="+(Receipts.length-1);
         },200);
-    }); 
+    });
 };

@@ -4,7 +4,7 @@ $(function () {
   try {
     firebase.auth(); // 인증체크
 
-    firebase.database().ref("/receipt").on("value", snapshot => {
+    firebase.database().ref(getReceiptsUrl()).on("value", snapshot => {
       Receipts = snapshot.val();
 
       if (Receipts) {
@@ -22,7 +22,14 @@ $(function () {
 
       ;
     });
-    firebase.auth().onAuthStateChanged(user => {// alert(user.email);
+    firebase.auth().onAuthStateChanged(user => {
+      if (user.uid) {
+        ReactDOM.render( /*#__PURE__*/React.createElement(A_user, {
+          uid: user.uid
+        }), $("#userSide").get(0));
+      }
+
+      ;
     });
   } catch (e) {
     alert(e);

@@ -1,3 +1,14 @@
+const A_user = ({
+  uid
+}) => {
+  console.log(uid);
+  let name = getAuthUser(uid);
+  console.log(name);
+  return /*#__PURE__*/React.createElement("span", {
+    className: "a-user"
+  }, name);
+};
+
 const M_receiptFormDateTime = ({
   receipt,
   setReceipt
@@ -25,6 +36,7 @@ const M_receiptFormStore = ({
   receipt,
   setReceipt
 }) => {
+  console.log(setReceipt);
   let initValue = receipt.store || "";
   return /*#__PURE__*/React.createElement("div", {
     className: "m-receiptForm -store"
@@ -83,20 +95,25 @@ const M_receiptFormMethod = ({
       setReceipt({
         method: e.target.value
       });
-    }
+    },
+    defaultValue: initValue
   }, /*#__PURE__*/React.createElement("option", {
+    value: ""
+  }, "\uACB0\uC81C\uC218\uB2E8 \uC120\uD0DD\uD558\uAE30"), /*#__PURE__*/React.createElement("option", {
     value: "\uD604\uAE08"
   }, "\uD604\uAE08"), /*#__PURE__*/React.createElement("option", {
     value: "\uAD6D\uBBFC\uBD09\uC62C\uB9BC"
   }, "\uAD6D\uBBFC\uCE74\uB4DC - \uBD09\uC62C\uB9BC"), /*#__PURE__*/React.createElement("option", {
     value: "\uAD6D\uBBFC\uB9C8\uC62C\uB9BC"
   }, "\uAD6D\uBBFC\uCE74\uB4DC - \uB9C8\uC62C\uB9BC"), /*#__PURE__*/React.createElement("option", {
-    value: "\uC2A4\uB9C8\uC77C\uCE74\uB4DC"
+    value: "\uD604\uB300\uC2A4\uB9C8\uC77C"
   }, "\uD604\uB300\uCE74\uB4DC - \uC2A4\uB9C8\uC77C"), /*#__PURE__*/React.createElement("option", {
     value: "\uAE40\uD3EC\uD398\uC774"
   }, "\uAE40\uD3EC\uD398\uC774"), /*#__PURE__*/React.createElement("option", {
     value: "\uB124\uC774\uBC84\uD398\uC774"
   }, "\uB124\uC774\uBC84\uD398\uC774"), /*#__PURE__*/React.createElement("option", {
+    value: "\uCE74\uCE74\uC624\uD398\uC774"
+  }, "\uCE74\uCE74\uC624\uD398\uC774"), /*#__PURE__*/React.createElement("option", {
     value: "\uACC4\uC88C\uC774\uCCB4"
   }, "\uACC4\uC88C\uC774\uCCB4"))));
 };
@@ -141,7 +158,8 @@ const M_receiptFormTag = ({
       setReceipt({
         tag: e.target.value
       });
-    }
+    },
+    defaultChecked: initValue == "고정"
   }), " ", /*#__PURE__*/React.createElement("span", {
     className: "a-tag -f"
   }, "\uACE0\uC815")), /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
@@ -152,7 +170,8 @@ const M_receiptFormTag = ({
       setReceipt({
         tag: e.target.value
       });
-    }
+    },
+    defaultChecked: initValue == "필수"
   }), " ", /*#__PURE__*/React.createElement("span", {
     className: "a-tag -r"
   }, "\uD544\uC218")), /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
@@ -163,7 +182,8 @@ const M_receiptFormTag = ({
       setReceipt({
         tag: e.target.value
       });
-    }
+    },
+    defaultChecked: initValue == "변동"
   }), " ", /*#__PURE__*/React.createElement("span", {
     className: "a-tag -c"
   }, "\uBCC0\uB3D9")), /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
@@ -174,7 +194,8 @@ const M_receiptFormTag = ({
       setReceipt({
         tag: e.target.value
       });
-    }
+    },
+    defaultChecked: initValue == "기타"
   }), " ", /*#__PURE__*/React.createElement("span", {
     className: "a-tag -o"
   }, "\uAE30\uD0C0"))));
@@ -248,13 +269,27 @@ const S_receiptsUpdateForm = ({
   };
 
   const updateReceipt = function () {
-    firebase.database().ref("/receipt/" + receiptIdx).set(receipt);
+    receipt.useYn = "Y";
+    uploadReceipt();
+  };
+
+  const book = function () {
     location.href = "/v1/book/";
     return false;
   };
 
-  const back = function () {
-    history.back();
+  const deleteReceipt = function () {
+    if (confirm("삭제하시겠습니까?")) {
+      receipt.useYn = "N";
+      uploadReceipt();
+    }
+
+    ;
+  };
+
+  const uploadReceipt = function () {
+    firebase.database().ref(getReceiptsUrl(receiptIdx)).set(receipt);
+    location.href = "/v1/book/";
     return false;
   };
 
@@ -280,9 +315,13 @@ const S_receiptsUpdateForm = ({
     className: "m-btnsWrap"
   }, /*#__PURE__*/React.createElement("a", {
     href: "#",
+    className: "a-btn -d",
+    onClick: deleteReceipt
+  }, "\uC0AD\uC81C"), /*#__PURE__*/React.createElement("a", {
+    href: "#",
     className: "a-btn -c",
-    onClick: back
-  }, "\uCDE8\uC18C"), /*#__PURE__*/React.createElement("a", {
+    onClick: book
+  }, "\uBAA9\uB85D"), /*#__PURE__*/React.createElement("a", {
     href: "#",
     className: "a-btn -s",
     onClick: updateReceipt
@@ -297,19 +336,19 @@ const S_receiptsCreateForm = ({
   [receipt, setReceiptState] = React.useState(_receipt); // 상태 관리용 HOOK
 
   const setReceipt = function (updateData) {
-    console.log(receipt);
     Object.assign(receipt, updateData);
     setReceiptState(receipt);
   };
 
   const initReceipt = function () {
-    firebase.database().ref("/receipt/" + receiptIdx).set(receipt);
+    receipt.idx = receiptIdx;
+    firebase.database().ref(getReceiptsUrl(receiptIdx)).set(receipt);
     location.href = "/v1/book/";
     return false;
   };
 
-  const back = function () {
-    history.back();
+  const book = function () {
+    location.href = "/v1/book/";
     return false;
   };
 
@@ -360,26 +399,33 @@ const S_receiptsCreateForm = ({
     className: "m-btnsWrap"
   }, /*#__PURE__*/React.createElement("a", {
     href: "#",
+    className: "a-btn -a",
+    id: "pasteReceiptBtn"
+  }, "\uBD99\uC5EC\uB123\uAE30"), /*#__PURE__*/React.createElement("a", {
+    href: "#",
     className: "a-btn -c",
-    onClick: back
-  }, "\uCDE8\uC18C"), /*#__PURE__*/React.createElement("a", {
+    onClick: book
+  }, "\uBAA9\uB85D"), /*#__PURE__*/React.createElement("a", {
     href: "#",
     className: "a-btn -s",
     onClick: initReceipt
-  }, "\uC800\uC7A5"), /*#__PURE__*/React.createElement("a", {
-    href: "#",
-    className: "a-btn -a",
-    id: "pasteReceiptBtn"
-  }, "\uBD99\uC5EC\uB123\uAE30")));
+  }, "\uC800\uC7A5")));
 };
 
 const S_receiptsList = ({
   receipts
 }) => {
+  const updateReceipt = function (idx) {
+    location.href = "/v1/update/?idx=" + idx;
+    return false;
+  };
+
   const receiptList = receipts.map(function (receipt, index) {
     return /*#__PURE__*/React.createElement("li", {
       key: index
-    }, /*#__PURE__*/React.createElement("a", null, /*#__PURE__*/React.createElement(M_receipt, {
+    }, /*#__PURE__*/React.createElement("a", {
+      onClick: updateReceipt.bind(this, receipt.idx)
+    }, /*#__PURE__*/React.createElement(M_receipt, {
       receipt: receipt
     })));
   });

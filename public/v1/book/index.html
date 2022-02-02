@@ -11,9 +11,9 @@
     <script defer src="/__/firebase/9.6.1/firebase-database-compat.js"></script>
     <script defer src="/__/firebase/9.6.1/firebase-auth-compat.js"></script>
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-    <script defer src="../js/service.js"></script>
-    <script defer src="../js/component.js"></script>
-    <script defer src="index.js"></script>
+    <script defer src="../js/service.js?date=20220202_1555"></script>
+    <script defer src="../js/component.js?date=20220202_1555"></script>
+    <script defer src="index.js?date=20220202_1555"></script>
     
     <link rel="stylesheet" href="../css/style.css">
   </head>
@@ -21,32 +21,18 @@
     <main class="p-book">
 
       <header><h1>가계부 목록</h1></header>
-
+      
       <!-- 지출목록 -->
       <section class="s-receiptsList" id="receiptsList"></section>
       <!-- // 지출목록 -->
 
-    <!-- 당월 지출요약 -->
-    <section class="s-nowMonthTotal" id="nowMonthTotal">
-        <!--
-      <article class="c-monthTotal">
-          <h2>2022년 1월 지출금액</h2>
-          <details>
-              <summary><span class="a-price -xl">1,000,000</span></summary>
-              <ul class="m-tagByTotal">
-                <li><label class="a-tag -f">고정</label> <span class="a-price">1,100,000</span></li>
-                <li><label class="a-tag -r">필수</label> <span class="a-price">1,000</span></li>
-                <li><label class="a-tag -c">변동</label> <span class="a-price">100,000</span></li>
-                <li><label class="a-tag -o">기타</label> <span class="a-price">0</span></li>
-            </div>
-          </details>
-      </article>
-      <div class="-writeBtn">
-          <a href="/v1/create/" class="a-btn -l">등록</a>
-      </div>
-    -->
-    </section>
-    <!-- // 당월 지출요약 -->
+      <!-- 당월 지출요약 -->
+      <section class="s-nowMonthTotal" id="nowMonthTotal"></section>
+      <!-- // 당월 지출요약 -->
+
+      <!-- 로그인 -->
+      <aside class="s-userSide" id="userSide"><a href="#" class="-login">구글로그인</a></aside>
+      <!-- // 로그인 -->
 
     </main>
   </body>

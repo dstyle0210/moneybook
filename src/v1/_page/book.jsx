@@ -2,7 +2,7 @@ let Receipts; // 전체 영수증 목록
 $(function(){
     try{
         firebase.auth(); // 인증체크
-        firebase.database().ref("/receipt").on("value", (snapshot) => {
+        firebase.database().ref(getReceiptsUrl()).on("value", (snapshot) => {
             Receipts = snapshot.val();
             if(Receipts){
                 // 표시할 영수증 목록
@@ -18,7 +18,9 @@ $(function(){
             };
         });
         firebase.auth().onAuthStateChanged(user => {
-            // alert(user.email);
+            if(user.uid){
+                ReactDOM.render( <A_user uid={user.uid} /> ,$("#userSide").get(0));
+            };
         });
     }catch(e){
         alert(e);

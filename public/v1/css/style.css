@@ -108,10 +108,27 @@ body {
 .a-btn.-a, .a-btn.-action {
   background: #F2994A;
 }
+.a-btn.-d, .a-btn.-delete {
+  background: #c9302c;
+}
 .a-btn.-l, .a-btn.-link {
   background: #fff;
   color: #000;
   border: 1px solid #999;
+}
+
+.s-userSide {
+  position: absolute;
+  top: 40px;
+  right: 10px;
+}
+.s-userSide .-login {
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.a-user {
+  font-size: 13px;
 }
 
 /*! Module */
@@ -281,7 +298,13 @@ body {
 
 /*! page */
 .p-book header {
+  position: relative;
   padding: 10px;
+}
+.p-book .-login {
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }
 .p-book .s-receiptsList {
   border-top: 1px solid #999;

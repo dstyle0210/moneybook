@@ -8,6 +8,7 @@
     <script defer src="/__/firebase/9.6.1/firebase-app-compat.js"></script>
     <script defer src="/__/firebase/9.6.1/firebase-auth-compat.js"></script>
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+    <script defer src="./js/service.js"></script>
   </head>
   <body>
     <main>
@@ -23,7 +24,11 @@
         };
         function checkUser(){
           firebase.auth().onAuthStateChanged(user => { 
-            location.href = "/v1/book/";
+            if( getAuthUser(user.uid) ){
+              location.href = "/v1/book/";
+            }else{
+              alert("미등록 사용자입니다.");
+            };
           });
         };
         $(function(){

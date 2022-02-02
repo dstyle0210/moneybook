@@ -1,9 +1,9 @@
-function getSmsPrice(text){ 
+function getSmsPrice(text){
+    let price;
     try{
-        const price = text.match( (new RegExp("")) )[0];
+        price = text.match(/[0-9,]+원/gi)[0];
+        return (price.replace(/,/gi,"").replace("원","")) * 1;
     }catch(e){
-        
-    }finally{
-        
-    }
-}; 
+        return 0;
+    };
+};
