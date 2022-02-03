@@ -19,7 +19,7 @@ $(function(){
         });
         firebase.auth().onAuthStateChanged(user => {
             if(user.uid){
-                ReactDOM.render( <A_user uid={user.uid} /> ,$("#userSide").get(0));
+                // 유저정보 삽입
             };
         });
     }catch(e){

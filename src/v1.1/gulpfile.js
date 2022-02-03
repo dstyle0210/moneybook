@@ -6,6 +6,7 @@ const babel = require("gulp-babel");
 const concat = require("gulp-concat");
 const flatten = require('gulp-flatten');
 
+
 function defaultTask(cb) {
     // place code for your default task here
     cb();
@@ -13,10 +14,27 @@ function defaultTask(cb) {
 
 let distRoot = "../../dist/v1.1";
 let buildRoot = "../../public/v1.1";
-
-
-
-
+task("html",function(done){
+    let globs = ["./_page/**/*.html"];
+    function build(folderName){
+        return src("./_page/"+folderName+"/**/index.html")
+        .pipe(dest(distRoot+"/"+folderName));
+    };
+    return watch(globs).on("change",function(path){
+        let folderName = (nodePath.parse(path).dir).replace("_page\\",""); // 폴더명 구하기
+        return build(folderName).on("end",function(){
+            console.log(path);
+        });
+    }).on("ready",function(){
+        fs.readdir("./_page",function(err,folders){
+            folders.forEach(function(folderName){
+                build(folderName);
+            });
+        });
+        done();
+        console.log("html watch Ready");
+    });
+});
 
 task("uikit:scss",function(done){
     // let globs = ["./_uikit/1_atom/**/*.scss","./_uikit/2_module/**/*.scss","./_uikit/3_component/**/*.scss"]; // 일단은 section 까지 다 통합
@@ -57,6 +75,48 @@ task("uikit:jsx",function(done){
         build().on("end",function(){
             done();
             console.log("uikit:jsx watch Ready");
+        });
+    });
+});
+
+task("layout:scss",function(done){
+    let globs = ["./_layout/**/*.scss"];
+    function build(){
+        return src(globs)
+        .pipe(concat("layout.scss"))
+        .pipe(sass())
+        .pipe(dest(distRoot+"/asset/css"));
+    };
+    return watch(globs).on("change",function(path){
+        return build().on("end",function(){
+            console.log(path);
+        });
+    }).on("ready",function(){
+        build().on("end",function(){
+            done();
+            console.log("layout:scss watch Ready");
+        });
+    });
+});
+
+task("layout:jsx",function(done){
+    let globs = ["./_layout/**/*.jsx"];
+    function build(){
+        return src(globs)
+        .pipe(concat("layout.jsx"))
+        .pipe(babel({
+            plugins:["@babel/plugin-transform-react-jsx"]
+        }))
+        .pipe(dest(distRoot+"/asset/js"));
+    };
+    return watch(globs).on("change",function(path){
+        return build().on("end",function(){
+            console.log(path);
+        });
+    }).on("ready",function(){
+        build().on("end",function(){
+            done();
+            console.log("layout:jsx watch Ready");
         });
     });
 });
@@ -130,5 +190,4 @@ task("service:js",function(done){
     });
 });
 
-
-task("dev",series("uikit:scss","uikit:jsx","page:scss","page:jsx","service:js"));
+task("dev",series("uikit:scss","uikit:jsx","layout:scss","layout:jsx","page:scss","page:jsx","service:js","html"));

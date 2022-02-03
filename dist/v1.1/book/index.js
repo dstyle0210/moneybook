@@ -23,10 +23,7 @@ $(function () {
       ;
     });
     firebase.auth().onAuthStateChanged(user => {
-      if (user.uid) {
-        ReactDOM.render( /*#__PURE__*/React.createElement(A_user, {
-          uid: user.uid
-        }), $("#userSide").get(0));
+      if (user.uid) {// 유저정보 삽입
       }
 
       ;

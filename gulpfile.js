@@ -1,74 +1,62 @@
 const nodePath = require('path');
 const {src,dest, task, series, watch} = require("gulp");
-const sass = require("gulp-sass")(require("sass"));
-const babel = require("gulp-babel");
-const concat = require("gulp-concat");
-const flatten = require('gulp-flatten');
+const replace = require('gulp-replace');
+const shell = require('gulp-shell');
 
-function defaultTask(cb) {
-    // place code for your default task here
-    cb();
-}
 
-task("scss",function(done){
-    return watch("./src/v1/**/*.scss").on("change",function(path){
-        return src("./src/v1/_entry/*.scss")
-        .pipe(sass())
-        .pipe(dest("./src/v1/css"))
-        .pipe(dest("./public/v1/css"))
+
+task('serve:firebase', shell.task([
+    'firebase serve'
+]));
+task('deploy:firebase', shell.task([
+    'firebase deploy'
+]));
+
+
+// 개발용 서버 설정
+task("dist:ready", function(done){
+    return src("./firebase.json")
+        .pipe(replace(/"public",/,'"dist",'))
+        .pipe(dest("./"))
         .on("end",function(){
-            console.log(path);
+            done();
         });
-    }).on("ready",function(){
-        done();
-        console.log("scss watch Ready");
-    });
+});
+task("dist:db", function(done){
+    src("./src/v1.1/_service/getReceiptsUrl.js")
+        .pipe(replace(/DBNAME = "real"/,'DBNAME = "dev"'))
+        .pipe(dest("./src/v1.1/_service/"));
+
+    src("./dist/v1.1/asset/js/service.js")
+        .pipe(replace(/DBNAME = "real"/,'DBNAME = "dev"'))
+        .pipe(dest("./dist/v1.1/asset/js/"))
+        .on("end",function(){
+            done();
+        });
 });
 
-task("jsx:atomic",function(done){
-    return watch("./src/v1/_atomic/**/*.jsx").on("change",function(path){
-        src("./src/v1/_atomic/**/*.jsx")
-        .pipe(concat("component.jsx"))
-        .pipe(babel({
-            plugins:["@babel/plugin-transform-react-jsx"]
-        }))
-        .pipe(dest("./public/v1/js"))
-        .on("end",function(){
-            console.log(path);
-        })
-    }).on("ready",function(){
-        done();
-        console.log("jsx:atomic watch Ready");
-    });
-});
-task("jsx:page",function(done){
-    return watch("./src/v1/_page/**/*.jsx").on("change",function(path){
-        src(path)
-        .pipe(concat("index.jsx"))
-        .pipe(babel({
-            plugins:["@babel/plugin-transform-react-jsx"]
-        }))
-        .pipe(dest("./public/v1/"+nodePath.parse(path).name))
-        .on("end",function(){
-            console.log(path);
-        });
-    }).on("ready",function(){
-        done();
-        console.log("jsx:page watch Ready");
-    });
-});
-task("jsx:service",function(done){
-    return watch("./src/v1/_service/**/*.js").on("change",function(path){
-        src("./src/v1/_service/**/*.js")
-        .pipe(concat("service.js"))
-        .pipe(dest("./public/v1/js"))
-        .on("end",function(){
-            console.log(path);
-        });
-    }).on("ready",function(){
-        done();
-        console.log("jsx:service watch Ready");
-    });
-});
+task("dist:serve",series("dist:ready","dist:db","serve:firebase"))
 
-task("dev",series("scss","jsx:atomic","jsx:service","jsx:page"))
+// 배포용 서버 설정
+task('public:ready', function(done){
+    return src("./firebase.json")
+        .pipe(replace(/"dist",/,'"public",'))
+        .pipe(dest("./"))
+        .on("end",function(){
+            done();
+        });
+});
+task("public:db", function(done){
+    src("./src/v1.1/_service/getReceiptsUrl.js")
+        .pipe(replace(/DBNAME = "dev"/,'DBNAME = "real"'))
+        .pipe(dest("./src/v1.1/_service/"));
+
+    src("./dist/v1.1/asset/js/service.js")
+        .pipe(replace(/DBNAME = "dev"/,'DBNAME = "real"'))
+        .pipe(dest("./dist/v1.1/asset/js/"))
+        .on("end",function(){
+            done();
+        });
+});
+task("public:serve",series("public:ready","public:db","serve:firebase"))
+task("deploy",series("public:ready","public:db","deploy:firebase"))
