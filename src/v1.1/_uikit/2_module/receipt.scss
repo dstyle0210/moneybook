@@ -1,0 +1,9 @@
+.m-receipt{width:100%;display:flex;
+    $grid:15px;
+    .a-date{flex:0 0 $grid*3;line-height:23px;}
+    .-info{flex:1;padding-right:5px;}
+    .-price{flex:0 0 $grid*7;text-align:right;
+        .a-price{display:block;}
+    }
+    .a-store{padding-right:10px;}
+}
