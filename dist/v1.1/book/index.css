@@ -1,14 +1,7 @@
-.p-book header {
-  position: relative;
-  padding: 10px;
-}
 .p-book .-login {
   position: absolute;
   top: 5px;
   right: 5px;
-}
-.p-book .s-receiptsList {
-  border-top: 1px solid #999;
 }
 .p-book .s-nowMonthTotal {
   position: fixed;

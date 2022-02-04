@@ -1,9 +1,12 @@
 let Receipts; // 전체 영수증 목록
 $(function(){
     try{
+        setHeader("가계부목록"); // 헤더삽입
+
         firebase.auth(); // 인증체크
         firebase.database().ref(getReceiptsUrl()).on("value", (snapshot) => {
             Receipts = snapshot.val();
+            
             if(Receipts){
                 // 표시할 영수증 목록
                 const useReceipts = Receipts.filter((receipt)=>{
@@ -19,7 +22,7 @@ $(function(){
         });
         firebase.auth().onAuthStateChanged(user => {
             if(user.uid){
-                // 유저정보 삽입
+                setUserSide(getAuthUser(user.uid)); // 유저정보 삽입
             };
         });
     }catch(e){

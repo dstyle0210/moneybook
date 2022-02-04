@@ -15,6 +15,8 @@ let Receipt = {
   origin: ""
 };
 $(function () {
+  setHeader("가계부작성"); // 헤더삽입
+
   var auth = firebase.auth(); // 인증체크
 
   firebase.database().ref(getReceiptsUrl()).on("value", snapshot => {
@@ -32,11 +34,7 @@ $(function () {
   });
   firebase.auth().onAuthStateChanged(user => {
     if (user.uid) {
-      Receipt.writer = getAuthUser(user.uid); // 작성자 등록
-
-      ReactDOM.render( /*#__PURE__*/React.createElement(A_user, {
-        uid: user.uid
-      }), $("#userSide").get(0));
+      setUserSide(getAuthUser(user.uid)); // 유저정보 삽입
     }
 
     ;

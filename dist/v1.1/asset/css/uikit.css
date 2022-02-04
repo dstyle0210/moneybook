@@ -206,6 +206,9 @@ body {
   grid-template-columns: 1fr 1fr;
   row-gap: 5px;
   column-gap: 20px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #999;
 }
 .m-tagByTotal li {
   display: flex;
@@ -220,6 +223,9 @@ body {
 .c-monthTotal summary {
   text-align: right;
 }
+.c-monthTotal detail {
+  margin-top: 5px;
+}
 
 .s-nowMonthTotal {
   position: relative;
@@ -229,21 +235,27 @@ body {
 }
 .s-nowMonthTotal .-writeBtn {
   position: absolute;
-  top: 10px;
-  right: 0;
-  width: 80px;
+  top: 15px;
+  right: 5px;
+  width: 165px;
+  display: flex;
+  justify-content: space-between;
 }
 .s-nowMonthTotal .-writeBtn .a-btn {
   display: block;
+  width: 80px;
   min-height: 50px;
   line-height: 42px;
 }
 .s-nowMonthTotal .c-monthTotal summary {
-  padding-right: 90px;
+  padding-right: 170px;
 }
 
 .s-receiptsForm {
   width: 100%;
+}
+.s-receiptsForm .m-receiptForm {
+  margin-top: 10px;
 }
 .s-receiptsForm .m-receiptForm label {
   padding-left: 10px;
@@ -255,9 +267,6 @@ body {
 .s-receiptsForm .m-receiptForm.-method .m-receiptForm__inputs {
   left: 3px;
 }
-.s-receiptsForm .m-receiptForm ~ .m-receiptForm {
-  margin-top: 10px;
-}
 .s-receiptsForm .m-receiptForm__tags {
   padding: 0 10px;
 }
@@ -266,14 +275,16 @@ body {
 }
 .s-receiptsForm .m-btnsWrap {
   margin-top: 15px;
+  padding: 0 5px;
 }
 
 .s-receiptsList {
   width: 100%;
+  padding-bottom: 75px;
+}
+.s-receiptsList li ~ li {
+  border-top: 1px dashed #999;
 }
 .s-receiptsList .m-receipt {
   padding: 10px 15px;
-}
-.s-receiptsList .m-receipt ~ .m-receipt {
-  border-top: 1px solid #999;
 }

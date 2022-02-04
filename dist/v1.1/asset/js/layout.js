@@ -1,7 +1,29 @@
-const LAYOUT_footer = () => {
-  return /*#__PURE__*/React.createElement("footer", null);
+const LAYOUT_header = ({
+  title
+}) => {
+  return /*#__PURE__*/React.createElement("h1", null, title);
 };
 
-const LAYOUT_header = () => {
-  return /*#__PURE__*/React.createElement("header", null);
+function setHeader(title) {
+  const $reactRoot = $("#header");
+  ReactDOM.render( /*#__PURE__*/React.createElement(LAYOUT_header, {
+    title: title
+  }), $reactRoot.get(0));
+}
+
+;
+
+const LAYOUT_userSide = ({
+  name
+}) => {
+  return /*#__PURE__*/React.createElement("span", null, name);
 };
+
+function setUserSide(name) {
+  const $reactRoot = $("#userSide");
+  ReactDOM.render( /*#__PURE__*/React.createElement(LAYOUT_userSide, {
+    name: name
+  }), $reactRoot.get(0));
+}
+
+;

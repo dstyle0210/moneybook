@@ -3,7 +3,8 @@ const S_nowMonthTotal = ({receipts}) =>{
         <React.Fragment>
             <C_monthTotal receipts={receipts}></C_monthTotal>
             <div className="-writeBtn">
-                <a href="/v1/create/" className="a-btn -l">등록</a>
+                <a href="/v1.1/create/" className="a-btn -l">새로등록</a> 
+                <a href="/v1.1/update/" className="a-btn -l">붙여넣기</a>
             </div>
         </React.Fragment>
     );

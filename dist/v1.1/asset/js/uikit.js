@@ -25,7 +25,6 @@ const M_receiptFormStore = ({
   receipt,
   setReceipt
 }) => {
-  console.log(setReceipt);
   let initValue = receipt.store || "";
   return /*#__PURE__*/React.createElement("div", {
     className: "m-receiptForm -store"
@@ -134,8 +133,23 @@ const M_receiptFormTag = ({
   receipt,
   setReceipt
 }) => {
-  let initValue = receipt.tag || "";
-  return /*#__PURE__*/React.createElement("div", {
+  console.log(receipt);
+  let initValue = receipt.tag.split("/")[0] || "";
+  let initSubTag = receipt.tag.split("/")[1] || "";
+  [subTagsDOM, setSubTagsDOM] = React.useState( /*#__PURE__*/React.createElement(M_receiptFormSubTag, {
+    receipt: receipt,
+    setReceipt: setReceipt
+  })); // 상태 관리용 HOOK
+
+  const changeTag = function (value) {
+    setReceipt(value);
+    setSubTagsDOM( /*#__PURE__*/React.createElement(M_receiptFormSubTag, {
+      receipt: receipt,
+      setReceipt: setReceipt
+    }));
+  };
+
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "m-receiptForm -tag"
   }, /*#__PURE__*/React.createElement("label", null, "\uC9C0\uCD9C\uD56D\uBAA9"), /*#__PURE__*/React.createElement("div", {
     className: "m-receiptForm__tags"
@@ -144,7 +158,7 @@ const M_receiptFormTag = ({
     name: "tag",
     value: "\uACE0\uC815",
     onChange: e => {
-      setReceipt({
+      changeTag({
         tag: e.target.value
       });
     },
@@ -156,7 +170,7 @@ const M_receiptFormTag = ({
     name: "tag",
     value: "\uD544\uC218",
     onChange: e => {
-      setReceipt({
+      changeTag({
         tag: e.target.value
       });
     },
@@ -168,7 +182,7 @@ const M_receiptFormTag = ({
     name: "tag",
     value: "\uBCC0\uB3D9",
     onChange: e => {
-      setReceipt({
+      changeTag({
         tag: e.target.value
       });
     },
@@ -180,15 +194,68 @@ const M_receiptFormTag = ({
     name: "tag",
     value: "\uAE30\uD0C0",
     onChange: e => {
-      setReceipt({
+      changeTag({
         tag: e.target.value
       });
     },
     defaultChecked: initValue == "기타"
   }), " ", /*#__PURE__*/React.createElement("span", {
     className: "a-tag -o"
-  }, "\uAE30\uD0C0"))));
+  }, "\uAE30\uD0C0")))), subTagsDOM);
 };
+
+const M_receiptFormSubTag = ({
+  receipt,
+  setReceipt
+}) => {
+  console.log(receipt);
+  let initTag = receipt.tag.split("/")[0] || "";
+  /*
+  let initSubTag = (receipt.tag).split("/")[1] || "";
+  let subTags = {
+      "":[],
+      "고정":["세금","교육"],
+      "필수":["식재료","생활필수품"],
+      "변동":["외식비","의료비","문화,여행"],
+      "기타":["미용,패션","가구,가전","그외,뭐지"]
+  };
+  
+  let [subTag,setSubTag] = React.useState( subTags[initTag] ); // 상태 관리용 HOOK
+    const changeTag = function(value){
+      subTags[initTag].map(function(subtag,index){
+          return (<div key={index}>{subtag}</div>);
+      });
+      setReceipt(value);
+  };
+  */
+
+  return /*#__PURE__*/React.createElement("div", {
+    className: "m-receiptForm -tag"
+  }, /*#__PURE__*/React.createElement("label", null, "\uC138\uBD80\uC9C0\uCD9C\uD56D\uBAA9"), /*#__PURE__*/React.createElement("div", {
+    className: "m-receiptForm__tags"
+  }, initTag));
+};
+/*
+고정/세금
+고정/공과금
+고정/보험
+고정/용돈
+고정/교육
+고정/통신
+필수/식재료
+필수/생활필수품
+필수/대중교통
+필수/경조사
+변동/외식비
+변동/의료비
+변동/문화,여행
+변동/자동차,택시
+기타/미용,패션
+기타/가구,가전
+기타/그외,뭐지
+
+*/
+
 
 const S_nowMonthTotal = ({
   receipts
@@ -198,9 +265,12 @@ const S_nowMonthTotal = ({
   }), /*#__PURE__*/React.createElement("div", {
     className: "-writeBtn"
   }, /*#__PURE__*/React.createElement("a", {
-    href: "/v1/create/",
+    href: "/v1.1/create/",
     className: "a-btn -l"
-  }, "\uB4F1\uB85D")));
+  }, "\uC0C8\uB85C\uB4F1\uB85D"), /*#__PURE__*/React.createElement("a", {
+    href: "/v1.1/update/",
+    className: "a-btn -l"
+  }, "\uBD99\uC5EC\uB123\uAE30")));
 };
 
 const C_monthTotal = ({
@@ -326,71 +396,47 @@ const S_receiptsCreateForm = ({
 
   const setReceipt = function (updateData) {
     Object.assign(receipt, updateData);
+    console.log(receipt);
     setReceiptState(receipt);
   };
 
   const initReceipt = function () {
     receipt.idx = receiptIdx;
     firebase.database().ref(getReceiptsUrl(receiptIdx)).set(receipt);
-    location.href = "/v1/book/";
+    location.href = "/v1.1/book/";
     return false;
   };
 
   const book = function () {
-    location.href = "/v1/book/";
+    location.href = "/v1.1/book/";
     return false;
   };
 
   const pasteReceipt = function () {
-    // createReceipt();
-
-    /*
-    navigator.clipboard.readText().then((text) => {
-        return text;
-    }).then(function(origin){
-        alert(origin);
-        setReceipt({ 
-            datetime:getSmsDateTime(origin),
-            price:getSmsPrice(origin),
-            useYn:"N",
-            origin:origin
-        });
-        alert(receipt);
-        firebase.database().ref("/receipt/"+receiptIdx).set(receipt);
-    }).then(function(){
-        setTimeout(function(){
-            location.href = "/v1/update/?idx="+receiptIdx;
-        },200);
-    });
-    */
     return false;
   };
 
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(M_receiptFormDateTime, {
-    receipt: Receipt,
+    receipt: receipt,
     setReceipt: setReceipt
   }), /*#__PURE__*/React.createElement(M_receiptFormStore, {
-    receipt: Receipt,
+    receipt: receipt,
     setReceipt: setReceipt
   }), /*#__PURE__*/React.createElement(M_receiptFormPrice, {
-    receipt: Receipt,
+    receipt: receipt,
     setReceipt: setReceipt
   }), /*#__PURE__*/React.createElement(M_receiptFormMethod, {
-    receipt: Receipt,
+    receipt: receipt,
     setReceipt: setReceipt
   }), /*#__PURE__*/React.createElement(M_receiptFormComment, {
-    receipt: Receipt,
+    receipt: receipt,
     setReceipt: setReceipt
   }), /*#__PURE__*/React.createElement(M_receiptFormTag, {
-    receipt: Receipt,
+    receipt: receipt,
     setReceipt: setReceipt
   }), /*#__PURE__*/React.createElement("div", {
     className: "m-btnsWrap"
   }, /*#__PURE__*/React.createElement("a", {
-    href: "#",
-    className: "a-btn -a",
-    id: "pasteReceiptBtn"
-  }, "\uBD99\uC5EC\uB123\uAE30"), /*#__PURE__*/React.createElement("a", {
     href: "#",
     className: "a-btn -c",
     onClick: book

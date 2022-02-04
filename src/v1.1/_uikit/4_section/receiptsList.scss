@@ -1,4 +1,4 @@
-.s-receiptsList{width:100%;
+.s-receiptsList{width:100%;padding-bottom:75px;
+    li ~ li{border-top:1px dashed #999;}
     .m-receipt{padding:10px 15px;}
-    .m-receipt ~ .m-receipt{border-top:1px solid #999;}
 }

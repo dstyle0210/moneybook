@@ -3,7 +3,7 @@ let Idx; // 작성될 영수증 번호(PK)
 let Receipt = { // 작성될 영수증 정보
     datetime:getSmsDateTime(), // 현재시간
     store:"",
-    price:"",
+    price:"", 
     method:"현금",
     comment:"",
     tag:"",
@@ -11,6 +11,8 @@ let Receipt = { // 작성될 영수증 정보
     origin:""
 };
 $(function () { 
+    setHeader("가계부작성"); // 헤더삽입
+
     var auth = firebase.auth(); // 인증체크
     firebase.database().ref(getReceiptsUrl()).on("value", snapshot => {
         Receipts = snapshot.val();
@@ -26,8 +28,7 @@ $(function () {
     });
     firebase.auth().onAuthStateChanged(user => {
         if(user.uid){
-            Receipt.writer = getAuthUser(user.uid); // 작성자 등록
-            ReactDOM.render( <A_user uid={user.uid} /> ,$("#userSide").get(0));
+            setUserSide(getAuthUser(user.uid)); // 유저정보 삽입
         };
     });
 });

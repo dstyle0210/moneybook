@@ -1,0 +1,24 @@
+header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  background: #fff;
+  z-index: 2;
+  border-bottom: 1px solid #999;
+}
+
+.s-userSide {
+  position: fixed;
+  top: 40px;
+  right: 10px;
+  z-index: 3;
+}
+.s-userSide .-login {
+  font-size: 13px;
+  white-space: nowrap;
+}
+.s-userSide span {
+  font-size: 13px;
+}
