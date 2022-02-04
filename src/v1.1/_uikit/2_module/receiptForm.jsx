@@ -61,80 +61,51 @@ const M_receiptFormComment = ({receipt,setReceipt}) => {
 };
 
 const M_receiptFormTag = ({receipt,setReceipt}) => {
-    console.log(receipt);
-    let initValue = (receipt.tag).split("/")[0] || "";
-    let initSubTag = (receipt.tag).split("/")[1] || "";
-    [subTagsDOM,setSubTagsDOM] = React.useState( <M_receiptFormSubTag receipt={receipt} setReceipt={setReceipt}></M_receiptFormSubTag> ); // 상태 관리용 HOOK
+    let [tag,setTag] = React.useState( (receipt.tag).split("/")[0] || "" );
+    let [subTag,setSubTag] = React.useState( (receipt.tag).split("/")[1] || "" );
     const changeTag = function(value){
-        setReceipt(value);
-        setSubTagsDOM( <M_receiptFormSubTag receipt={receipt} setReceipt={setReceipt}></M_receiptFormSubTag> );
+        setTag(value);
+        setReceipt({tag:value});
     };
     return (
         <React.Fragment>
         <div className="m-receiptForm -tag">
             <label>지출항목</label>
             <div className="m-receiptForm__tags">
-                <label><input type="radio" name="tag" value="고정" onChange={(e) => {changeTag({tag:e.target.value})}} defaultChecked={initValue=="고정"} /> <span className="a-tag -f">고정</span></label>
-                <label><input type="radio" name="tag" value="필수" onChange={(e) => {changeTag({tag:e.target.value})}} defaultChecked={initValue=="필수"} /> <span className="a-tag -r">필수</span></label>
-                <label><input type="radio" name="tag" value="변동" onChange={(e) => {changeTag({tag:e.target.value})}} defaultChecked={initValue=="변동"} /> <span className="a-tag -c">변동</span></label>
-                <label><input type="radio" name="tag" value="기타" onChange={(e) => {changeTag({tag:e.target.value})}} defaultChecked={initValue=="기타"} /> <span className="a-tag -o">기타</span></label>
+                <label><input type="radio" name="tag" value="고정" onChange={(e) => {changeTag(e.target.value)}} defaultChecked={tag=="고정"} /> <span className="a-tagbtn -f">고정</span></label>
+                <label><input type="radio" name="tag" value="필수" onChange={(e) => {changeTag(e.target.value)}} defaultChecked={tag=="필수"} /> <span className="a-tagbtn -r">필수</span></label>
+                <label><input type="radio" name="tag" value="변동" onChange={(e) => {changeTag(e.target.value)}} defaultChecked={tag=="변동"} /> <span className="a-tagbtn -c">변동</span></label>
+                <label><input type="radio" name="tag" value="기타" onChange={(e) => {changeTag(e.target.value)}} defaultChecked={tag=="기타"} /> <span className="a-tagbtn -o">기타</span></label>
             </div>
         </div>
-        {subTagsDOM}
+        <M_receiptFormSubTag _tag={tag} _changeTag={changeTag}></M_receiptFormSubTag>
         </React.Fragment>
     );
 };
 
-const M_receiptFormSubTag = ({receipt,setReceipt}) => {
-    console.log(receipt);
-    let initTag = (receipt.tag).split("/")[0] || "";
-    
-    /*
-    let initSubTag = (receipt.tag).split("/")[1] || "";
+const M_receiptFormSubTag = ({_tag,_changeTag}) => {
+    let initTag = (_tag).split("/")[0] || "";
+    let initSubTag = (_tag).split("/")[1] || "";
     let subTags = {
         "":[],
-        "고정":["세금","교육"],
-        "필수":["식재료","생활필수품"],
-        "변동":["외식비","의료비","문화,여행"],
+        "고정":["세금","공과금","보험","용돈","교육비","통신비"],
+        "필수":["식재료","생활필수품","대중교통","경조사비"],
+        "변동":["외식비","의료비","문화,여행","자동차,택시"],
         "기타":["미용,패션","가구,가전","그외,뭐지"]
     };
-    
-    let [subTag,setSubTag] = React.useState( subTags[initTag] ); // 상태 관리용 HOOK
-
-    const changeTag = function(value){
-        subTags[initTag].map(function(subtag,index){
-            return (<div key={index}>{subtag}</div>);
-        });
-        setReceipt(value);
-    };
-    */
-    return ( 
-        <div className="m-receiptForm -tag">
+    return (
+        <div className="m-receiptForm -subtag">
             <label>세부지출항목</label>
             <div className="m-receiptForm__tags">
-                {initTag}
+                {subTags[initTag].map((subTag,index)=>{
+                    return <span key={index.toString()} className={"a-tagbtn -"+getTagCode(initTag)}>{subTag}</span>
+                })}
             </div>
         </div>
     );
+    /*
+    
+    */
 };
 
-/*
-고정/세금
-고정/공과금
-고정/보험
-고정/용돈
-고정/교육
-고정/통신
-필수/식재료
-필수/생활필수품
-필수/대중교통
-필수/경조사
-변동/외식비
-변동/의료비
-변동/문화,여행
-변동/자동차,택시
-기타/미용,패션
-기타/가구,가전
-기타/그외,뭐지
-
-*/
+const A_tagBtn = "";

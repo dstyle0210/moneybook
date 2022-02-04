@@ -44,7 +44,6 @@ const S_receiptsCreateForm = ({_receipt,receiptIdx}) => {
     [receipt,setReceiptState] = React.useState( _receipt ); // 상태 관리용 HOOK
     const setReceipt = function(updateData){
         Object.assign(receipt,updateData);
-        console.log(receipt);
         setReceiptState(receipt);
     };
     const initReceipt = function(){

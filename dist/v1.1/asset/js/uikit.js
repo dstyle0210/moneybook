@@ -133,20 +133,14 @@ const M_receiptFormTag = ({
   receipt,
   setReceipt
 }) => {
-  console.log(receipt);
-  let initValue = receipt.tag.split("/")[0] || "";
-  let initSubTag = receipt.tag.split("/")[1] || "";
-  [subTagsDOM, setSubTagsDOM] = React.useState( /*#__PURE__*/React.createElement(M_receiptFormSubTag, {
-    receipt: receipt,
-    setReceipt: setReceipt
-  })); // 상태 관리용 HOOK
+  let [tag, setTag] = React.useState(receipt.tag.split("/")[0] || "");
+  let [subTag, setSubTag] = React.useState(receipt.tag.split("/")[1] || "");
 
   const changeTag = function (value) {
-    setReceipt(value);
-    setSubTagsDOM( /*#__PURE__*/React.createElement(M_receiptFormSubTag, {
-      receipt: receipt,
-      setReceipt: setReceipt
-    }));
+    setTag(value);
+    setReceipt({
+      tag: value
+    });
   };
 
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
@@ -158,104 +152,76 @@ const M_receiptFormTag = ({
     name: "tag",
     value: "\uACE0\uC815",
     onChange: e => {
-      changeTag({
-        tag: e.target.value
-      });
+      changeTag(e.target.value);
     },
-    defaultChecked: initValue == "고정"
+    defaultChecked: tag == "고정"
   }), " ", /*#__PURE__*/React.createElement("span", {
-    className: "a-tag -f"
+    className: "a-tagbtn -f"
   }, "\uACE0\uC815")), /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
     type: "radio",
     name: "tag",
     value: "\uD544\uC218",
     onChange: e => {
-      changeTag({
-        tag: e.target.value
-      });
+      changeTag(e.target.value);
     },
-    defaultChecked: initValue == "필수"
+    defaultChecked: tag == "필수"
   }), " ", /*#__PURE__*/React.createElement("span", {
-    className: "a-tag -r"
+    className: "a-tagbtn -r"
   }, "\uD544\uC218")), /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
     type: "radio",
     name: "tag",
     value: "\uBCC0\uB3D9",
     onChange: e => {
-      changeTag({
-        tag: e.target.value
-      });
+      changeTag(e.target.value);
     },
-    defaultChecked: initValue == "변동"
+    defaultChecked: tag == "변동"
   }), " ", /*#__PURE__*/React.createElement("span", {
-    className: "a-tag -c"
+    className: "a-tagbtn -c"
   }, "\uBCC0\uB3D9")), /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
     type: "radio",
     name: "tag",
     value: "\uAE30\uD0C0",
     onChange: e => {
-      changeTag({
-        tag: e.target.value
-      });
+      changeTag(e.target.value);
     },
-    defaultChecked: initValue == "기타"
+    defaultChecked: tag == "기타"
   }), " ", /*#__PURE__*/React.createElement("span", {
-    className: "a-tag -o"
-  }, "\uAE30\uD0C0")))), subTagsDOM);
+    className: "a-tagbtn -o"
+  }, "\uAE30\uD0C0")))), /*#__PURE__*/React.createElement(M_receiptFormSubTag, {
+    _tag: tag,
+    _changeTag: changeTag
+  }));
 };
 
 const M_receiptFormSubTag = ({
-  receipt,
-  setReceipt
+  _tag,
+  _changeTag
 }) => {
-  console.log(receipt);
-  let initTag = receipt.tag.split("/")[0] || "";
-  /*
-  let initSubTag = (receipt.tag).split("/")[1] || "";
+  let initTag = _tag.split("/")[0] || "";
+  let initSubTag = _tag.split("/")[1] || "";
   let subTags = {
-      "":[],
-      "고정":["세금","교육"],
-      "필수":["식재료","생활필수품"],
-      "변동":["외식비","의료비","문화,여행"],
-      "기타":["미용,패션","가구,가전","그외,뭐지"]
+    "": [],
+    "고정": ["세금", "공과금", "보험", "용돈", "교육비", "통신비"],
+    "필수": ["식재료", "생활필수품", "대중교통", "경조사비"],
+    "변동": ["외식비", "의료비", "문화,여행", "자동차,택시"],
+    "기타": ["미용,패션", "가구,가전", "그외,뭐지"]
   };
-  
-  let [subTag,setSubTag] = React.useState( subTags[initTag] ); // 상태 관리용 HOOK
-    const changeTag = function(value){
-      subTags[initTag].map(function(subtag,index){
-          return (<div key={index}>{subtag}</div>);
-      });
-      setReceipt(value);
-  };
-  */
-
   return /*#__PURE__*/React.createElement("div", {
-    className: "m-receiptForm -tag"
+    className: "m-receiptForm -subtag"
   }, /*#__PURE__*/React.createElement("label", null, "\uC138\uBD80\uC9C0\uCD9C\uD56D\uBAA9"), /*#__PURE__*/React.createElement("div", {
     className: "m-receiptForm__tags"
-  }, initTag));
+  }, subTags[initTag].map((subTag, index) => {
+    return /*#__PURE__*/React.createElement("span", {
+      key: index.toString(),
+      className: "a-tagbtn -" + getTagCode(initTag)
+    }, subTag);
+  })));
+  /*
+  
+  */
 };
-/*
-고정/세금
-고정/공과금
-고정/보험
-고정/용돈
-고정/교육
-고정/통신
-필수/식재료
-필수/생활필수품
-필수/대중교통
-필수/경조사
-변동/외식비
-변동/의료비
-변동/문화,여행
-변동/자동차,택시
-기타/미용,패션
-기타/가구,가전
-기타/그외,뭐지
 
-*/
-
+const A_tagBtn = "";
 
 const S_nowMonthTotal = ({
   receipts
@@ -396,7 +362,6 @@ const S_receiptsCreateForm = ({
 
   const setReceipt = function (updateData) {
     Object.assign(receipt, updateData);
-    console.log(receipt);
     setReceiptState(receipt);
   };
 
