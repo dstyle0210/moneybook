@@ -14,7 +14,7 @@ body{margin:0;padding:0;}
     &::after{margin-left:2px;font-size:0.75em;content:"원";font-weight:normal;color:#444;}
     &.-xl{font-size:24px;line-height:28px;}
 }
-.a-tag{display:inline-block;min-width:45px;height:20px;padding:0 5px;line-height:20px;font-size:12px;color:#fff;text-align:center;border-radius:10px;
+.a-tag{display:inline-block;min-width:45px;height:20px;padding:0 8px;line-height:20px;font-size:12px;color:#fff;text-align:center;border-radius:10px;
     &.-f,&.-fixed{background:#2F80ED;} 
     &.-r,&.-required{background:#F2994A;}
     &.-c,&.-change{background:#9B51E0;}

@@ -137,7 +137,7 @@ const M_receiptFormTag = ({
   let [subTag, setSubTag] = React.useState(receipt.tag.split("/")[1] || "");
 
   const changeTag = function (value) {
-    setTag(value);
+    setTag(value.split("/")[0] || "");
     setReceipt({
       tag: value
     });
@@ -147,47 +147,31 @@ const M_receiptFormTag = ({
     className: "m-receiptForm -tag"
   }, /*#__PURE__*/React.createElement("label", null, "\uC9C0\uCD9C\uD56D\uBAA9"), /*#__PURE__*/React.createElement("div", {
     className: "m-receiptForm__tags"
-  }, /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
-    type: "radio",
-    name: "tag",
-    value: "\uACE0\uC815",
-    onChange: e => {
-      changeTag(e.target.value);
-    },
-    defaultChecked: tag == "고정"
-  }), " ", /*#__PURE__*/React.createElement("span", {
-    className: "a-tagbtn -f"
-  }, "\uACE0\uC815")), /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
-    type: "radio",
-    name: "tag",
-    value: "\uD544\uC218",
-    onChange: e => {
-      changeTag(e.target.value);
-    },
-    defaultChecked: tag == "필수"
-  }), " ", /*#__PURE__*/React.createElement("span", {
-    className: "a-tagbtn -r"
-  }, "\uD544\uC218")), /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
-    type: "radio",
-    name: "tag",
-    value: "\uBCC0\uB3D9",
-    onChange: e => {
-      changeTag(e.target.value);
-    },
-    defaultChecked: tag == "변동"
-  }), " ", /*#__PURE__*/React.createElement("span", {
-    className: "a-tagbtn -c"
-  }, "\uBCC0\uB3D9")), /*#__PURE__*/React.createElement("label", null, /*#__PURE__*/React.createElement("input", {
-    type: "radio",
-    name: "tag",
-    value: "\uAE30\uD0C0",
-    onChange: e => {
-      changeTag(e.target.value);
-    },
-    defaultChecked: tag == "기타"
-  }), " ", /*#__PURE__*/React.createElement("span", {
-    className: "a-tagbtn -o"
-  }, "\uAE30\uD0C0")))), /*#__PURE__*/React.createElement(M_receiptFormSubTag, {
+  }, /*#__PURE__*/React.createElement(A_tagBtn, {
+    name: "\uACE0\uC815",
+    inputName: "tag",
+    _tag: tag,
+    _changeTag: changeTag,
+    tagClassName: "f"
+  }), /*#__PURE__*/React.createElement(A_tagBtn, {
+    name: "\uD544\uC218",
+    inputName: "tag",
+    _tag: tag,
+    _changeTag: changeTag,
+    tagClassName: "r"
+  }), /*#__PURE__*/React.createElement(A_tagBtn, {
+    name: "\uBCC0\uB3D9",
+    inputName: "tag",
+    _tag: tag,
+    _changeTag: changeTag,
+    tagClassName: "c"
+  }), /*#__PURE__*/React.createElement(A_tagBtn, {
+    name: "\uAE30\uD0C0",
+    inputName: "tag",
+    _tag: tag,
+    _changeTag: changeTag,
+    tagClassName: "o"
+  }))), /*#__PURE__*/React.createElement(M_receiptFormSubTag, {
     _tag: tag,
     _changeTag: changeTag
   }));
@@ -206,22 +190,51 @@ const M_receiptFormSubTag = ({
     "변동": ["외식비", "의료비", "문화,여행", "자동차,택시"],
     "기타": ["미용,패션", "가구,가전", "그외,뭐지"]
   };
+
+  const changeTag = function (value) {
+    _changeTag(initTag + "/" + value);
+
+    console.log(initTag + "/" + value);
+  };
+
+  console.log(getTagCode(initTag));
   return /*#__PURE__*/React.createElement("div", {
     className: "m-receiptForm -subtag"
   }, /*#__PURE__*/React.createElement("label", null, "\uC138\uBD80\uC9C0\uCD9C\uD56D\uBAA9"), /*#__PURE__*/React.createElement("div", {
     className: "m-receiptForm__tags"
   }, subTags[initTag].map((subTag, index) => {
-    return /*#__PURE__*/React.createElement("span", {
+    return /*#__PURE__*/React.createElement(A_tagBtn, {
       key: index.toString(),
-      className: "a-tagbtn -" + getTagCode(initTag)
-    }, subTag);
+      name: subTag,
+      inputName: "subtag",
+      _tag: initSubTag,
+      _changeTag: changeTag,
+      tagClassName: getTagCode(initTag)
+    });
   })));
-  /*
-  
-  */
 };
 
-const A_tagBtn = "";
+const A_tagBtn = ({
+  name,
+  inputName,
+  _tag,
+  _changeTag,
+  tagClassName
+}) => {
+  return /*#__PURE__*/React.createElement("label", {
+    className: "a-tagBtn"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "radio",
+    name: inputName,
+    value: name,
+    onChange: e => {
+      _changeTag(e.target.value);
+    },
+    defaultChecked: _tag == name
+  }), " ", /*#__PURE__*/React.createElement("span", {
+    className: "a-tagbtn -" + tagClassName
+  }, name));
+};
 
 const S_nowMonthTotal = ({
   receipts

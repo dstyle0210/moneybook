@@ -76,9 +76,9 @@ function getSmsStore(text){
     };
 };
 function getTagCode(tag){ 
-    if(tag=="고정"){return "f"};
-    if(tag=="필수"){return "r"};
-    if(tag=="변동"){return "c"};
-    if(tag=="기타"){return "o"};
-    if(tag=="용돈"){return "b"};
+    if((/고정/).test(tag)){return "f"};
+    if((/필수/).test(tag)){return "r"};
+    if((/변동/).test(tag)){return "c"};
+    if((/기타/).test(tag)){return "o"};
+    if((/용돈/).test(tag)){return "b"};
 };
