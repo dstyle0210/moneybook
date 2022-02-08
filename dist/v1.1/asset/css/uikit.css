@@ -249,18 +249,6 @@ body {
   justify-content: space-between;
 }
 
-.c-monthTotal h2 {
-  font-size: 18px;
-  line-height: 22px;
-  font-weight: bold;
-}
-.c-monthTotal summary {
-  text-align: right;
-}
-.c-monthTotal detail {
-  margin-top: 5px;
-}
-
 .s-nowMonthTotal {
   position: relative;
   background: #fff;
@@ -324,4 +312,16 @@ body {
 }
 .s-receiptsList .m-receipt {
   padding: 10px 15px;
+}
+
+.c-monthTotal h2 {
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: bold;
+}
+.c-monthTotal summary {
+  text-align: right;
+}
+.c-monthTotal detail {
+  margin-top: 5px;
 }

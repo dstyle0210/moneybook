@@ -2,8 +2,12 @@ let Receipts; // 전체 영수증 목록
 $(function(){
     try{
         setHeader("가계부목록"); // 헤더삽입
+        firebase.auth().onAuthStateChanged(user => {
+            if(user.uid){
+                setUserSide(getAuthUser(user.uid)); // 유저정보 삽입
+            };
+        });
 
-        firebase.auth(); // 인증체크
         firebase.database().ref(getReceiptsUrl()).on("value", (snapshot) => {
             Receipts = snapshot.val();
             
@@ -18,11 +22,6 @@ $(function(){
             }else{
                 Receipts = [];
                 bookNowMonthTotal(Receipts);
-            };
-        });
-        firebase.auth().onAuthStateChanged(user => {
-            if(user.uid){
-                setUserSide(getAuthUser(user.uid)); // 유저정보 삽입
             };
         });
     }catch(e){

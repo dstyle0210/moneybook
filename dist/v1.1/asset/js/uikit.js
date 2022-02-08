@@ -133,6 +133,7 @@ const M_receiptFormTag = ({
   receipt,
   setReceipt
 }) => {
+  console.log(receipt);
   let [tag, setTag] = React.useState(receipt.tag.split("/")[0] || "");
   let [subTag, setSubTag] = React.useState(receipt.tag.split("/")[1] || "");
 
@@ -172,7 +173,7 @@ const M_receiptFormTag = ({
     _changeTag: changeTag,
     tagClassName: "o"
   }))), /*#__PURE__*/React.createElement(M_receiptFormSubTag, {
-    _tag: tag,
+    _tag: receipt.tag,
     _changeTag: changeTag
   }));
 };
@@ -181,8 +182,10 @@ const M_receiptFormSubTag = ({
   _tag,
   _changeTag
 }) => {
+  console.log(_tag);
   let initTag = _tag.split("/")[0] || "";
-  let initSubTag = _tag.split("/")[1] || "";
+  let initSubTag = _tag.split("/")[1] || ""; // console.log(initSubTag);
+
   let subTags = {
     "": [],
     "고정": ["세금", "공과금", "보험", "용돈", "교육비", "통신비"],
@@ -193,11 +196,8 @@ const M_receiptFormSubTag = ({
 
   const changeTag = function (value) {
     _changeTag(initTag + "/" + value);
-
-    console.log(initTag + "/" + value);
   };
 
-  console.log(getTagCode(initTag));
   return /*#__PURE__*/React.createElement("div", {
     className: "m-receiptForm -subtag"
   }, /*#__PURE__*/React.createElement("label", null, "\uC138\uBD80\uC9C0\uCD9C\uD56D\uBAA9"), /*#__PURE__*/React.createElement("div", {
@@ -221,6 +221,7 @@ const A_tagBtn = ({
   _changeTag,
   tagClassName
 }) => {
+  // console.log(_tag);
   return /*#__PURE__*/React.createElement("label", {
     className: "a-tagBtn"
   }, /*#__PURE__*/React.createElement("input", {
@@ -239,6 +240,27 @@ const A_tagBtn = ({
 const S_nowMonthTotal = ({
   receipts
 }) => {
+  const pasteReceipt = function () {
+    navigator.clipboard.readText().then(text => {
+      return text;
+    }).then(function (origin) {
+      let pasteReceipt = {};
+      pasteReceipt.idx = Receipts.length;
+      pasteReceipt.datetime = getSmsDateTime(origin);
+      pasteReceipt.price = getSmsPrice(origin);
+      pasteReceipt.method = getSmsMethod(origin);
+      pasteReceipt.store = getSmsStore(origin);
+      pasteReceipt.useYn = "N";
+      pasteReceipt.tag = "";
+      pasteReceipt.origin = origin;
+      return firebase.database().ref(getReceiptsUrl(Receipts.length)).set(pasteReceipt);
+    }).then(function () {
+      setTimeout(function () {
+        location.href = "/v1.1/update/?idx=" + (Receipts.length - 1); // set이 된 후 라, length가 하나 올라갔음.
+      }, 200);
+    });
+  };
+
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(C_monthTotal, {
     receipts: receipts
   }), /*#__PURE__*/React.createElement("div", {
@@ -247,8 +269,8 @@ const S_nowMonthTotal = ({
     href: "/v1.1/create/",
     className: "a-btn -l"
   }, "\uC0C8\uB85C\uB4F1\uB85D"), /*#__PURE__*/React.createElement("a", {
-    href: "/v1.1/update/",
-    className: "a-btn -l"
+    className: "a-btn -l",
+    onClick: pasteReceipt
   }, "\uBD99\uC5EC\uB123\uAE30")));
 };
 
@@ -312,7 +334,7 @@ const S_receiptsUpdateForm = ({
   };
 
   const book = function () {
-    location.href = "/v1/book/";
+    location.href = "/v1.1/book/";
     return false;
   };
 
@@ -327,7 +349,7 @@ const S_receiptsUpdateForm = ({
 
   const uploadReceipt = function () {
     firebase.database().ref(getReceiptsUrl(receiptIdx)).set(receipt);
-    location.href = "/v1/book/";
+    location.href = "/v1.1/book/";
     return false;
   };
 
@@ -390,10 +412,6 @@ const S_receiptsCreateForm = ({
     return false;
   };
 
-  const pasteReceipt = function () {
-    return false;
-  };
-
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(M_receiptFormDateTime, {
     receipt: receipt,
     setReceipt: setReceipt
@@ -429,7 +447,7 @@ const S_receiptsList = ({
   receipts
 }) => {
   const updateReceipt = function (idx) {
-    location.href = "/v1/update/?idx=" + idx;
+    location.href = "/v1.1/update/?idx=" + idx;
     return false;
   };
 

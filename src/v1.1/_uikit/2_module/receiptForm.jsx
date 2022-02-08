@@ -61,6 +61,7 @@ const M_receiptFormComment = ({receipt,setReceipt}) => {
 };
 
 const M_receiptFormTag = ({receipt,setReceipt}) => {
+    console.log(receipt);
     let [tag,setTag] = React.useState( (receipt.tag).split("/")[0] || "" );
     let [subTag,setSubTag] = React.useState( (receipt.tag).split("/")[1] || "" );
     const changeTag = function(value){
@@ -78,14 +79,16 @@ const M_receiptFormTag = ({receipt,setReceipt}) => {
                 <A_tagBtn name="기타" inputName="tag" _tag={tag} _changeTag={changeTag} tagClassName="o"></A_tagBtn>
             </div>
         </div>
-        <M_receiptFormSubTag _tag={tag} _changeTag={changeTag}></M_receiptFormSubTag>
+        <M_receiptFormSubTag _tag={receipt.tag} _changeTag={changeTag}></M_receiptFormSubTag> 
         </React.Fragment>
     );
 };
 
 const M_receiptFormSubTag = ({_tag,_changeTag}) => {
+    console.log(_tag);
     let initTag = (_tag).split("/")[0] || "";
     let initSubTag = (_tag).split("/")[1] || "";
+    // console.log(initSubTag);
     let subTags = {
         "":[],
         "고정":["세금","공과금","보험","용돈","교육비","통신비"],
@@ -95,9 +98,7 @@ const M_receiptFormSubTag = ({_tag,_changeTag}) => {
     };
     const changeTag = function(value){
         _changeTag(initTag+"/"+value);
-        console.log(initTag+"/"+value);
     };
-    console.log( getTagCode(initTag) );
     return (
         <div className="m-receiptForm -subtag">
             <label>세부지출항목</label>
@@ -111,5 +112,6 @@ const M_receiptFormSubTag = ({_tag,_changeTag}) => {
 };
 
 const A_tagBtn = ({name,inputName,_tag,_changeTag,tagClassName}) => {
+    // console.log(_tag);
     return(<label className="a-tagBtn"><input type="radio" name={inputName} value={name} onChange={(e) => {_changeTag(e.target.value)}} defaultChecked={_tag==name} /> <span className={"a-tagbtn -"+tagClassName}>{name}</span></label>);
 }

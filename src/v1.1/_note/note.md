@@ -1,6 +1,8 @@
 # v1.1 변경목표
 ## 업무환경 변경
 - src -> dist -> public(build) 을 구조로 재진행
+-- src -> dist 로 개발서버 테스트
+-- dist -> public 으로 실제 통합 및 운영배포 처리.
 - atom 계열 중, 작은것들은 통합. => atoms.scss
 - _atomic 폴더 -> _uikit 폴더로 이름 변경
 - 중복 쓰임이 없다면, 굳이 uikit로 분리 필요 없음(예 : a-user)

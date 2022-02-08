@@ -1,6 +1,6 @@
 const S_receiptsList = ({receipts}) =>{
     const updateReceipt = function(idx){
-        location.href = "/v1/update/?idx="+idx;
+        location.href = "/v1.1/update/?idx="+idx;  
         return false;
     };
     const receiptList = receipts.map(function(receipt,index){
