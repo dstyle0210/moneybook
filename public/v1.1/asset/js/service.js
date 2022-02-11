@@ -13,7 +13,7 @@ function getMonthDate(datetime){
     return month+"."+date;
 };
 function getReceiptsUrl(idx){
-    const DBNAME = "dev"; // 연결 DB명
+    const DBNAME = "real"; // 연결 DB명
 
     var dateObj = new Date();
     var month = ((dateObj.getMonth()+1) < 9) ? "0"+(dateObj.getMonth()+1) : ""+(dateObj.getMonth()+1);
@@ -66,7 +66,7 @@ function getSmsPrice(text){
 };
 function getSmsStore(text){
     const method = getSmsMethod(text);
-    if(method=="국민봉올림" || method=="현대네이버"){
+    if(method=="국민봉올림"){
         let arr = text.split(/\n/);
         return arr[arr.length-2];
     }else if(method=="국민마올림"){

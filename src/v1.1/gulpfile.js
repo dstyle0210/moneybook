@@ -14,6 +14,15 @@ function defaultTask(cb) {
 
 let distRoot = "../../dist/v1.1";
 let buildRoot = "../../public/v1.1";
+
+task("dist",function(done){
+    src(distRoot+"/**/*")
+    .pipe(dest(buildRoot))
+    .on("end",function(){
+        done();
+    });
+});
+
 task("html",function(done){
     let globs = ["./_page/**/*.html"];
     function build(folderName){
