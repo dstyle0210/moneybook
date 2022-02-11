@@ -239,7 +239,8 @@ const A_tagBtn = ({
   }), " ", /*#__PURE__*/React.createElement("span", {
     className: "a-tagbtn -" + tagClassName
   }, name));
-};
+}; // "[Web발신]\n네이버 현대카드 승인\r\n원*봉\r\n29,700원 일시불\r\n02/11 08:51\r\n네이버페이\r\n누적272,890원"
+
 
 const S_nowMonthTotal = ({
   receipts
