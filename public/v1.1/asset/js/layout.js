@@ -1,7 +1,9 @@
 const LAYOUT_header = ({
   title
 }) => {
-  return /*#__PURE__*/React.createElement("h1", null, title);
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h1", null, title), /*#__PURE__*/React.createElement("span", {
+    className: "version"
+  }, "v1.1"));
 };
 
 function setHeader(title) {

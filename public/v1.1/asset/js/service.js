@@ -13,12 +13,12 @@ function getMonthDate(datetime){
     return month+"."+date;
 };
 function getReceiptsUrl(idx){
-    const DBNAME = "real"; // 연결 DB명
-
-    var dateObj = new Date();
-    var month = ((dateObj.getMonth()+1) < 9) ? "0"+(dateObj.getMonth()+1) : ""+(dateObj.getMonth()+1);
-    var dateMonth = dateObj.getFullYear()+month+"";
-    return "/"+DBNAME+"/"+dateMonth+((idx || idx==0)?"/"+idx+"":"");
+    const DBNAME = "dev"; // 연결 DB명
+    let dbname = (location.hostname!="localhost") ? "real" : DBNAME; // 로컬호스트가 아니라면 실제DB로 연결
+    let dateObj = new Date();
+    let month = ((dateObj.getMonth()+1) < 9) ? "0"+(dateObj.getMonth()+1) : ""+(dateObj.getMonth()+1);
+    let dateMonth = dateObj.getFullYear()+month+"";
+    return "/"+dbname+"/"+dateMonth+((idx || idx==0)?"/"+idx+"":"");
 };
 function getSmsDateTime(text){ 
     const num = "[0-9]{2}";
@@ -66,7 +66,7 @@ function getSmsPrice(text){
 };
 function getSmsStore(text){
     const method = getSmsMethod(text);
-    if(method=="국민봉올림"){
+    if(method=="국민봉올림" || method=="현대네이버"){
         let arr = text.split(/\n/);
         return arr[arr.length-2];
     }else if(method=="국민마올림"){

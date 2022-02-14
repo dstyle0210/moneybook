@@ -239,7 +239,8 @@ const A_tagBtn = ({
   }), " ", /*#__PURE__*/React.createElement("span", {
     className: "a-tagbtn -" + tagClassName
   }, name));
-};
+}; // "[Web발신]\n네이버 현대카드 승인\r\n원*봉\r\n29,700원 일시불\r\n02/11 08:51\r\n네이버페이\r\n누적272,890원"
+
 
 const S_nowMonthTotal = ({
   receipts
@@ -297,7 +298,7 @@ const C_monthTotal = ({
   ;
   return /*#__PURE__*/React.createElement("article", {
     className: "c-monthTotal"
-  }, /*#__PURE__*/React.createElement("h2", null, "2022\uB144 1\uC6D4 \uC9C0\uCD9C\uAE08\uC561"), /*#__PURE__*/React.createElement("details", null, /*#__PURE__*/React.createElement("summary", null, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("h2", null, "2022\uB144 2\uC6D4 \uC9C0\uCD9C\uAE08\uC561"), /*#__PURE__*/React.createElement("details", null, /*#__PURE__*/React.createElement("summary", null, /*#__PURE__*/React.createElement("span", {
     className: "a-price -xl"
   }, monthTotal.toLocaleString())), /*#__PURE__*/React.createElement("ul", {
     className: "m-tagByTotal"
