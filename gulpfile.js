@@ -4,7 +4,7 @@ const replace = require('gulp-replace');
 const shell = require('gulp-shell');
 
 
-
+let version = "v1.2";
 task('serve:firebase', shell.task([
     'firebase serve'
 ]));
@@ -23,13 +23,13 @@ task("dist:ready", function(done){
         });
 });
 task("dist:db", function(done){
-    src("./src/v1.1/_service/getReceiptsUrl.js")
+    src("./src/"+version+"/_service/getReceiptsUrl.js")
         .pipe(replace(/DBNAME = "real"/,'DBNAME = "dev"'))
-        .pipe(dest("./src/v1.1/_service/"));
+        .pipe(dest("./src/"+version+"/_service/"));
 
-    src("./dist/v1.1/asset/js/service.js")
+    src("./dist/"+version+"/asset/js/service.js")
         .pipe(replace(/DBNAME = "real"/,'DBNAME = "dev"'))
-        .pipe(dest("./dist/v1.1/asset/js/"))
+        .pipe(dest("./dist/"+version+"/asset/js/"))
         .on("end",function(){
             done();
         });
@@ -47,13 +47,13 @@ task('public:ready', function(done){
         });
 });
 task("public:db", function(done){
-    src("./src/v1.1/_service/getReceiptsUrl.js")
+    src("./src/"+version+"/_service/getReceiptsUrl.js")
         .pipe(replace(/DBNAME = "dev"/,'DBNAME = "real"'))
-        .pipe(dest("./src/v1.1/_service/"));
+        .pipe(dest("./src/"+version+"/_service/"));
 
-    src("./dist/v1.1/asset/js/service.js")
+    src("./dist/"+version+"/asset/js/service.js")
         .pipe(replace(/DBNAME = "dev"/,'DBNAME = "real"'))
-        .pipe(dest("./dist/v1.1/asset/js/"))
+        .pipe(dest("./dist/"+version+"/asset/js/"))
         .on("end",function(){
             done();
         });

@@ -1,0 +1,7 @@
+// 당월 전체 지출금액
+.s-nowMonthTotal{position:relative;background:#fff;padding:10px;border-top:2px solid #999; 
+    .-writeBtn{position:absolute;top:15px;right:5px;width:165px;display:flex;justify-content:space-between;
+        .a-btn{display:block;width:80px;min-height:50px;line-height:42px;}
+    }
+    .c-monthTotal summary{padding-right:170px;}
+}

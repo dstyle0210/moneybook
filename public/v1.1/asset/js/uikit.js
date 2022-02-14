@@ -449,14 +449,23 @@ const S_receiptsCreateForm = ({
 };
 
 const S_receiptsList = ({
-  receipts
+  _receipts
 }) => {
+  let receipts, setReceiptsState;
+  [receipts, setReceiptsState] = React.useState({
+    sort: "recent",
+    list: _receipts
+  }); // 상태 관리용 HOOK
+
   const updateReceipt = function (idx) {
     location.href = "/v1.1/update/?idx=" + idx;
     return false;
   };
 
-  const receiptList = receipts.map(function (receipt, index) {
+  const updateList = function (type) {// setReceiptsState();
+  };
+
+  const receiptList = receipts.list.map(function (receipt, index) {
     return /*#__PURE__*/React.createElement("li", {
       key: index
     }, /*#__PURE__*/React.createElement("a", {

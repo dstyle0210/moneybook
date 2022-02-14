@@ -18,9 +18,12 @@ $(function () {
         // 표시할 영수증 목록
         const useReceipts = Receipts.filter(receipt => {
           receipt.price = receipt.price * 1;
+          receipt.paytime = new Date(receipt.datetime).getTime();
           return receipt.useYn == "Y" && receipt.tag != "용돈";
         });
-        bookReceiptsUI(useReceipts.reverse());
+        useReceipts.sort((a, b) => parseFloat(b.paytime) - parseFloat(a.paytime)); // 결제시간 기준 정렬
+
+        bookReceiptsUI(useReceipts);
         bookNowMonthTotal(useReceipts);
       } else {
         Receipts = [];
@@ -39,7 +42,7 @@ $(function () {
 function bookReceiptsUI(receipts) {
   const $reactRoot = $("#receiptsList");
   ReactDOM.render( /*#__PURE__*/React.createElement(S_receiptsList, {
-    receipts: receipts
+    _receipts: receipts
   }), $reactRoot.get(0));
 }
 

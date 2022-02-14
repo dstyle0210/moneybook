@@ -23,6 +23,12 @@ task("dist",function(done){
     });
 });
 
+task("res",function(done){
+    src("./_resource/*.*")
+    .pipe(dest(distRoot+"/asset/resource"))
+    .on("end",done);
+});
+
 task("html",function(done){
     let globs = ["./_page/**/*.html"];
     function build(folderName){
@@ -199,4 +205,4 @@ task("service:js",function(done){
     });
 });
 
-task("dev",series("uikit:scss","uikit:jsx","layout:scss","layout:jsx","page:scss","page:jsx","service:js","html"));
+task("dev",series("uikit:scss","uikit:jsx","layout:scss","layout:jsx","page:scss","page:jsx","service:js","html","res"));

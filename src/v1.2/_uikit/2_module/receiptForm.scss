@@ -1,0 +1,22 @@
+// 쓰기 폼
+.m-receiptForm{position:relative;width:100%;padding-bottom:30px;border-bottom:1px dashed #999;
+    label{display:block;font-size:13px;color:#999;}    
+    select,input[type=datetime-local],input[type=text],input[type=number]{padding:0;height:23px;line-height:23px;font-size:16px;display:block;width:100%;border:0;font-size:16px;background:#fff;color:#000;}
+    select:focus,input:focus{outline:0;}
+    &.-tag{padding-bottom:8px;}
+    &.-subtag{padding-bottom:8px;
+        .m-receiptForm__tags{justify-content:flex-start;flex-wrap: wrap;}
+        .a-tagbtn ~.a-tagbtn{margin-left:8px;}
+    } 
+
+    &.-dateTime{} // 결제시간
+    &.-store{} // 사용처
+
+    &__inputs{position:absolute;top:23px;bottom:0;left:0;right:0;}
+
+    &__tags{margin-top:8px;display:flex;justify-content:space-between;
+        input{display:none;}
+        .a-tagbtn{opacity:0.5;}
+        input:checked + .a-tagbtn{opacity: 1;}
+    }
+}
