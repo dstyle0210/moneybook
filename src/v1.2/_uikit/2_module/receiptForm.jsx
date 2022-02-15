@@ -63,13 +63,13 @@ const M_receiptFormComment = ({receipt,setReceipt}) => {
 };
 
 const M_receiptFormTag = ({receipt,setReceipt}) => {
-    console.log(receipt);
     let [tag,setTag] = React.useState( (receipt.tag).split("/")[0] || "" );
     let [subTag,setSubTag] = React.useState( (receipt.tag).split("/")[1] || "" );
     const changeTag = function(value){
         setTag( (value).split("/")[0] || "" );
         setReceipt({tag:value});
     };
+    const bong = (<A_tagBtn name="용돈" inputName="tag" _tag={tag} _changeTag={changeTag} tagClassName="b"></A_tagBtn>);
     return (
         <React.Fragment>
         <div className="m-receiptForm -tag">
@@ -79,6 +79,7 @@ const M_receiptFormTag = ({receipt,setReceipt}) => {
                 <A_tagBtn name="필수" inputName="tag" _tag={tag} _changeTag={changeTag} tagClassName="r"></A_tagBtn>
                 <A_tagBtn name="변동" inputName="tag" _tag={tag} _changeTag={changeTag} tagClassName="c"></A_tagBtn>
                 <A_tagBtn name="기타" inputName="tag" _tag={tag} _changeTag={changeTag} tagClassName="o"></A_tagBtn>
+                {bong}
             </div>
         </div>
         <M_receiptFormSubTag _tag={receipt.tag} _changeTag={changeTag}></M_receiptFormSubTag> 
@@ -87,16 +88,15 @@ const M_receiptFormTag = ({receipt,setReceipt}) => {
 };
 
 const M_receiptFormSubTag = ({_tag,_changeTag}) => {
-    console.log(_tag);
     let initTag = (_tag).split("/")[0] || "";
     let initSubTag = (_tag).split("/")[1] || "";
-    // console.log(initSubTag);
     let subTags = {
         "":[],
         "고정":["세금","공과금","보험","용돈","교육비","통신비"],
         "필수":["식재료","생활필수품","대중교통","경조사비"],
         "변동":["외식비","의료비","문화,여행","자동차,택시"],
-        "기타":["미용,패션","가구,가전","그외,뭐지"]
+        "기타":["미용,패션","가구,가전","그외,뭐지"],
+        "용돈":["식비","담배","음료수","그외"]
     };
     const changeTag = function(value){
         _changeTag(initTag+"/"+value);

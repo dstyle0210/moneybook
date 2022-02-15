@@ -137,7 +137,6 @@ const M_receiptFormTag = ({
   receipt,
   setReceipt
 }) => {
-  console.log(receipt);
   let [tag, setTag] = React.useState(receipt.tag.split("/")[0] || "");
   let [subTag, setSubTag] = React.useState(receipt.tag.split("/")[1] || "");
 
@@ -148,6 +147,13 @@ const M_receiptFormTag = ({
     });
   };
 
+  const bong = /*#__PURE__*/React.createElement(A_tagBtn, {
+    name: "\uC6A9\uB3C8",
+    inputName: "tag",
+    _tag: tag,
+    _changeTag: changeTag,
+    tagClassName: "b"
+  });
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "m-receiptForm -tag"
   }, /*#__PURE__*/React.createElement("label", null, "\uC9C0\uCD9C\uD56D\uBAA9"), /*#__PURE__*/React.createElement("div", {
@@ -176,7 +182,7 @@ const M_receiptFormTag = ({
     _tag: tag,
     _changeTag: changeTag,
     tagClassName: "o"
-  }))), /*#__PURE__*/React.createElement(M_receiptFormSubTag, {
+  }), bong)), /*#__PURE__*/React.createElement(M_receiptFormSubTag, {
     _tag: receipt.tag,
     _changeTag: changeTag
   }));
@@ -186,16 +192,15 @@ const M_receiptFormSubTag = ({
   _tag,
   _changeTag
 }) => {
-  console.log(_tag);
   let initTag = _tag.split("/")[0] || "";
-  let initSubTag = _tag.split("/")[1] || ""; // console.log(initSubTag);
-
+  let initSubTag = _tag.split("/")[1] || "";
   let subTags = {
     "": [],
     "고정": ["세금", "공과금", "보험", "용돈", "교육비", "통신비"],
     "필수": ["식재료", "생활필수품", "대중교통", "경조사비"],
     "변동": ["외식비", "의료비", "문화,여행", "자동차,택시"],
-    "기타": ["미용,패션", "가구,가전", "그외,뭐지"]
+    "기타": ["미용,패션", "가구,가전", "그외,뭐지"],
+    "용돈": ["식비", "담배", "음료수", "그외"]
   };
 
   const changeTag = function (value) {
@@ -266,12 +271,14 @@ const S_nowMonthTotal = ({
     });
   };
 
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(C_monthTotal, {
+  return /*#__PURE__*/React.createElement("section", {
+    className: "s-nowMonthTotal"
+  }, /*#__PURE__*/React.createElement(C_monthTotal, {
     receipts: receipts
   }), /*#__PURE__*/React.createElement("div", {
     className: "-writeBtn"
   }, /*#__PURE__*/React.createElement("a", {
-    href: "/v1.1/create/",
+    href: "/v1.2/create/",
     className: "a-btn -l"
   }, "\uC0C8\uB85C\uB4F1\uB85D"), /*#__PURE__*/React.createElement("a", {
     className: "a-btn -l",
@@ -339,7 +346,7 @@ const S_receiptsUpdateForm = ({
   };
 
   const book = function () {
-    location.href = "/v1.1/book/";
+    location.href = "/v1.2/book/";
     return false;
   };
 
@@ -354,7 +361,7 @@ const S_receiptsUpdateForm = ({
 
   const uploadReceipt = function () {
     firebase.database().ref(getReceiptsUrl(receiptIdx)).set(receipt);
-    location.href = "/v1.1/book/";
+    location.href = "/v1.2/book/";
     return false;
   };
 
@@ -408,12 +415,12 @@ const S_receiptsCreateForm = ({
   const initReceipt = function () {
     receipt.idx = receiptIdx;
     firebase.database().ref(getReceiptsUrl(receiptIdx)).set(receipt);
-    location.href = "/v1.1/book/";
+    location.href = "/v1.2/book/";
     return false;
   };
 
   const book = function () {
-    location.href = "/v1.1/book/";
+    location.href = "/v1.2/book/";
     return false;
   };
 
@@ -474,7 +481,9 @@ const S_receiptsList = ({
       receipt: receipt
     })));
   });
-  return /*#__PURE__*/React.createElement("ul", null, receiptList);
+  return /*#__PURE__*/React.createElement("section", {
+    className: "s-receiptsList"
+  }, /*#__PURE__*/React.createElement("ul", null, receiptList));
 };
 
 const M_receipt = ({

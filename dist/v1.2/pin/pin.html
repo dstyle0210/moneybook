@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>MoneyBook - Dstyle</title>
+    <link rel="stylesheet" href="../asset/css/uikit.css">
+    <link rel="stylesheet" href="../asset/css/layout.css">
+    <link rel="stylesheet" href="./index.css">
+    <link rel="apple-touch-icon" type="180x180" href="https://dstyle-moneybook.web.app/v1.2/asset/resource/favicon.png">
+    <script defer crossorigin src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script defer crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script defer src="/__/firebase/9.6.1/firebase-app-compat.js"></script>
+    <script defer src="/__/firebase/9.6.1/firebase-database-compat.js"></script>
+    <script defer src="/__/firebase/9.6.1/firebase-auth-compat.js"></script>
+    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+    <!--
+    <script defer src="../asset/js/service.js"></script>
+    <script defer src="../asset/js/uikit.js"></script>
+    <script defer src="../asset/js/layout.js"></script>
+    <script defer src="./index.js"></script>
+    -->
+  </head>
+  <body>
+    <main class="p-book">
+
+    <header id="header"><h1>가계부목록</h1><span class="version">v1.2</span></header>
+
+    <!-- 지출목록 -->
+    <section class="s-receiptsList" id="receiptsList">
+        <ul>
+            <li>
+                <a>
+                    <article class="m-receipt">
+                        <span class="a-date">02.14</span>
+                        <div class="-info">
+                            <span class="a-comment">점심 : 신라면 , 삼각김밥 2개 , 제로콜라</span>
+                            <span class="a-store">씨유상암S플렉스점</span>
+                            <span class="a-payment">현대네이버</span>
+                        </div>
+                        <div class="-price">
+                            <strong class="a-price">1,004,900</strong>
+                            <label class="a-tag -b">용돈/담배</label>
+                        </div>
+                    </article>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <article class="m-receipt">
+                        <span class="a-date">02.14</span>
+                        <div class="-info">
+                            <span class="a-comment">상계처리</span>
+                            <span class="a-store">씨유상암S플렉스점</span>
+                            <span class="a-payment">현대네이버</span>
+                        </div>
+                        <div class="-price">
+                            <strong class="a-price">1,004,900</strong>
+                            <label class="a-tag -b">용돈/담배</label>
+                        </div>
+                    </article>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <!-- // 지출목록 -->
+
+    <!-- 당월 지출요약 -->
+    <section class="s-nowMonthTotal" id="nowMonthTotal"><article class="c-monthTotal"><h2>2022년 2월 지출금액</h2><details><summary><span class="a-price -xl">1,515,890</span></summary><ul class="m-tagByTotal"><li><label class="a-tag -f">고정</label> <span class="a-price">170,390</span></li><li><label class="a-tag -r">필수</label> <span class="a-price">116,840</span></li><li><label class="a-tag -c">변동</label> <span class="a-price">611,060</span></li><li><label class="a-tag -o">기타</label> <span class="a-price">617,600</span></li></ul></details></article><div class="-writeBtn"><a href="/v1.1/create/" class="a-btn -l">새로등록</a><a class="a-btn -l">붙여넣기</a></div></section>
+    <!-- // 당월 지출요약 -->
+
+    <!-- 로그인 -->
+    <aside class="s-userSide" id="userSide"><span>마봉아빠</span></aside>
+    <!-- // 로그인 -->
+
+  </main>
+</body>
+</html>

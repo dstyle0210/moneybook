@@ -21,13 +21,13 @@ const S_nowMonthTotal = ({receipts}) =>{
     };
 
     return (
-        <React.Fragment>
+        <section className="s-nowMonthTotal">
             <C_monthTotal receipts={receipts}></C_monthTotal>
             <div className="-writeBtn">
-                <a href="/v1.1/create/" className="a-btn -l">새로등록</a> 
+                <a href="/v1.2/create/" className="a-btn -l">새로등록</a>
                 <a className="a-btn -l" onClick={pasteReceipt}>붙여넣기</a>
             </div>
-        </React.Fragment>
+        </section>
     );
 };
 

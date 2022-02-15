@@ -113,6 +113,9 @@ body {
 .a-tagbtn.-o, .a-tagbtn.-other {
   background: #BDBDBD;
 }
+.a-tagbtn.-b, .a-tagbtn.-bong {
+  background: #00B74A;
+}
 
 .a-btn {
   display: inline-block;
@@ -141,18 +144,6 @@ body {
   background: #fff;
   color: #000;
   border: 1px solid #999;
-}
-
-.c-monthTotal h2 {
-  font-size: 18px;
-  line-height: 22px;
-  font-weight: bold;
-}
-.c-monthTotal summary {
-  text-align: right;
-}
-.c-monthTotal detail {
-  margin-top: 5px;
 }
 
 .m-btnsWrap {
@@ -327,4 +318,16 @@ body {
 }
 .s-receiptsList .m-receipt {
   padding: 10px 15px;
+}
+
+.c-monthTotal h2 {
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: bold;
+}
+.c-monthTotal summary {
+  text-align: right;
+}
+.c-monthTotal detail {
+  margin-top: 5px;
 }

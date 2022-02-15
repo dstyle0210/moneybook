@@ -16,7 +16,7 @@ const S_receiptsList = ({_receipts}) =>{
     const receiptList = receipts.list.map(function(receipt,index){
         return (<li key={index}><a onClick={updateReceipt.bind(this,receipt.idx)}><M_receipt receipt={receipt}></M_receipt></a></li>);
     });
-    return (<ul>{receiptList}</ul>); 
+    return (<section className="s-receiptsList"><ul>{receiptList}</ul></section>);
 };
 const M_receipt = ({receipt}) => {
     return (

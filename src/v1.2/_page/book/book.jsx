@@ -9,34 +9,30 @@ $(function(){
         });
 
         firebase.database().ref(getReceiptsUrl()).on("value", (snapshot) => {
-            Receipts = snapshot.val();
-            
-            if(Receipts){
+            const origins = snapshot.val() || [];
+            let useReceipts;
+            if(origins.length){
                 // 표시할 영수증 목록
-                const useReceipts = Receipts.filter((receipt)=>{
+                useReceipts = origins.filter((receipt)=>{
                     receipt.price = receipt.price*1;
                     receipt.paytime = new Date(receipt.datetime).getTime();
-                    return receipt.useYn=="Y" && receipt.tag!="용돈";
+                    return receipt.useYn=="Y";
                 });
                 useReceipts.sort((a, b) => parseFloat(b.paytime) - parseFloat(a.paytime)); // 결제시간 기준 정렬
-                bookReceiptsUI(useReceipts);
-                bookNowMonthTotal(useReceipts);
-            }else{
-                Receipts = [];
-                bookNowMonthTotal(Receipts);
             };
+            ReactDOM.render( <S_receiptsBook receipts={useReceipts} /> ,$("#receiptsBook").get(0));
         });
     }catch(e){
         alert(e);
     };
 });
 
-function bookReceiptsUI(receipts){
-    const $reactRoot = $("#receiptsList");
-    ReactDOM.render( <S_receiptsList _receipts={receipts} /> ,$reactRoot.get(0));
-}
+const S_receiptsBook = ({receipts}) =>{
 
-function bookNowMonthTotal(receipts){
-    const $reactRoot = $("#nowMonthTotal");
-    ReactDOM.render( <S_nowMonthTotal receipts={receipts} /> ,$reactRoot.get(0));
-}
+    return(
+    <React.Fragment>
+        <S_receiptsList _receipts={receipts} />
+        <S_nowMonthTotal receipts={receipts} />
+    </React.Fragment>
+    );
+};

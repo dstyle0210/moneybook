@@ -10,7 +10,7 @@ const S_receiptsUpdateForm = ({_receipt,receiptIdx}) => {
         uploadReceipt();
     };
     const book = function(){
-        location.href = "/v1.1/book/";
+        location.href = "/v1.2/book/";
         return false; 
     };
     const deleteReceipt = function(){
@@ -21,7 +21,7 @@ const S_receiptsUpdateForm = ({_receipt,receiptIdx}) => {
     }
     const uploadReceipt = function(){
         firebase.database().ref(getReceiptsUrl(receiptIdx)).set(receipt);
-        location.href = "/v1.1/book/";
+        location.href = "/v1.2/book/";
         return false; 
     }
     return <React.Fragment>
@@ -49,11 +49,11 @@ const S_receiptsCreateForm = ({_receipt,receiptIdx}) => {
     const initReceipt = function(){
         receipt.idx = receiptIdx;
         firebase.database().ref(getReceiptsUrl(receiptIdx)).set(receipt);
-        location.href = "/v1.1/book/";
+        location.href = "/v1.2/book/";
         return false; 
     };
     const book = function(){
-        location.href="/v1.1/book/";
+        location.href="/v1.2/book/";
         return false; 
     };
     return <React.Fragment>
