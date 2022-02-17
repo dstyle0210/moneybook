@@ -25,7 +25,10 @@
   <body>
     <main class="p-book">
 
-    <header id="header"><h1>가계부목록</h1><span class="version">v1.2</span></header>
+    <header id="header">
+        <h1>가계부목록</h1><span class="version">v1.2</span>
+        <div class="pinMoney"><a href="/1.2/pin/" class="a-tagbtn -b">용돈보기</a></div>
+    </header>
 
     <!-- 지출목록 -->
     <section class="s-receiptsList" id="receiptsList">
@@ -67,7 +70,25 @@
     <!-- // 지출목록 -->
 
     <!-- 당월 지출요약 -->
-    <section class="s-nowMonthTotal" id="nowMonthTotal"><article class="c-monthTotal"><h2>2022년 2월 지출금액</h2><details><summary><span class="a-price -xl">1,515,890</span></summary><ul class="m-tagByTotal"><li><label class="a-tag -f">고정</label> <span class="a-price">170,390</span></li><li><label class="a-tag -r">필수</label> <span class="a-price">116,840</span></li><li><label class="a-tag -c">변동</label> <span class="a-price">611,060</span></li><li><label class="a-tag -o">기타</label> <span class="a-price">617,600</span></li></ul></details></article><div class="-writeBtn"><a href="/v1.1/create/" class="a-btn -l">새로등록</a><a class="a-btn -l">붙여넣기</a></div></section>
+    <section class="s-nowMonthTotal" id="nowMonthTotal">
+        <article class="c-monthTotal">
+            <h2>2022년 2월 지출금액</h2>
+            <details>
+                <summary><span class="a-price -xl">1,515,890</span></summary>
+                <ul class="m-tagByTotal">
+                    <li><label class="a-tag -f">고정</label> <span class="a-price">170,390</span></li>
+                    <li><label class="a-tag -r">필수</label> <span class="a-price">116,840</span></li>
+                    <li><label class="a-tag -c">변동</label> <span class="a-price">611,060</span></li>
+                    <li><label class="a-tag -o">기타</label> <span class="a-price">617,600</span></li>
+                    <li><label class="a-tag -b">용돈</label> <span class="a-price">617,600</span></li>
+                </ul>
+            </details>
+        </article>
+        <div class="-writeBtn">
+            <a href="/v1.1/create/" class="a-btn -l">새로등록</a>
+            <a class="a-btn -l">붙여넣기</a>
+        </div>
+    </section>
     <!-- // 당월 지출요약 -->
 
     <!-- 로그인 -->

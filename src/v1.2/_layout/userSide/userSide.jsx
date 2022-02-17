@@ -1,6 +1,6 @@
 function setUserSide(name){
     firebase.auth().onAuthStateChanged(user => {
-        ReactDOM.render( <LAYOUT_userSide name={ getAuthUser(user) } /> ,$("#userSide").get(0));
+        ReactDOM.render( <LAYOUT_userSide name={ name } /> ,$("#userSide").get(0));
     });    
 };
 

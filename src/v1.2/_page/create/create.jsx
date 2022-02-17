@@ -13,23 +13,20 @@ let Receipt = { // 작성될 영수증 정보
 $(function () { 
     setHeader("가계부작성"); // 헤더삽입
 
-    var auth = firebase.auth(); // 인증체크
-    firebase.database().ref(getReceiptsUrl()).on("value", snapshot => {
-        Receipts = snapshot.val();
-        Idx = (Receipts) ? Receipts.length : 0;
-
-         // createPage
-         const $reactRoot = $("#createPage");
-         ReactDOM.render( <S_receiptsCreateForm _receipt={Receipt} receiptIdx={Idx} /> ,$reactRoot.get(0)); 
-
-         setTimeout(function(){
-             $("#pasteReceiptBtn").on("click",createReceipt);
-         },1000);
-    });
     firebase.auth().onAuthStateChanged(user => {
-        if(user.uid){
-            setUserSide(getAuthUser(user.uid)); // 유저정보 삽입
-        };
+        setUserSide(getAuthUser(user.uid)); // 유저정보 삽입
+        firebase.database().ref(getReceiptsUrl()).on("value", snapshot => {
+            Receipts = snapshot.val();
+            Idx = (Receipts) ? Receipts.length : 0;
+    
+             // createPage
+             const $reactRoot = $("#createPage");
+             ReactDOM.render( <S_receiptsCreateForm _receipt={Receipt} receiptIdx={Idx} user={user} /> ,$reactRoot.get(0));
+    
+             setTimeout(function(){
+                 $("#pasteReceiptBtn").on("click",createReceipt);
+             },1000);
+        });
     });
 });
 function createReceipt(){

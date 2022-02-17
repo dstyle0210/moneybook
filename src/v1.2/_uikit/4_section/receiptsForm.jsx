@@ -1,6 +1,7 @@
-const S_receiptsUpdateForm = ({_receipt,receiptIdx}) => {
+const S_receiptsUpdateForm = ({_receipt,receiptIdx,user}) => {
     let receipt,setReceiptState;
     [receipt,setReceiptState] = React.useState( _receipt ); // 상태 관리용 HOOK
+
     const setReceipt = function(updateData){
         Object.assign(receipt,updateData);
         setReceiptState(receipt); 
@@ -25,12 +26,12 @@ const S_receiptsUpdateForm = ({_receipt,receiptIdx}) => {
         return false; 
     }
     return <React.Fragment>
-        <M_receiptFormDateTime receipt={Receipt} setReceipt={setReceipt}></M_receiptFormDateTime>
-        <M_receiptFormStore receipt={Receipt} setReceipt={setReceipt}></M_receiptFormStore>
-        <M_receiptFormPrice receipt={Receipt} setReceipt={setReceipt}></M_receiptFormPrice>
-        <M_receiptFormMethod receipt={Receipt} setReceipt={setReceipt}></M_receiptFormMethod>
-        <M_receiptFormComment receipt={Receipt} setReceipt={setReceipt}></M_receiptFormComment>
-        <M_receiptFormTag receipt={Receipt} setReceipt={setReceipt}></M_receiptFormTag>
+        <M_receiptFormDateTime receipt={receipt} setReceipt={setReceipt}></M_receiptFormDateTime>
+        <M_receiptFormStore receipt={receipt} setReceipt={setReceipt}></M_receiptFormStore>
+        <M_receiptFormPrice receipt={receipt} setReceipt={setReceipt}></M_receiptFormPrice>
+        <M_receiptFormMethod receipt={receipt} setReceipt={setReceipt}></M_receiptFormMethod>
+        <M_receiptFormComment receipt={receipt} setReceipt={setReceipt}></M_receiptFormComment>
+        <M_receiptFormTag receipt={receipt} setReceipt={setReceipt} user={user}></M_receiptFormTag>
         <div className="m-btnsWrap">
             <a href="#" className="a-btn -d" onClick={deleteReceipt}>삭제</a>
             <a href="#" className="a-btn -c" onClick={book}>목록</a>
@@ -39,7 +40,7 @@ const S_receiptsUpdateForm = ({_receipt,receiptIdx}) => {
     </React.Fragment>; 
 };
 
-const S_receiptsCreateForm = ({_receipt,receiptIdx}) => {
+const S_receiptsCreateForm = ({_receipt,receiptIdx,user}) => {
     let receipt,setReceiptState;
     [receipt,setReceiptState] = React.useState( _receipt ); // 상태 관리용 HOOK
     const setReceipt = function(updateData){
@@ -62,7 +63,7 @@ const S_receiptsCreateForm = ({_receipt,receiptIdx}) => {
         <M_receiptFormPrice receipt={receipt} setReceipt={setReceipt}></M_receiptFormPrice>
         <M_receiptFormMethod receipt={receipt} setReceipt={setReceipt}></M_receiptFormMethod>
         <M_receiptFormComment receipt={receipt} setReceipt={setReceipt}></M_receiptFormComment>
-        <M_receiptFormTag receipt={receipt} setReceipt={setReceipt}></M_receiptFormTag>
+        <M_receiptFormTag receipt={receipt} setReceipt={setReceipt} user={user}></M_receiptFormTag>
         <div className="m-btnsWrap">
             <a href="#" className="a-btn -c" onClick={book}>목록</a>
             <a href="#" className="a-btn -s" onClick={initReceipt}>저장</a>

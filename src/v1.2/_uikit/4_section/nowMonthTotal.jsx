@@ -1,4 +1,4 @@
-const S_nowMonthTotal = ({receipts}) =>{
+const S_nowMonthTotal = ({receipts,user}) =>{
     const pasteReceipt = function(){
         navigator.clipboard.readText().then((text) => {
             return text;
@@ -22,7 +22,7 @@ const S_nowMonthTotal = ({receipts}) =>{
 
     return (
         <section className="s-nowMonthTotal">
-            <C_monthTotal receipts={receipts}></C_monthTotal>
+            <C_monthTotal receipts={receipts} user={user}></C_monthTotal>
             <div className="-writeBtn">
                 <a href="/v1.2/create/" className="a-btn -l">새로등록</a>
                 <a className="a-btn -l" onClick={pasteReceipt}>붙여넣기</a>
@@ -31,13 +31,14 @@ const S_nowMonthTotal = ({receipts}) =>{
     );
 };
 
-const C_monthTotal = ({receipts}) => {
+const C_monthTotal = ({receipts,user}) => {
     let monthTotal = 0;
-    const tagTotal = {f:0,r:0,c:0,o:0};
+    const tagTotal = {f:0,r:0,c:0,o:0,b:0};
     for(receipt of receipts){
-        tagTotal[getTagCode(receipt.tag)] += receipt.price; 
-        monthTotal += receipt.price;
+        tagTotal[getTagCode(receipt.tag)] += receipt.price;
+        monthTotal += (getTagCode(receipt.tag)!="b") ? receipt.price : 0;
     };
+    const pinVD = isPinMode(user.uid) ? (<li><label className="a-tag -b">용돈</label> <span className="a-price">{tagTotal.b.toLocaleString()}</span></li>) : "";
     return (
         <article className="c-monthTotal">
             <h2>2022년 2월 지출금액</h2>
@@ -48,6 +49,7 @@ const C_monthTotal = ({receipts}) => {
                     <li><label className="a-tag -r">필수</label> <span className="a-price">{tagTotal.r.toLocaleString()}</span></li>
                     <li><label className="a-tag -c">변동</label> <span className="a-price">{tagTotal.c.toLocaleString()}</span></li>
                     <li><label className="a-tag -o">기타</label> <span className="a-price">{tagTotal.o.toLocaleString()}</span></li>
+                    {pinVD}
                 </ul>
             </details>
         </article>

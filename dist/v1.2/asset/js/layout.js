@@ -1,8 +1,25 @@
+function setUserSide(name) {
+  firebase.auth().onAuthStateChanged(user => {
+    ReactDOM.render( /*#__PURE__*/React.createElement(LAYOUT_userSide, {
+      name: name
+    }), $("#userSide").get(0));
+  });
+}
+
+;
+
+const LAYOUT_userSide = ({
+  name
+}) => {
+  return /*#__PURE__*/React.createElement("span", null, name);
+};
 /**
  * 헤더 공통 컴포넌트
  * @param {String} title - 타이틀 
  * @returns React.Component
  */
+
+
 const LAYOUT_header = ({
   title
 }) => {
@@ -25,19 +42,3 @@ function setHeader(title) {
 }
 
 ;
-
-function setUserSide(name) {
-  firebase.auth().onAuthStateChanged(user => {
-    ReactDOM.render( /*#__PURE__*/React.createElement(LAYOUT_userSide, {
-      name: getAuthUser(user)
-    }), $("#userSide").get(0));
-  });
-}
-
-;
-
-const LAYOUT_userSide = ({
-  name
-}) => {
-  return /*#__PURE__*/React.createElement("span", null, name);
-};

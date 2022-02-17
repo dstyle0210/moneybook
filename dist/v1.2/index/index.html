@@ -34,7 +34,9 @@
         };
         function checkUser(){
           firebase.auth().onAuthStateChanged(user => { 
-            if( getAuthUser(user) ){
+
+            console.log( user.uid == "0MwBoXosqATbp9Dlu7e7KTNdaeJ3" );
+            if( getAuthUser(user.uid) ){
               location.href = "/v1.2/book/";
             }else{
               alert("미등록 사용자입니다.");

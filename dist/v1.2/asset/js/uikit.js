@@ -135,7 +135,8 @@ const M_receiptFormComment = ({
 
 const M_receiptFormTag = ({
   receipt,
-  setReceipt
+  setReceipt,
+  user
 }) => {
   let [tag, setTag] = React.useState(receipt.tag.split("/")[0] || "");
   let [subTag, setSubTag] = React.useState(receipt.tag.split("/")[1] || "");
@@ -147,13 +148,13 @@ const M_receiptFormTag = ({
     });
   };
 
-  const bong = /*#__PURE__*/React.createElement(A_tagBtn, {
+  const bong = isPinMode(user.uid) ? /*#__PURE__*/React.createElement(A_tagBtn, {
     name: "\uC6A9\uB3C8",
     inputName: "tag",
     _tag: tag,
     _changeTag: changeTag,
     tagClassName: "b"
-  });
+  }) : "";
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "m-receiptForm -tag"
   }, /*#__PURE__*/React.createElement("label", null, "\uC9C0\uCD9C\uD56D\uBAA9"), /*#__PURE__*/React.createElement("div", {
@@ -248,7 +249,8 @@ const A_tagBtn = ({
 
 
 const S_nowMonthTotal = ({
-  receipts
+  receipts,
+  user
 }) => {
   const pasteReceipt = function () {
     navigator.clipboard.readText().then(text => {
@@ -274,7 +276,8 @@ const S_nowMonthTotal = ({
   return /*#__PURE__*/React.createElement("section", {
     className: "s-nowMonthTotal"
   }, /*#__PURE__*/React.createElement(C_monthTotal, {
-    receipts: receipts
+    receipts: receipts,
+    user: user
   }), /*#__PURE__*/React.createElement("div", {
     className: "-writeBtn"
   }, /*#__PURE__*/React.createElement("a", {
@@ -287,22 +290,29 @@ const S_nowMonthTotal = ({
 };
 
 const C_monthTotal = ({
-  receipts
+  receipts,
+  user
 }) => {
   let monthTotal = 0;
   const tagTotal = {
     f: 0,
     r: 0,
     c: 0,
-    o: 0
+    o: 0,
+    b: 0
   };
 
   for (receipt of receipts) {
     tagTotal[getTagCode(receipt.tag)] += receipt.price;
-    monthTotal += receipt.price;
+    monthTotal += getTagCode(receipt.tag) != "b" ? receipt.price : 0;
   }
 
   ;
+  const pinVD = isPinMode(user.uid) ? /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", {
+    className: "a-tag -b"
+  }, "\uC6A9\uB3C8"), " ", /*#__PURE__*/React.createElement("span", {
+    className: "a-price"
+  }, tagTotal.b.toLocaleString())) : "";
   return /*#__PURE__*/React.createElement("article", {
     className: "c-monthTotal"
   }, /*#__PURE__*/React.createElement("h2", null, "2022\uB144 2\uC6D4 \uC9C0\uCD9C\uAE08\uC561"), /*#__PURE__*/React.createElement("details", null, /*#__PURE__*/React.createElement("summary", null, /*#__PURE__*/React.createElement("span", {
@@ -325,12 +335,13 @@ const C_monthTotal = ({
     className: "a-tag -o"
   }, "\uAE30\uD0C0"), " ", /*#__PURE__*/React.createElement("span", {
     className: "a-price"
-  }, tagTotal.o.toLocaleString())))));
+  }, tagTotal.o.toLocaleString())), pinVD)));
 };
 
 const S_receiptsUpdateForm = ({
   _receipt,
-  receiptIdx
+  receiptIdx,
+  user
 }) => {
   let receipt, setReceiptState;
   [receipt, setReceiptState] = React.useState(_receipt); // 상태 관리용 HOOK
@@ -366,23 +377,24 @@ const S_receiptsUpdateForm = ({
   };
 
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(M_receiptFormDateTime, {
-    receipt: Receipt,
+    receipt: receipt,
     setReceipt: setReceipt
   }), /*#__PURE__*/React.createElement(M_receiptFormStore, {
-    receipt: Receipt,
+    receipt: receipt,
     setReceipt: setReceipt
   }), /*#__PURE__*/React.createElement(M_receiptFormPrice, {
-    receipt: Receipt,
+    receipt: receipt,
     setReceipt: setReceipt
   }), /*#__PURE__*/React.createElement(M_receiptFormMethod, {
-    receipt: Receipt,
+    receipt: receipt,
     setReceipt: setReceipt
   }), /*#__PURE__*/React.createElement(M_receiptFormComment, {
-    receipt: Receipt,
+    receipt: receipt,
     setReceipt: setReceipt
   }), /*#__PURE__*/React.createElement(M_receiptFormTag, {
-    receipt: Receipt,
-    setReceipt: setReceipt
+    receipt: receipt,
+    setReceipt: setReceipt,
+    user: user
   }), /*#__PURE__*/React.createElement("div", {
     className: "m-btnsWrap"
   }, /*#__PURE__*/React.createElement("a", {
@@ -402,7 +414,8 @@ const S_receiptsUpdateForm = ({
 
 const S_receiptsCreateForm = ({
   _receipt,
-  receiptIdx
+  receiptIdx,
+  user
 }) => {
   let receipt, setReceiptState;
   [receipt, setReceiptState] = React.useState(_receipt); // 상태 관리용 HOOK
@@ -441,7 +454,8 @@ const S_receiptsCreateForm = ({
     setReceipt: setReceipt
   }), /*#__PURE__*/React.createElement(M_receiptFormTag, {
     receipt: receipt,
-    setReceipt: setReceipt
+    setReceipt: setReceipt,
+    user: user
   }), /*#__PURE__*/React.createElement("div", {
     className: "m-btnsWrap"
   }, /*#__PURE__*/React.createElement("a", {

@@ -23,6 +23,11 @@ header span {
   vertical-align: bottom;
   line-height: 12px;
 }
+header .pinMoney {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
 
 .s-userSide {
   position: fixed;

@@ -62,14 +62,14 @@ const M_receiptFormComment = ({receipt,setReceipt}) => {
     );
 };
 
-const M_receiptFormTag = ({receipt,setReceipt}) => {
+const M_receiptFormTag = ({receipt,setReceipt,user}) => {
     let [tag,setTag] = React.useState( (receipt.tag).split("/")[0] || "" );
     let [subTag,setSubTag] = React.useState( (receipt.tag).split("/")[1] || "" );
     const changeTag = function(value){
         setTag( (value).split("/")[0] || "" );
         setReceipt({tag:value});
     };
-    const bong = (<A_tagBtn name="용돈" inputName="tag" _tag={tag} _changeTag={changeTag} tagClassName="b"></A_tagBtn>);
+    const bong = isPinMode(user.uid) ? (<A_tagBtn name="용돈" inputName="tag" _tag={tag} _changeTag={changeTag} tagClassName="b"></A_tagBtn>) : "";
     return (
         <React.Fragment>
         <div className="m-receiptForm -tag">
