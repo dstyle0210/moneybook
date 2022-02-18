@@ -1,10 +1,10 @@
-const S_nowMonthTotal = ({receipts,user}) =>{
+const S_nowMonthTotal = ({receipts,user,origins}) =>{
     const pasteReceipt = function(){
         navigator.clipboard.readText().then((text) => {
             return text;
         }).then(function(origin){
             let pasteReceipt = {};
-            pasteReceipt.idx = Receipts.length;
+            pasteReceipt.idx = origins.length;
             pasteReceipt.datetime = getSmsDateTime(origin);
             pasteReceipt.price = getSmsPrice(origin);
             pasteReceipt.method = getSmsMethod(origin);
@@ -12,10 +12,10 @@ const S_nowMonthTotal = ({receipts,user}) =>{
             pasteReceipt.useYn = "N";
             pasteReceipt.tag = "";
             pasteReceipt.origin = origin;
-            return firebase.database().ref(getReceiptsUrl(Receipts.length)).set(pasteReceipt);
+            return firebase.database().ref(getReceiptsUrl(origins.length)).set(pasteReceipt);
         }).then(function(){
             setTimeout(function(){
-                location.href = "/v1.1/update/?idx="+(Receipts.length-1); // set이 된 후 라, length가 하나 올라갔음.
+                location.href = "/v1.2/update/?idx="+(origins.length);
             },200);
         });
     };
@@ -33,12 +33,20 @@ const S_nowMonthTotal = ({receipts,user}) =>{
 
 const C_monthTotal = ({receipts,user}) => {
     let monthTotal = 0;
+    let pinTotal = 0;
     const tagTotal = {f:0,r:0,c:0,o:0,b:0};
+    
     for(receipt of receipts){
         tagTotal[getTagCode(receipt.tag)] += receipt.price;
         monthTotal += (getTagCode(receipt.tag)!="b") ? receipt.price : 0;
+        pinTotal += receipt.price;
     };
-    const pinVD = isPinMode(user.uid) ? (<li><label className="a-tag -b">용돈</label> <span className="a-price">{tagTotal.b.toLocaleString()}</span></li>) : "";
+
+    const pinVD = isPinMode(user.uid) ? (<React.Fragment>
+        <li><label className="a-tag -b">용돈</label> <span className="a-price">{tagTotal.b.toLocaleString()}</span></li>
+        <li><label className="a-tag -b">총합</label> <span className="a-price">{pinTotal.toLocaleString()}</span></li>
+        </React.Fragment>) : "";
+
     return (
         <article className="c-monthTotal">
             <h2>2022년 2월 지출금액</h2>

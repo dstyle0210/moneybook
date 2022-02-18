@@ -1,52 +1,51 @@
 $(function () {
-  try {
-    setHeader("가계부목록"); // 헤더삽입
+  setHeader("가계부목록"); // 헤더삽입
 
-    firebase.auth().onAuthStateChanged(user => {
-      if (user.uid) {
-        setUserSide(getAuthUser(user.uid)); // 유저정보 삽입
-      }
+  firebase.auth().onAuthStateChanged(user => {
+    setUserSide(getAuthUser(user.uid)); // 유저정보 삽입
 
-      ;
-    });
     firebase.database().ref(getReceiptsUrl()).on("value", snapshot => {
-      Receipts = snapshot.val();
+      const origins = snapshot.val() || [];
+      let useReceipts;
 
-      if (Receipts) {
+      if (origins.length) {
         // 표시할 영수증 목록
-        const useReceipts = Receipts.filter(receipt => {
+        useReceipts = origins.filter(receipt => {
           receipt.price = receipt.price * 1;
           receipt.paytime = new Date(receipt.datetime).getTime();
-          return receipt.useYn == "Y" && receipt.tag != "용돈";
+
+          if (isPinMode(user.uid)) {
+            return receipt.useYn == "Y";
+          } else {
+            return receipt.useYn == "Y" && getTagCode(receipt.tag) != "b";
+          }
+
+          ;
         });
         useReceipts.sort((a, b) => parseFloat(b.paytime) - parseFloat(a.paytime)); // 결제시간 기준 정렬
-
-        bookReceiptsUI(useReceipts);
-        bookNowMonthTotal(useReceipts);
-      } else {
-        Receipts = [];
-        bookNowMonthTotal(Receipts);
       }
 
       ;
+      ReactDOM.render( /*#__PURE__*/React.createElement(S_receiptsBook, {
+        receipts: useReceipts,
+        user: user,
+        origins: origins
+      }), $("#receiptsBook").get(0));
     });
-  } catch (e) {
-    alert(e);
-  }
-
-  ;
+  });
 });
 
-function bookReceiptsUI(receipts) {
-  const $reactRoot = $("#receiptsList");
-  ReactDOM.render( /*#__PURE__*/React.createElement(S_receiptsList, {
-    _receipts: receipts
-  }), $reactRoot.get(0));
-}
-
-function bookNowMonthTotal(receipts) {
-  const $reactRoot = $("#nowMonthTotal");
-  ReactDOM.render( /*#__PURE__*/React.createElement(S_nowMonthTotal, {
-    receipts: receipts
-  }), $reactRoot.get(0));
-}
+const S_receiptsBook = ({
+  receipts,
+  user,
+  origins
+}) => {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(S_receiptsList, {
+    _receipts: receipts,
+    user: user
+  }), /*#__PURE__*/React.createElement(S_nowMonthTotal, {
+    receipts: receipts,
+    user: user,
+    origins: origins
+  }));
+};

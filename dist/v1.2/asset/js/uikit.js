@@ -250,14 +250,15 @@ const A_tagBtn = ({
 
 const S_nowMonthTotal = ({
   receipts,
-  user
+  user,
+  origins
 }) => {
   const pasteReceipt = function () {
     navigator.clipboard.readText().then(text => {
       return text;
     }).then(function (origin) {
       let pasteReceipt = {};
-      pasteReceipt.idx = Receipts.length;
+      pasteReceipt.idx = origins.length;
       pasteReceipt.datetime = getSmsDateTime(origin);
       pasteReceipt.price = getSmsPrice(origin);
       pasteReceipt.method = getSmsMethod(origin);
@@ -265,10 +266,10 @@ const S_nowMonthTotal = ({
       pasteReceipt.useYn = "N";
       pasteReceipt.tag = "";
       pasteReceipt.origin = origin;
-      return firebase.database().ref(getReceiptsUrl(Receipts.length)).set(pasteReceipt);
+      return firebase.database().ref(getReceiptsUrl(origins.length)).set(pasteReceipt);
     }).then(function () {
       setTimeout(function () {
-        location.href = "/v1.1/update/?idx=" + (Receipts.length - 1); // set이 된 후 라, length가 하나 올라갔음.
+        location.href = "/v1.2/update/?idx=" + origins.length;
       }, 200);
     });
   };
@@ -294,6 +295,7 @@ const C_monthTotal = ({
   user
 }) => {
   let monthTotal = 0;
+  let pinTotal = 0;
   const tagTotal = {
     f: 0,
     r: 0,
@@ -305,14 +307,19 @@ const C_monthTotal = ({
   for (receipt of receipts) {
     tagTotal[getTagCode(receipt.tag)] += receipt.price;
     monthTotal += getTagCode(receipt.tag) != "b" ? receipt.price : 0;
+    pinTotal += receipt.price;
   }
 
   ;
-  const pinVD = isPinMode(user.uid) ? /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", {
+  const pinVD = isPinMode(user.uid) ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", {
     className: "a-tag -b"
   }, "\uC6A9\uB3C8"), " ", /*#__PURE__*/React.createElement("span", {
     className: "a-price"
-  }, tagTotal.b.toLocaleString())) : "";
+  }, tagTotal.b.toLocaleString())), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", {
+    className: "a-tag -b"
+  }, "\uCD1D\uD569"), " ", /*#__PURE__*/React.createElement("span", {
+    className: "a-price"
+  }, pinTotal.toLocaleString()))) : "";
   return /*#__PURE__*/React.createElement("article", {
     className: "c-monthTotal"
   }, /*#__PURE__*/React.createElement("h2", null, "2022\uB144 2\uC6D4 \uC9C0\uCD9C\uAE08\uC561"), /*#__PURE__*/React.createElement("details", null, /*#__PURE__*/React.createElement("summary", null, /*#__PURE__*/React.createElement("span", {

@@ -53,7 +53,11 @@ task("public:db", function(done){
 
     src("./dist/"+version+"/asset/js/service.js")
         .pipe(replace(/DBNAME = "dev"/,'DBNAME = "real"'))
-        .pipe(dest("./dist/"+version+"/asset/js/"))
+        .pipe(dest("./dist/"+version+"/asset/js/"));
+
+    src("./public/"+version+"/asset/js/service.js")
+        .pipe(replace(/DBNAME = "dev"/,'DBNAME = "real"'))
+        .pipe(dest("./public/"+version+"/asset/js/"))
         .on("end",function(){
             done();
         });

@@ -5,7 +5,7 @@
  */
 const LAYOUT_header = ({title}) => {
     return (<React.Fragment>
-        <h1>{title}</h1><span className="version">v1.2</span> 
+        <h1><a href="/">{title}</a></h1><span className="version">v1.2</span>
     </React.Fragment>);
 }
 

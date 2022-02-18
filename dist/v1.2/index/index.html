@@ -34,8 +34,7 @@
         };
         function checkUser(){
           firebase.auth().onAuthStateChanged(user => { 
-
-            console.log( user.uid == "0MwBoXosqATbp9Dlu7e7KTNdaeJ3" );
+            console.log(user.uid);
             if( getAuthUser(user.uid) ){
               location.href = "/v1.2/book/";
             }else{

@@ -135,9 +135,9 @@ const M_receiptFormComment = ({
 
 const M_receiptFormTag = ({
   receipt,
-  setReceipt
+  setReceipt,
+  user
 }) => {
-  console.log(receipt);
   let [tag, setTag] = React.useState(receipt.tag.split("/")[0] || "");
   let [subTag, setSubTag] = React.useState(receipt.tag.split("/")[1] || "");
 
@@ -148,6 +148,13 @@ const M_receiptFormTag = ({
     });
   };
 
+  const bong = isPinMode(user.uid) ? /*#__PURE__*/React.createElement(A_tagBtn, {
+    name: "\uC6A9\uB3C8",
+    inputName: "tag",
+    _tag: tag,
+    _changeTag: changeTag,
+    tagClassName: "b"
+  }) : "";
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "m-receiptForm -tag"
   }, /*#__PURE__*/React.createElement("label", null, "\uC9C0\uCD9C\uD56D\uBAA9"), /*#__PURE__*/React.createElement("div", {
@@ -176,7 +183,7 @@ const M_receiptFormTag = ({
     _tag: tag,
     _changeTag: changeTag,
     tagClassName: "o"
-  }))), /*#__PURE__*/React.createElement(M_receiptFormSubTag, {
+  }), bong)), /*#__PURE__*/React.createElement(M_receiptFormSubTag, {
     _tag: receipt.tag,
     _changeTag: changeTag
   }));
@@ -186,16 +193,15 @@ const M_receiptFormSubTag = ({
   _tag,
   _changeTag
 }) => {
-  console.log(_tag);
   let initTag = _tag.split("/")[0] || "";
-  let initSubTag = _tag.split("/")[1] || ""; // console.log(initSubTag);
-
+  let initSubTag = _tag.split("/")[1] || "";
   let subTags = {
     "": [],
     "고정": ["세금", "공과금", "보험", "용돈", "교육비", "통신비"],
     "필수": ["식재료", "생활필수품", "대중교통", "경조사비"],
     "변동": ["외식비", "의료비", "문화,여행", "자동차,택시"],
-    "기타": ["미용,패션", "가구,가전", "그외,뭐지"]
+    "기타": ["미용,패션", "가구,가전", "그외,뭐지"],
+    "용돈": ["식비", "담배", "음료수", "그외"]
   };
 
   const changeTag = function (value) {
@@ -243,14 +249,16 @@ const A_tagBtn = ({
 
 
 const S_nowMonthTotal = ({
-  receipts
+  receipts,
+  user,
+  origins
 }) => {
   const pasteReceipt = function () {
     navigator.clipboard.readText().then(text => {
       return text;
     }).then(function (origin) {
       let pasteReceipt = {};
-      pasteReceipt.idx = Receipts.length;
+      pasteReceipt.idx = origins.length;
       pasteReceipt.datetime = getSmsDateTime(origin);
       pasteReceipt.price = getSmsPrice(origin);
       pasteReceipt.method = getSmsMethod(origin);
@@ -258,20 +266,23 @@ const S_nowMonthTotal = ({
       pasteReceipt.useYn = "N";
       pasteReceipt.tag = "";
       pasteReceipt.origin = origin;
-      return firebase.database().ref(getReceiptsUrl(Receipts.length)).set(pasteReceipt);
+      return firebase.database().ref(getReceiptsUrl(origins.length)).set(pasteReceipt);
     }).then(function () {
       setTimeout(function () {
-        location.href = "/v1.1/update/?idx=" + (Receipts.length - 1); // set이 된 후 라, length가 하나 올라갔음.
+        location.href = "/v1.2/update/?idx=" + origins.length;
       }, 200);
     });
   };
 
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(C_monthTotal, {
-    receipts: receipts
+  return /*#__PURE__*/React.createElement("section", {
+    className: "s-nowMonthTotal"
+  }, /*#__PURE__*/React.createElement(C_monthTotal, {
+    receipts: receipts,
+    user: user
   }), /*#__PURE__*/React.createElement("div", {
     className: "-writeBtn"
   }, /*#__PURE__*/React.createElement("a", {
-    href: "/v1.1/create/",
+    href: "/v1.2/create/",
     className: "a-btn -l"
   }, "\uC0C8\uB85C\uB4F1\uB85D"), /*#__PURE__*/React.createElement("a", {
     className: "a-btn -l",
@@ -280,22 +291,35 @@ const S_nowMonthTotal = ({
 };
 
 const C_monthTotal = ({
-  receipts
+  receipts,
+  user
 }) => {
   let monthTotal = 0;
+  let pinTotal = 0;
   const tagTotal = {
     f: 0,
     r: 0,
     c: 0,
-    o: 0
+    o: 0,
+    b: 0
   };
 
   for (receipt of receipts) {
     tagTotal[getTagCode(receipt.tag)] += receipt.price;
-    monthTotal += receipt.price;
+    monthTotal += getTagCode(receipt.tag) != "b" ? receipt.price : 0;
+    pinTotal += receipt.price;
   }
 
   ;
+  const pinVD = isPinMode(user.uid) ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", {
+    className: "a-tag -b"
+  }, "\uC6A9\uB3C8"), " ", /*#__PURE__*/React.createElement("span", {
+    className: "a-price"
+  }, tagTotal.b.toLocaleString())), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", {
+    className: "a-tag -b"
+  }, "\uCD1D\uD569"), " ", /*#__PURE__*/React.createElement("span", {
+    className: "a-price"
+  }, pinTotal.toLocaleString()))) : "";
   return /*#__PURE__*/React.createElement("article", {
     className: "c-monthTotal"
   }, /*#__PURE__*/React.createElement("h2", null, "2022\uB144 2\uC6D4 \uC9C0\uCD9C\uAE08\uC561"), /*#__PURE__*/React.createElement("details", null, /*#__PURE__*/React.createElement("summary", null, /*#__PURE__*/React.createElement("span", {
@@ -318,12 +342,13 @@ const C_monthTotal = ({
     className: "a-tag -o"
   }, "\uAE30\uD0C0"), " ", /*#__PURE__*/React.createElement("span", {
     className: "a-price"
-  }, tagTotal.o.toLocaleString())))));
+  }, tagTotal.o.toLocaleString())), pinVD)));
 };
 
 const S_receiptsUpdateForm = ({
   _receipt,
-  receiptIdx
+  receiptIdx,
+  user
 }) => {
   let receipt, setReceiptState;
   [receipt, setReceiptState] = React.useState(_receipt); // 상태 관리용 HOOK
@@ -339,7 +364,7 @@ const S_receiptsUpdateForm = ({
   };
 
   const book = function () {
-    location.href = "/v1.1/book/";
+    location.href = "/v1.2/book/";
     return false;
   };
 
@@ -354,28 +379,29 @@ const S_receiptsUpdateForm = ({
 
   const uploadReceipt = function () {
     firebase.database().ref(getReceiptsUrl(receiptIdx)).set(receipt);
-    location.href = "/v1.1/book/";
+    location.href = "/v1.2/book/";
     return false;
   };
 
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(M_receiptFormDateTime, {
-    receipt: Receipt,
+    receipt: receipt,
     setReceipt: setReceipt
   }), /*#__PURE__*/React.createElement(M_receiptFormStore, {
-    receipt: Receipt,
+    receipt: receipt,
     setReceipt: setReceipt
   }), /*#__PURE__*/React.createElement(M_receiptFormPrice, {
-    receipt: Receipt,
+    receipt: receipt,
     setReceipt: setReceipt
   }), /*#__PURE__*/React.createElement(M_receiptFormMethod, {
-    receipt: Receipt,
+    receipt: receipt,
     setReceipt: setReceipt
   }), /*#__PURE__*/React.createElement(M_receiptFormComment, {
-    receipt: Receipt,
+    receipt: receipt,
     setReceipt: setReceipt
   }), /*#__PURE__*/React.createElement(M_receiptFormTag, {
-    receipt: Receipt,
-    setReceipt: setReceipt
+    receipt: receipt,
+    setReceipt: setReceipt,
+    user: user
   }), /*#__PURE__*/React.createElement("div", {
     className: "m-btnsWrap"
   }, /*#__PURE__*/React.createElement("a", {
@@ -395,7 +421,8 @@ const S_receiptsUpdateForm = ({
 
 const S_receiptsCreateForm = ({
   _receipt,
-  receiptIdx
+  receiptIdx,
+  user
 }) => {
   let receipt, setReceiptState;
   [receipt, setReceiptState] = React.useState(_receipt); // 상태 관리용 HOOK
@@ -408,12 +435,12 @@ const S_receiptsCreateForm = ({
   const initReceipt = function () {
     receipt.idx = receiptIdx;
     firebase.database().ref(getReceiptsUrl(receiptIdx)).set(receipt);
-    location.href = "/v1.1/book/";
+    location.href = "/v1.2/book/";
     return false;
   };
 
   const book = function () {
-    location.href = "/v1.1/book/";
+    location.href = "/v1.2/book/";
     return false;
   };
 
@@ -434,7 +461,8 @@ const S_receiptsCreateForm = ({
     setReceipt: setReceipt
   }), /*#__PURE__*/React.createElement(M_receiptFormTag, {
     receipt: receipt,
-    setReceipt: setReceipt
+    setReceipt: setReceipt,
+    user: user
   }), /*#__PURE__*/React.createElement("div", {
     className: "m-btnsWrap"
   }, /*#__PURE__*/React.createElement("a", {
@@ -474,7 +502,9 @@ const S_receiptsList = ({
       receipt: receipt
     })));
   });
-  return /*#__PURE__*/React.createElement("ul", null, receiptList);
+  return /*#__PURE__*/React.createElement("section", {
+    className: "s-receiptsList"
+  }, /*#__PURE__*/React.createElement("ul", null, receiptList));
 };
 
 const M_receipt = ({

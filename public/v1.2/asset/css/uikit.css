@@ -86,6 +86,9 @@ body {
 .a-tag.-o, .a-tag.-other {
   background: #BDBDBD;
 }
+.a-tag.-b, .a-tag.-bong {
+  background: #00B74A;
+}
 
 .a-tagbtn {
   display: inline-block;
@@ -97,6 +100,7 @@ body {
   color: #fff;
   text-align: center;
   border-radius: 10px;
+  text-decoration: none;
 }
 .a-tagbtn.-f, .a-tagbtn.-fixed {
   background: #2F80ED;
@@ -110,6 +114,9 @@ body {
 .a-tagbtn.-o, .a-tagbtn.-other {
   background: #BDBDBD;
 }
+.a-tagbtn.-b, .a-tagbtn.-bong {
+  background: #00B74A;
+}
 
 .a-btn {
   display: inline-block;
@@ -121,6 +128,7 @@ body {
   text-decoration: none;
   border-radius: 10px;
   text-align: center;
+  text-decoration: none;
 }
 .a-btn.-c, .a-btn.-cancel {
   background: #BDBDBD;
@@ -139,17 +147,8 @@ body {
   color: #000;
   border: 1px solid #999;
 }
-
-.c-monthTotal h2 {
-  font-size: 18px;
-  line-height: 22px;
-  font-weight: bold;
-}
-.c-monthTotal summary {
-  text-align: right;
-}
-.c-monthTotal detail {
-  margin-top: 5px;
+.a-btn.-b, .a-btn.-bong {
+  background: #00B74A;
 }
 
 .m-btnsWrap {
@@ -261,6 +260,18 @@ body {
   justify-content: space-between;
 }
 
+.c-monthTotal h2 {
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: bold;
+}
+.c-monthTotal summary {
+  text-align: right;
+}
+.c-monthTotal detail {
+  margin-top: 5px;
+}
+
 .s-nowMonthTotal {
   position: relative;
   background: #fff;
@@ -280,6 +291,13 @@ body {
   width: 80px;
   min-height: 50px;
   line-height: 42px;
+}
+.s-nowMonthTotal .-pinMoney {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 50%;
+  outline: 1px solid red;
 }
 .s-nowMonthTotal .c-monthTotal summary {
   padding-right: 170px;

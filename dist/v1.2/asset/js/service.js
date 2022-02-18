@@ -1,3 +1,10 @@
+const config = {};
+config.version = "/v1.2";
+config.root = (location.hostname!="localhost") ? "" : config.version;
+config.index=`/${config.root}`;
+config.book=`/${config.root}/book`;
+config.create=`/${config.root}/create`;
+config.update=`/${config.root}/update`;
 function getAuthUser(uid){
     if(uid=="0MwBoXosqATbp9Dlu7e7KTNdaeJ3"){
         return "마봉아빠";
@@ -17,7 +24,7 @@ function getMonthDate(datetime){
     return month+"."+date;
 };
 function getReceiptsUrl(idx){
-    const DBNAME = "dev"; // 연결 DB명
+    const DBNAME = "real"; // 연결 DB명
     let dbname = (location.hostname!="localhost") ? "real" : DBNAME; // 로컬호스트가 아니라면 실제DB로 연결
     let dateObj = new Date();
     let month = ((dateObj.getMonth()+1) < 9) ? "0"+(dateObj.getMonth()+1) : ""+(dateObj.getMonth()+1);
