@@ -5,13 +5,13 @@
  */
 const LAYOUT_header = ({title}) => {
     return (<React.Fragment>
-        <h1><a href="/">{title}</a></h1><span className="version">v1.2</span>
+        <h1><a href="/">{title}</a></h1><span className="version">v{config.releaseVersion}</span>
     </React.Fragment>);
 }
 
 /**
  * 헤더 공통 컴포넌트 적용 함수
- * @param {String} title - 타이틀
+ * @param {String} title - 타이틀 
  * @returns null
  */
 function setHeader(title){

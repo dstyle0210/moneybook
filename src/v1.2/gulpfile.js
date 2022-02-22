@@ -17,9 +17,30 @@ let distRoot = "../../dist/"+version;
 let buildRoot = "../../public/"+version;
 
 task("dist",function(done){
+    src("../../dist/common/*.*")
+    .pipe(dest("../../public/common"));
+
+    src("../../dist/index.html")
+    .pipe(dest("../../public/"));
+
     src([distRoot+"/**/*.css",distRoot+"/**/*.js",distRoot+"/**/index.html",distRoot+"/**/*.png"])
     .pipe(dest(buildRoot))
     .on("end",done);
+});
+
+
+task("common",(done)=>{
+    const build = function(){
+        return src("../common/**/*.js")
+        .pipe(concat("common.js"))
+        .pipe(dest("../../dist/common"));
+    };
+    watch("../common/**/*.js").on("change",(path)=>{
+        build();
+    }).on("ready",()=>{
+        build();
+        done();    
+    });
 });
 
 task("res",function(done){
@@ -204,4 +225,4 @@ task("service:js",function(done){
     });
 });
 
-task("dev",series("uikit:scss","uikit:jsx","layout:scss","layout:jsx","page:scss","page:jsx","service:js","html","res"));
+task("dev",series("uikit:scss","uikit:jsx","layout:scss","layout:jsx","page:scss","page:jsx","service:js","html","res","common"));

@@ -4,9 +4,51 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>가계부</title>
-    <meta http-equiv="refresh" content="0;URL='/v1.2/'" />
+    <link rel="apple-touch-icon" type="180x180" href="https://dstyle-moneybook.web.app/v1.1/asset/resource/favicon.png">
+    <script crossorigin src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+    <script defer src="/__/firebase/9.6.1/firebase-app-compat.js"></script>
+    <script defer src="/__/firebase/9.6.1/firebase-database-compat.js"></script>
+    <script defer src="/__/firebase/9.6.1/firebase-auth-compat.js"></script>
+    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+    <script defer src="/common/common.js"></script>
+    <style>
+      html,body{background:#37c7fd;width:100%;height:100%;margin:0;padding:0;}
+      .index{width:100%;height:100%;display:flex;flex-direction: column;}
+      ._link{flex:1;width:100%;display:flex;align-items: center;justify-content: center;}
+      ._version{height:30px;border-top:1px solid #fff;text-align:center;color:#fff;}
+    </style>
   </head>
   <body>
-    이동중
+    <main class="index">
+      <div class="_link"><a id="init"><img src="/images/favicon.png" alt="가계부 들어가기"></a></div>
+      <div class="_version" id="version">v1.2</div>
+    </main>
+    <script>
+      $(function(){
+        firebase.auth().onAuthStateChanged(user => {
+          const $initBtn = $("#init");
+          if(user && (user.uid==config.uidm || user.uid==config.uidp)){
+            $initBtn.attr("href",route.book);
+          }else{
+            $initBtn.on("click",()=>{
+              login();
+              return false;
+            })
+          }
+        });
+        $("#version").html("v"+config.releaseVersion);
+      });
+
+      function login(){
+          var provider = new firebase.auth.GoogleAuthProvider();
+          firebase.auth().signInWithPopup(provider).then(function(result) {
+            if(result.user.uid==config.uidm || result.user.uid==config.uidp){
+              location.href = route.book;
+            }else{
+              alert("미등록 사용자입니다.");
+            };
+          });
+        };
+    </script>
   </body>
 </html>

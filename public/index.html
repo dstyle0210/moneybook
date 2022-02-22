@@ -10,6 +10,7 @@
     <script defer src="/__/firebase/9.6.1/firebase-database-compat.js"></script>
     <script defer src="/__/firebase/9.6.1/firebase-auth-compat.js"></script>
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+    <script defer src="/common/common.js"></script>
     <style>
       html,body{background:#37c7fd;width:100%;height:100%;margin:0;padding:0;}
       .index{width:100%;height:100%;display:flex;flex-direction: column;}
@@ -19,15 +20,30 @@
   </head>
   <body>
     <main class="index">
-      <div class="_link"><a onclick="login();return false;"><img src="/images/favicon.png" alt="가계부 들어가기"></a></div>
-      <div class="_version">v1.2</div>
+      <div class="_link"><a id="init"><img src="/images/favicon.png" alt="가계부 들어가기"></a></div>
+      <div class="_version" id="version">v1.2</div>
     </main>
     <script>
+      $(function(){
+        firebase.auth().onAuthStateChanged(user => {
+          const $initBtn = $("#init");
+          if(user && (user.uid==config.uidm || user.uid==config.uidp)){
+            $initBtn.attr("href",route.book);
+          }else{
+            $initBtn.on("click",()=>{
+              login();
+              return false;
+            })
+          }
+        });
+        $("#version").html("v"+config.releaseVersion);
+      });
+
       function login(){
           var provider = new firebase.auth.GoogleAuthProvider();
           firebase.auth().signInWithPopup(provider).then(function(result) {
-            if(result.user.uid=="0MwBoXosqATbp9Dlu7e7KTNdaeJ3" || result.user.uid=="zZn2t36Bu7Zm4fBMcK9N3yCPKBE3"){
-              location.href = "/v1.2/book/";
+            if(result.user.uid==config.uidm || result.user.uid==config.uidp){
+              location.href = route.book;
             }else{
               alert("미등록 사용자입니다.");
             };

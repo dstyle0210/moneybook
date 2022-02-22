@@ -10,11 +10,11 @@ const LAYOUT_header = ({
     href: "/"
   }, title)), /*#__PURE__*/React.createElement("span", {
     className: "version"
-  }, "v1.2"));
+  }, "v", config.releaseVersion));
 };
 /**
  * 헤더 공통 컴포넌트 적용 함수
- * @param {String} title - 타이틀
+ * @param {String} title - 타이틀 
  * @returns null
  */
 

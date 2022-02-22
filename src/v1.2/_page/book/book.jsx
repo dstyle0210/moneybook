@@ -1,4 +1,5 @@
 $(function(){
+    
     setHeader("가계부목록"); // 헤더삽입
 
     firebase.auth().onAuthStateChanged(user => {
