@@ -12,7 +12,7 @@ $(function () {
           store: receipt.store ? receipt.store : "",
           comment: receipt.comment ? receipt.comment : "",
           method: receipt.method ? receipt.method : "",
-          price: receipt.price ? receipt.price : 0,
+          price: receipt.price ? receipt.price + "" : 0 + "",
           tag: receipt.tag ? receipt.tag.replace(/\//gi, ",") : ""
         };
         data.type = /국민|현대/gi.test(data.method) ? "card" : "cash";

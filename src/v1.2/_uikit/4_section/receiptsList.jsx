@@ -12,11 +12,14 @@ const S_receiptsList = ({_receipts}) =>{
     const updateList = function(type){
         // setReceiptsState();
     };
-
-    const receiptList = receipts.list.map(function(receipt,index){
-        return (<li key={index}><a onClick={updateReceipt.bind(this,receipt.idx)}><M_receipt receipt={receipt}></M_receipt></a></li>);
-    });
-    return (<section className="s-receiptsList"><ul>{receiptList}</ul></section>);
+    if(receipts.list){
+        const receiptList = receipts.list.map(function(receipt,index){
+            return (<li key={index}><a onClick={updateReceipt.bind(this,receipt.idx)}><M_receipt receipt={receipt}></M_receipt></a></li>);
+        });
+        return (<section className="s-receiptsList"><ul>{receiptList}</ul></section>);    
+    }else{
+        return (<section className="s-receiptsList"></section>);    
+    };
 };
 const M_receipt = ({receipt}) => {
     return (

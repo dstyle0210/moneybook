@@ -1,4 +1,4 @@
-config.nowVersion = 1.21; // 현재 버전(개발중 버전)
+config.nowVersion = 1.23; // 현재 버전(개발중 버전)
 function getAuthUser(uid){
     if(uid==config.uidp){
         return "마봉아빠";
@@ -78,7 +78,10 @@ function getSmsStore(text){
         let arr = text.split(/\n/);
         return arr[arr.length-1];
     }else if(method=="현대스마일"){
-        return text.match(/(스마일페이).*/gi)[0];
+        console.log(text);
+        let arr = text.split(/\n/);
+        let txt = arr[arr.length-3];
+        return txt.replace(/[0-9]{2}\/[0-9]{2}\s[0-9]{2}\:[0-9]{2}/gi,"");
     }else{
         return "";
     };

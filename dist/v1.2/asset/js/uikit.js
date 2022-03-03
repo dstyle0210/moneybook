@@ -304,13 +304,16 @@ const C_monthTotal = ({
     b: 0
   };
 
-  for (receipt of receipts) {
-    tagTotal[getTagCode(receipt.tag)] += receipt.price;
-    monthTotal += getTagCode(receipt.tag) != "b" ? receipt.price : 0;
-    pinTotal += receipt.price;
+  if (receipts) {
+    for (receipt of receipts) {
+      tagTotal[getTagCode(receipt.tag)] += receipt.price;
+      monthTotal += getTagCode(receipt.tag) != "b" ? receipt.price : 0;
+      pinTotal += receipt.price;
+    }
+
+    ;
   }
 
-  ;
   const pinVD = isPinMode(user.uid) ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", {
     className: "a-tag -b"
   }, "\uC6A9\uB3C8"), " ", /*#__PURE__*/React.createElement("span", {
@@ -493,18 +496,26 @@ const S_receiptsList = ({
   const updateList = function (type) {// setReceiptsState();
   };
 
-  const receiptList = receipts.list.map(function (receipt, index) {
-    return /*#__PURE__*/React.createElement("li", {
-      key: index
-    }, /*#__PURE__*/React.createElement("a", {
-      onClick: updateReceipt.bind(this, receipt.idx)
-    }, /*#__PURE__*/React.createElement(M_receipt, {
-      receipt: receipt
-    })));
-  });
-  return /*#__PURE__*/React.createElement("section", {
-    className: "s-receiptsList"
-  }, /*#__PURE__*/React.createElement("ul", null, receiptList));
+  if (receipts.list) {
+    const receiptList = receipts.list.map(function (receipt, index) {
+      return /*#__PURE__*/React.createElement("li", {
+        key: index
+      }, /*#__PURE__*/React.createElement("a", {
+        onClick: updateReceipt.bind(this, receipt.idx)
+      }, /*#__PURE__*/React.createElement(M_receipt, {
+        receipt: receipt
+      })));
+    });
+    return /*#__PURE__*/React.createElement("section", {
+      className: "s-receiptsList"
+    }, /*#__PURE__*/React.createElement("ul", null, receiptList));
+  } else {
+    return /*#__PURE__*/React.createElement("section", {
+      className: "s-receiptsList"
+    });
+  }
+
+  ;
 };
 
 const M_receipt = ({
