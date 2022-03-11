@@ -7,6 +7,8 @@ function getSmsMethod(text){
         return "현대스마일";
     }else if( (/네이버 현대카드/).test(text) ){
         return "현대네이버";
+    }else if( (/카카오 뱅크/).test(text) ){
+        return "계좌이체";
     }else{
         return "";
     };

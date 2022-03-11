@@ -50,7 +50,7 @@ const C_monthTotal = ({receipts,user}) => {
 
     return (
         <article className="c-monthTotal">
-            <h2>2022년 2월 지출금액</h2>
+            <h2>2022년 {(new Date()).getMonth()+1}월 지출금액</h2>
             <details>
                 <summary><span className="a-price -xl">{monthTotal.toLocaleString()}</span></summary>
                 <ul className="m-tagByTotal">

@@ -198,8 +198,8 @@ const M_receiptFormSubTag = ({
   let subTags = {
     "": [],
     "고정": ["세금", "공과금", "보험", "용돈", "교육비", "통신비"],
-    "필수": ["식재료", "생활필수품", "대중교통", "경조사비"],
-    "변동": ["외식비", "의료비", "문화,여행", "자동차,택시"],
+    "필수": ["주식,식재료", "음료수,간식", "생활필수품", "대중교통", "경조사비"],
+    "변동": ["외식,커피", "의료비", "문화,여행", "자동차,택시"],
     "기타": ["미용,패션", "가구,가전", "그외,뭐지"],
     "용돈": ["식비", "담배", "음료수", "그외"]
   };
@@ -325,7 +325,7 @@ const C_monthTotal = ({
   }, pinTotal.toLocaleString()))) : "";
   return /*#__PURE__*/React.createElement("article", {
     className: "c-monthTotal"
-  }, /*#__PURE__*/React.createElement("h2", null, "2022\uB144 2\uC6D4 \uC9C0\uCD9C\uAE08\uC561"), /*#__PURE__*/React.createElement("details", null, /*#__PURE__*/React.createElement("summary", null, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("h2", null, "2022\uB144 ", new Date().getMonth() + 1, "\uC6D4 \uC9C0\uCD9C\uAE08\uC561"), /*#__PURE__*/React.createElement("details", null, /*#__PURE__*/React.createElement("summary", null, /*#__PURE__*/React.createElement("span", {
     className: "a-price -xl"
   }, monthTotal.toLocaleString())), /*#__PURE__*/React.createElement("ul", {
     className: "m-tagByTotal"

@@ -1,4 +1,4 @@
-config.nowVersion = 1.23; // 현재 버전(개발중 버전)
+config.nowVersion = 1.24; // 현재 버전(개발중 버전)
 function getAuthUser(uid){
     if(uid==config.uidp){
         return "마봉아빠";
@@ -18,7 +18,7 @@ function getMonthDate(datetime){
     return month+"."+date;
 };
 function getReceiptsUrl(idx){
-    const DBNAME = "real"; // 연결 DB명
+    const DBNAME = "dev"; // 연결 DB명
     let dbname = (location.hostname!="localhost") ? "real" : DBNAME; // 로컬호스트가 아니라면 실제DB로 연결
     let dateObj = new Date();
     let month = ((dateObj.getMonth()+1) < 9) ? "0"+(dateObj.getMonth()+1) : ""+(dateObj.getMonth()+1);
@@ -55,6 +55,8 @@ function getSmsMethod(text){
         return "현대스마일";
     }else if( (/네이버 현대카드/).test(text) ){
         return "현대네이버";
+    }else if( (/카카오 뱅크/).test(text) ){
+        return "계좌이체";
     }else{
         return "";
     };
@@ -78,10 +80,13 @@ function getSmsStore(text){
         let arr = text.split(/\n/);
         return arr[arr.length-1];
     }else if(method=="현대스마일"){
-        console.log(text);
         let arr = text.split(/\n/);
         let txt = arr[arr.length-3];
         return txt.replace(/[0-9]{2}\/[0-9]{2}\s[0-9]{2}\:[0-9]{2}/gi,"");
+    }else if(method=="계좌이체"){
+        let arr = text.split(/\n/);
+        let txt = arr[arr.length-1];
+        return txt.replace(/간편이체|\(|\)/gi,"")
     }else{
         return "";
     };
