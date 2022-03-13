@@ -40,12 +40,12 @@ const C_monthTotal = ({receipts,user}) => {
         for(receipt of receipts){
             tagTotal[getTagCode(receipt.tag)] += receipt.price;
             monthTotal += (getTagCode(receipt.tag)!="b") ? receipt.price : 0;
-            pinTotal += receipt.price;
+            pinTotal += (getTagCode(receipt.tag)=="b" && receipt.method!="계좌이체") ? receipt.price : 0;
         };
     }
     const pinVD = isPinMode(user.uid) ? (<React.Fragment>
         <li><label className="a-tag -b">용돈</label> <span className="a-price">{tagTotal.b.toLocaleString()}</span></li>
-        <li><label className="a-tag -b">총합</label> <span className="a-price">{pinTotal.toLocaleString()}</span></li>
+        <li><label className="a-tag -b">상계</label> <span className="a-price">{pinTotal.toLocaleString()}</span></li> 
         </React.Fragment>) : "";
 
     return (

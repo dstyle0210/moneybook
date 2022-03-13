@@ -64,7 +64,6 @@ const M_receiptFormComment = ({receipt,setReceipt}) => {
 
 const M_receiptFormTag = ({receipt,setReceipt,user}) => {
     let [tag,setTag] = React.useState( (receipt.tag).split("/")[0] || "" );
-    let [subTag,setSubTag] = React.useState( (receipt.tag).split("/")[1] || "" );
     const changeTag = function(value){
         setTag( (value).split("/")[0] || "" );
         setReceipt({tag:value});
@@ -82,7 +81,7 @@ const M_receiptFormTag = ({receipt,setReceipt,user}) => {
                 {bong}
             </div>
         </div>
-        <M_receiptFormSubTag _tag={receipt.tag} _changeTag={changeTag}></M_receiptFormSubTag> 
+        <M_receiptFormSubTag _tag={receipt.tag} _changeTag={changeTag}></M_receiptFormSubTag>
         </React.Fragment>
     );
 };

@@ -11,6 +11,9 @@
 
     &.-dateTime{} // 결제시간
     &.-store{} // 사용처
+    &.-price{
+        .m-receiptForm__minusCiga{position:absolute;bottom:0;right:10px;}
+    }
 
     &__inputs{position:absolute;top:23px;bottom:0;left:0;right:0;}
 

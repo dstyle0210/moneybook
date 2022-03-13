@@ -225,6 +225,11 @@ body {
 .m-receiptForm.-subtag .a-tagbtn {
   margin-left: 8px;
 }
+.m-receiptForm.-price .m-receiptForm__minusCiga {
+  position: absolute;
+  bottom: 0;
+  right: 10px;
+}
 .m-receiptForm__inputs {
   position: absolute;
   top: 23px;

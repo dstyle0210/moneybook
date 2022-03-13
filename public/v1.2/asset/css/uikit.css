@@ -220,9 +220,15 @@ body {
 .m-receiptForm.-subtag .m-receiptForm__tags {
   justify-content: flex-start;
   flex-wrap: wrap;
+  margin-left: -8px;
 }
-.m-receiptForm.-subtag .a-tagbtn ~ .a-tagbtn {
+.m-receiptForm.-subtag .a-tagbtn {
   margin-left: 8px;
+}
+.m-receiptForm.-price .m-receiptForm__minusCiga {
+  position: absolute;
+  bottom: 0;
+  right: 10px;
 }
 .m-receiptForm__inputs {
   position: absolute;
@@ -232,7 +238,7 @@ body {
   right: 0;
 }
 .m-receiptForm__tags {
-  margin-top: 8px;
+  margin-top: 3px;
   display: flex;
   justify-content: space-between;
 }
@@ -241,6 +247,7 @@ body {
 }
 .m-receiptForm__tags .a-tagbtn {
   opacity: 0.5;
+  margin-top: 5px;
 }
 .m-receiptForm__tags input:checked + .a-tagbtn {
   opacity: 1;
@@ -324,9 +331,6 @@ body {
 }
 .s-receiptsForm .m-receiptForm__tags label {
   padding-left: 0;
-}
-.s-receiptsForm .m-receiptForm__tags .a-tagBtn ~ .a-tagBtn {
-  margin-left: 5px;
 }
 .s-receiptsForm .m-btnsWrap {
   margin-top: 15px;

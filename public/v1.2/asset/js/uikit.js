@@ -139,7 +139,6 @@ const M_receiptFormTag = ({
   user
 }) => {
   let [tag, setTag] = React.useState(receipt.tag.split("/")[0] || "");
-  let [subTag, setSubTag] = React.useState(receipt.tag.split("/")[1] || "");
 
   const changeTag = function (value) {
     setTag(value.split("/")[0] || "");
@@ -198,8 +197,8 @@ const M_receiptFormSubTag = ({
   let subTags = {
     "": [],
     "고정": ["세금", "공과금", "보험", "용돈", "교육비", "통신비"],
-    "필수": ["식재료", "생활필수품", "대중교통", "경조사비"],
-    "변동": ["외식비", "의료비", "문화,여행", "자동차,택시"],
+    "필수": ["주식,식재료", "음료수,간식", "생활필수품", "대중교통", "경조사비"],
+    "변동": ["외식,커피", "의료비", "문화,여행", "자동차,택시"],
     "기타": ["미용,패션", "가구,가전", "그외,뭐지"],
     "용돈": ["식비", "담배", "음료수", "그외"]
   };
@@ -308,7 +307,7 @@ const C_monthTotal = ({
     for (receipt of receipts) {
       tagTotal[getTagCode(receipt.tag)] += receipt.price;
       monthTotal += getTagCode(receipt.tag) != "b" ? receipt.price : 0;
-      pinTotal += receipt.price;
+      pinTotal += getTagCode(receipt.tag) == "b" && receipt.method != "계좌이체" ? receipt.price : 0;
     }
 
     ;
@@ -320,12 +319,12 @@ const C_monthTotal = ({
     className: "a-price"
   }, tagTotal.b.toLocaleString())), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", {
     className: "a-tag -b"
-  }, "\uCD1D\uD569"), " ", /*#__PURE__*/React.createElement("span", {
+  }, "\uC0C1\uACC4"), " ", /*#__PURE__*/React.createElement("span", {
     className: "a-price"
   }, pinTotal.toLocaleString()))) : "";
   return /*#__PURE__*/React.createElement("article", {
     className: "c-monthTotal"
-  }, /*#__PURE__*/React.createElement("h2", null, "2022\uB144 2\uC6D4 \uC9C0\uCD9C\uAE08\uC561"), /*#__PURE__*/React.createElement("details", null, /*#__PURE__*/React.createElement("summary", null, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("h2", null, "2022\uB144 ", new Date().getMonth() + 1, "\uC6D4 \uC9C0\uCD9C\uAE08\uC561"), /*#__PURE__*/React.createElement("details", null, /*#__PURE__*/React.createElement("summary", null, /*#__PURE__*/React.createElement("span", {
     className: "a-price -xl"
   }, monthTotal.toLocaleString())), /*#__PURE__*/React.createElement("ul", {
     className: "m-tagByTotal"
@@ -351,14 +350,18 @@ const C_monthTotal = ({
 const S_receiptsUpdateForm = ({
   _receipt,
   receiptIdx,
-  user
+  user,
+  totalLength
 }) => {
-  let receipt, setReceiptState;
-  [receipt, setReceiptState] = React.useState(_receipt); // 상태 관리용 HOOK
+  let [receipt, setReceiptState] = React.useState(_receipt); // 상태 관리용 HOOK
+
+  let [tag, tagState] = React.useState(_receipt.tag); // 태그 체크용
 
   const setReceipt = function (updateData) {
     Object.assign(receipt, updateData);
     setReceiptState(receipt);
+    tagState(receipt.tag);
+    return receipt;
   };
 
   const updateReceipt = function () {
@@ -381,10 +384,38 @@ const S_receiptsUpdateForm = ({
   };
 
   const uploadReceipt = function () {
+    // 상세내역 재정리(빈값 인 경우)
+    if (!receipt.comment && getTagCode(receipt.tag) == "b") {
+      receipt.comment = receipt.tag.split("/")[1];
+    }
+
+    ;
     firebase.database().ref(getReceiptsUrl(receiptIdx)).set(receipt);
     location.href = "/v1.2/book/";
     return false;
   };
+
+  const btnSet = function () {
+    return getTagCode(tag) == "b" ? /*#__PURE__*/React.createElement("a", {
+      href: "#",
+      className: "a-btn -b",
+      onClick: cigaUpdateReceipt
+    }, "\uB2F4\uBC30\uD3EC\uD568") : "";
+  };
+
+  const cigaUpdateReceipt = function () {
+    // 작성된 소스 업로드
+    receipt.price -= 4500;
+    firebase.database().ref(getReceiptsUrl(receiptIdx)).set(receipt); // 담배값 추출 및 마지막 인덱스 업로드
+
+    receipt.price = 4500;
+    receipt.tag = "용돈/담배";
+    receipt.comment = "담배";
+    receipt.idx = totalLength;
+    firebase.database().ref(getReceiptsUrl(totalLength)).set(receipt);
+    location.href = "/v1.2/book/";
+  }; // 담배값 포함 인 경우 처리
+
 
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(M_receiptFormDateTime, {
     receipt: receipt,
@@ -419,7 +450,7 @@ const S_receiptsUpdateForm = ({
     href: "#",
     className: "a-btn -s",
     onClick: updateReceipt
-  }, "\uC218\uC815")));
+  }, "\uC218\uC815"), btnSet()));
 };
 
 const S_receiptsCreateForm = ({
@@ -433,10 +464,17 @@ const S_receiptsCreateForm = ({
   const setReceipt = function (updateData) {
     Object.assign(receipt, updateData);
     setReceiptState(receipt);
+    return receipt;
   };
 
   const initReceipt = function () {
-    receipt.idx = receiptIdx;
+    receipt.idx = receiptIdx; // 상세내역 재정리(빈값 인 경우)
+
+    if (!receipt.comment && getTagCode(receipt.tag) == "b") {
+      receipt.comment = receipt.tag.split("/")[1];
+    }
+
+    ;
     firebase.database().ref(getReceiptsUrl(receiptIdx)).set(receipt);
     location.href = "/v1.2/book/";
     return false;

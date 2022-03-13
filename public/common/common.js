@@ -1,5 +1,5 @@
 const config = {
-    releaseVersion:1.2, // 최신 앱 버전
+    releaseVersion:1.25, // 최신 앱 버전
     nowVersion:null, // 각 버전 service 에서 설정 됨.
     base:"/v1.2", // 루트 폴더
     uidp:"0MwBoXosqATbp9Dlu7e7KTNdaeJ3",
