@@ -188,6 +188,28 @@ const M_receiptFormTag = ({
   }));
 };
 
+const A_tagBtn = ({
+  name,
+  inputName,
+  _tag,
+  _changeTag,
+  tagClassName
+}) => {
+  return /*#__PURE__*/React.createElement("label", {
+    className: "a-tagBtn"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "radio",
+    name: inputName,
+    value: name,
+    onChange: e => {
+      _changeTag(e.target.value);
+    },
+    defaultChecked: _tag == name
+  }), " ", /*#__PURE__*/React.createElement("span", {
+    className: "a-tagbtn -" + tagClassName
+  }, name));
+};
+
 const M_receiptFormSubTag = ({
   _tag,
   _changeTag
@@ -212,7 +234,7 @@ const M_receiptFormSubTag = ({
   }, /*#__PURE__*/React.createElement("label", null, "\uC138\uBD80\uC9C0\uCD9C\uD56D\uBAA9"), /*#__PURE__*/React.createElement("div", {
     className: "m-receiptForm__tags"
   }, subTags[initTag].map((subTag, index) => {
-    return /*#__PURE__*/React.createElement(A_tagBtn, {
+    return /*#__PURE__*/React.createElement(A_subTagBtn, {
       key: index.toString(),
       name: subTag,
       inputName: "subtag",
@@ -223,14 +245,15 @@ const M_receiptFormSubTag = ({
   })));
 };
 
-const A_tagBtn = ({
+const A_subTagBtn = ({
   name,
   inputName,
-  _tag,
   _changeTag,
   tagClassName
 }) => {
-  // console.log(_tag);
+  React.useEffect(() => {
+    $("input[name=subtag]").prop("checked", false);
+  }, [tagClassName]);
   return /*#__PURE__*/React.createElement("label", {
     className: "a-tagBtn"
   }, /*#__PURE__*/React.createElement("input", {
@@ -239,8 +262,7 @@ const A_tagBtn = ({
     value: name,
     onChange: e => {
       _changeTag(e.target.value);
-    },
-    defaultChecked: _tag == name
+    }
   }), " ", /*#__PURE__*/React.createElement("span", {
     className: "a-tagbtn -" + tagClassName
   }, name));
@@ -404,7 +426,8 @@ const S_receiptsUpdateForm = ({
   };
 
   const cigaUpdateReceipt = function () {
-    // 작성된 소스 업로드
+    receipt.useYn = "Y"; // 작성된 소스 업로드
+
     receipt.price -= 4500;
     firebase.database().ref(getReceiptsUrl(receiptIdx)).set(receipt); // 담배값 추출 및 마지막 인덱스 업로드
 

@@ -1,4 +1,4 @@
-config.nowVersion = 1.25; // 현재 버전(개발중 버전)
+config.nowVersion = 1.26; // 현재 버전(개발중 버전)
 function getAuthUser(uid){
     if(uid==config.uidp){
         return "마봉아빠";
@@ -20,7 +20,6 @@ function getMonthDate(datetime){
 function getReceiptsUrl(idx){
     const DBNAME = "real"; // 연결 DB명
     let dbname = (location.hostname!="localhost") ? "real" : DBNAME; // 로컬호스트가 아니라면 실제DB로 연결
-    console.log(dbname);
     let dateObj = new Date();
     let month = ((dateObj.getMonth()+1) < 9) ? "0"+(dateObj.getMonth()+1) : ""+(dateObj.getMonth()+1);
     let dateMonth = dateObj.getFullYear()+month+"";

@@ -69,6 +69,7 @@ const M_receiptFormTag = ({receipt,setReceipt,user}) => {
         setReceipt({tag:value});
     };
     const bong = isPinMode(user.uid) ? (<A_tagBtn name="용돈" inputName="tag" _tag={tag} _changeTag={changeTag} tagClassName="b"></A_tagBtn>) : "";
+
     return (
         <React.Fragment>
         <div className="m-receiptForm -tag">
@@ -85,7 +86,9 @@ const M_receiptFormTag = ({receipt,setReceipt,user}) => {
         </React.Fragment>
     );
 };
-
+const A_tagBtn = ({name,inputName,_tag,_changeTag,tagClassName}) => {
+        return(<label className="a-tagBtn"><input type="radio" name={inputName} value={name} onChange={(e) => {_changeTag(e.target.value)}} defaultChecked={_tag==name} /> <span className={"a-tagbtn -"+tagClassName}>{name}</span></label>);
+    }
 const M_receiptFormSubTag = ({_tag,_changeTag}) => {
     let initTag = (_tag).split("/")[0] || "";
     let initSubTag = (_tag).split("/")[1] || "";
@@ -105,16 +108,18 @@ const M_receiptFormSubTag = ({_tag,_changeTag}) => {
             <label>세부지출항목</label>
             <div className="m-receiptForm__tags">
                 {subTags[initTag].map((subTag,index)=>{
-                    return <A_tagBtn key={index.toString()} name={subTag} inputName="subtag" _tag={initSubTag} _changeTag={changeTag} tagClassName={getTagCode(initTag)}></A_tagBtn>
+                    return <A_subTagBtn key={index.toString()} name={subTag} inputName="subtag" _tag={initSubTag} _changeTag={changeTag} tagClassName={getTagCode(initTag)}></A_subTagBtn>
                 })}
             </div>
         </div>
     );
 };
 
-const A_tagBtn = ({name,inputName,_tag,_changeTag,tagClassName}) => {
-    // console.log(_tag);
-    return(<label className="a-tagBtn"><input type="radio" name={inputName} value={name} onChange={(e) => {_changeTag(e.target.value)}} defaultChecked={_tag==name} /> <span className={"a-tagbtn -"+tagClassName}>{name}</span></label>);
+const A_subTagBtn = ({name,inputName,_changeTag,tagClassName}) => {
+    React.useEffect(() => {
+        $("input[name=subtag]").prop("checked",false);
+    }, [tagClassName]);
+    return(<label className="a-tagBtn"><input type="radio" name={inputName} value={name} onChange={(e) => {_changeTag(e.target.value)}} /> <span className={"a-tagbtn -"+tagClassName}>{name}</span></label>);
 }
 
 // "[Web발신]\n네이버 현대카드 승인\r\n원*봉\r\n29,700원 일시불\r\n02/11 08:51\r\n네이버페이\r\n누적272,890원"

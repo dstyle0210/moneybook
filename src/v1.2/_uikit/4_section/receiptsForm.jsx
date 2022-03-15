@@ -35,6 +35,8 @@ const S_receiptsUpdateForm = ({_receipt,receiptIdx,user,totalLength}) => {
         return (getTagCode(tag)=="b") ? (<a href="#" className="a-btn -b" onClick={cigaUpdateReceipt}>담배포함</a>) : "";
     }
     const cigaUpdateReceipt = function(){
+        receipt.useYn = "Y"; 
+
         // 작성된 소스 업로드
         receipt.price -= 4500;
         firebase.database().ref(getReceiptsUrl(receiptIdx)).set(receipt);
