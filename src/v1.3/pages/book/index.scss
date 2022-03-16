@@ -1,0 +1,21 @@
+/*! webfont */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+/*! RESET */
+body{margin:0;padding:0;}
+*{box-sizing:border-box;margin:0;padding:0;list-style:none;font-family: 'Noto Sans KR', sans-serif;letter-spacing:-0.05em;
+    &:focus{outline:0;}
+}
+a{text-decoration:none;}
+/*
+* 헤더 공통영역
+*/
+.layout-header{position:sticky;top:0;left:0;width:100%;padding:15px 10px;background:#fff;z-index:2;display:flex;align-items:flex-end;
+    border-bottom:1px solid #999;vertical-align:bottom;
+    h1{font-size:32px;line-height:1;
+        a{font-size:32px;line-height:1;color:#333;}
+    }
+    .version{flex:1;margin-left:10px;font-size:12px;color:#999;font-weight:normal;vertical-align:bottom;line-height:12px;}
+    .userSide{font-size:13px;}
+}
+
+.p-book{height:2000px;}

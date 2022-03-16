@@ -4,13 +4,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0" />
     <title>MoneyBook - Dstyle</title>
+    <link rel="stylesheet" href="./index.css">
+    <link rel="apple-touch-icon" type="180x180" href="https://dstyle-moneybook.web.app/v1.2/asset/resource/favicon.png">
   </head>
-  <body>
-    <header id="header">
-        <h1><a href="/">가계부목록</a></h1><span class="version">v1.25</span>
+  <body id="moneyBook">
+
+    <header class="layout-header">
+        <h1><a href="/">가계부목록</a></h1>
+        <span class="version">v1.3</span>
+        <aside class="userSide"><span>마봉아빠</span></aside>
     </header>
     
     <main class="p-book" id="receiptsBook">
+
         <section class="s-receiptsList">
             <article class="m-receipt" role="link">
                 <span class="a-date">03.15</span>
@@ -47,9 +53,5 @@
             </div>
         </section>
       </main>
-
-      <!-- 로그인 -->
-      <aside class="s-userSide" id="userSide"><span>마봉아빠</span></aside>
-      <!-- // 로그인 -->
 </body>
 </html>
