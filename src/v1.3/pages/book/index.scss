@@ -6,6 +6,7 @@ body{margin:0;padding:0;}
     &:focus{outline:0;}
 }
 a{text-decoration:none;}
+
 /*
 * 헤더 공통영역
 */
@@ -19,3 +20,71 @@ a{text-decoration:none;}
 }
 
 .p-book{height:2000px;}
+
+
+.s-receiptsList{width:100%;padding-bottom:75px;
+    li ~ li{border-top:1px dashed #999;}
+    .m-receipt{padding:10px 15px;} 
+}
+
+.m-receipt{width:100%;display:flex;
+    $grid:15px;
+    .a-date{flex:0 0 $grid*3;line-height:23px;}
+    .-info{flex:1;padding-right:5px;}
+    .-price{flex:0 0 $grid*7;text-align:right;
+        .a-price{display:block;}
+    }
+    .a-store{padding-right:10px;}
+}
+
+
+
+.a-date{font-size:12px;color:#999;}
+.a-comment{display:block;font-size:16px;font-weight:bold;line-height:23px;color:#000;}
+.a-store{font-size:12px;line-height:18px;color:#666;}
+.a-payment{font-size:12px;line-height:18px;color:#666;}
+.a-price{font-size:16px;font-weight:bold;line-height:23px;color:#000;font-family:-apple-system,BlinkMacSystemFont,HelveticaNeue,AppleSDGothicNeo,sans-serif;
+    &::after{margin-left:2px;font-size:0.75em;content:"원";font-weight:normal;color:#444;}
+    &.-xl{font-size:24px;line-height:28px;}
+}
+.a-tag{display:inline-block;min-width:45px;height:20px;padding:0 8px;line-height:20px;font-size:12px;color:#fff;text-align:center;border-radius:10px;
+    &.-f,&.-fixed{background:#2F80ED;}
+    &.-r,&.-required{background:#F2994A;}
+    &.-c,&.-change{background:#9B51E0;}
+    &.-o,&.-other{background:#BDBDBD;}
+    &.-b,&.-bong{background:#00B74A;}
+}
+.a-tagbtn{display:inline-block;min-width:45px;height:30px;line-height:30px;font-size:13px;padding:0 10px;color:#fff;text-align:center;border-radius:10px;text-decoration:none;
+    &.-f,&.-fixed{background:#2F80ED;} 
+    &.-r,&.-required{background:#F2994A;}
+    &.-c,&.-change{background:#9B51E0;}
+    &.-o,&.-other{background:#BDBDBD;}
+    &.-b,&.-bong{background:#00B74A;}
+}
+
+.a-btn{display:inline-block;padding:3px 10px;min-height:30px;font-size:15px;line-height:23px;color:#fff;text-decoration:none;border-radius:10px;text-align:center;text-decoration:none;
+    &.-c,&.-cancel{background:#BDBDBD;}
+    &.-s,&.-submit{background:#2F80ED;}
+    &.-a,&.-action{background:#F2994A;}
+    &.-d,&.-delete{background:#c9302c;}
+    &.-l,&.-link{background:#fff;color:#000;border:1px solid #999;}
+    &.-b,&.-bong{background:#00B74A;}
+}
+
+// 당월 전체 지출금액
+.s-nowMonthTotal{position:relative;background:#fff;padding:10px;border-top:2px solid #999; 
+    .-writeBtn{position:absolute;top:15px;right:5px;width:165px;display:flex;justify-content:space-between;
+        .a-btn{display:block;width:80px;min-height:50px;line-height:42px;}
+    }
+    .-pinMoney{position:absolute;bottom:5px;right:5px;width:50%;outline:1px solid red;}
+    .c-monthTotal summary{padding-right:170px;}
+}
+.c-monthTotal{
+    h2{font-size:18px;line-height:22px;font-weight:bold;}
+    summary{text-align:right;}
+    detail{margin-top:5px;}
+}
+.m-tagByTotal{display:grid;grid-template-columns: 1fr 1fr;row-gap: 5px;column-gap: 20px;
+    margin-top:10px;padding-top:10px;border-top:1px dashed #999;
+    li{display:flex;justify-content:space-between;}
+}

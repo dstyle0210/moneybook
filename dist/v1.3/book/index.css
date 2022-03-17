@@ -64,3 +64,226 @@ a {
 .p-book {
   height: 2000px;
 }
+
+.s-receiptsList {
+  width: 100%;
+  padding-bottom: 75px;
+}
+.s-receiptsList li ~ li {
+  border-top: 1px dashed #999;
+}
+.s-receiptsList .m-receipt {
+  padding: 10px 15px;
+}
+
+.m-receipt {
+  width: 100%;
+  display: flex;
+}
+.m-receipt .a-date {
+  flex: 0 0 45px;
+  line-height: 23px;
+}
+.m-receipt .-info {
+  flex: 1;
+  padding-right: 5px;
+}
+.m-receipt .-price {
+  flex: 0 0 105px;
+  text-align: right;
+}
+.m-receipt .-price .a-price {
+  display: block;
+}
+.m-receipt .a-store {
+  padding-right: 10px;
+}
+
+.a-date {
+  font-size: 12px;
+  color: #999;
+}
+
+.a-comment {
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 23px;
+  color: #000;
+}
+
+.a-store {
+  font-size: 12px;
+  line-height: 18px;
+  color: #666;
+}
+
+.a-payment {
+  font-size: 12px;
+  line-height: 18px;
+  color: #666;
+}
+
+.a-price {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 23px;
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, HelveticaNeue, AppleSDGothicNeo, sans-serif;
+}
+.a-price::after {
+  margin-left: 2px;
+  font-size: 0.75em;
+  content: "원";
+  font-weight: normal;
+  color: #444;
+}
+.a-price.-xl {
+  font-size: 24px;
+  line-height: 28px;
+}
+
+.a-tag {
+  display: inline-block;
+  min-width: 45px;
+  height: 20px;
+  padding: 0 8px;
+  line-height: 20px;
+  font-size: 12px;
+  color: #fff;
+  text-align: center;
+  border-radius: 10px;
+}
+.a-tag.-f, .a-tag.-fixed {
+  background: #2F80ED;
+}
+.a-tag.-r, .a-tag.-required {
+  background: #F2994A;
+}
+.a-tag.-c, .a-tag.-change {
+  background: #9B51E0;
+}
+.a-tag.-o, .a-tag.-other {
+  background: #BDBDBD;
+}
+.a-tag.-b, .a-tag.-bong {
+  background: #00B74A;
+}
+
+.a-tagbtn {
+  display: inline-block;
+  min-width: 45px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 13px;
+  padding: 0 10px;
+  color: #fff;
+  text-align: center;
+  border-radius: 10px;
+  text-decoration: none;
+}
+.a-tagbtn.-f, .a-tagbtn.-fixed {
+  background: #2F80ED;
+}
+.a-tagbtn.-r, .a-tagbtn.-required {
+  background: #F2994A;
+}
+.a-tagbtn.-c, .a-tagbtn.-change {
+  background: #9B51E0;
+}
+.a-tagbtn.-o, .a-tagbtn.-other {
+  background: #BDBDBD;
+}
+.a-tagbtn.-b, .a-tagbtn.-bong {
+  background: #00B74A;
+}
+
+.a-btn {
+  display: inline-block;
+  padding: 3px 10px;
+  min-height: 30px;
+  font-size: 15px;
+  line-height: 23px;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 10px;
+  text-align: center;
+  text-decoration: none;
+}
+.a-btn.-c, .a-btn.-cancel {
+  background: #BDBDBD;
+}
+.a-btn.-s, .a-btn.-submit {
+  background: #2F80ED;
+}
+.a-btn.-a, .a-btn.-action {
+  background: #F2994A;
+}
+.a-btn.-d, .a-btn.-delete {
+  background: #c9302c;
+}
+.a-btn.-l, .a-btn.-link {
+  background: #fff;
+  color: #000;
+  border: 1px solid #999;
+}
+.a-btn.-b, .a-btn.-bong {
+  background: #00B74A;
+}
+
+.s-nowMonthTotal {
+  position: relative;
+  background: #fff;
+  padding: 10px;
+  border-top: 2px solid #999;
+}
+.s-nowMonthTotal .-writeBtn {
+  position: absolute;
+  top: 15px;
+  right: 5px;
+  width: 165px;
+  display: flex;
+  justify-content: space-between;
+}
+.s-nowMonthTotal .-writeBtn .a-btn {
+  display: block;
+  width: 80px;
+  min-height: 50px;
+  line-height: 42px;
+}
+.s-nowMonthTotal .-pinMoney {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 50%;
+  outline: 1px solid red;
+}
+.s-nowMonthTotal .c-monthTotal summary {
+  padding-right: 170px;
+}
+
+.c-monthTotal h2 {
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: bold;
+}
+.c-monthTotal summary {
+  text-align: right;
+}
+.c-monthTotal detail {
+  margin-top: 5px;
+}
+
+.m-tagByTotal {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 5px;
+  column-gap: 20px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #999;
+}
+.m-tagByTotal li {
+  display: flex;
+  justify-content: space-between;
+}
