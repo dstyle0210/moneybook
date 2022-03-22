@@ -1,3 +1,17 @@
+.s-userSide {
+  position: fixed;
+  top: 35px;
+  right: 10px;
+  z-index: 3;
+}
+.s-userSide .-login {
+  font-size: 13px;
+  white-space: nowrap;
+}
+.s-userSide span {
+  font-size: 13px;
+}
+
 header {
   position: sticky;
   top: 0;
@@ -31,18 +45,4 @@ header .pinMoney {
   position: absolute;
   top: 5px;
   right: 5px;
-}
-
-.s-userSide {
-  position: fixed;
-  top: 35px;
-  right: 10px;
-  z-index: 3;
-}
-.s-userSide .-login {
-  font-size: 13px;
-  white-space: nowrap;
-}
-.s-userSide span {
-  font-size: 13px;
 }

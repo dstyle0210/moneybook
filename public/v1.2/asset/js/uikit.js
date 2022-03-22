@@ -420,7 +420,7 @@ const S_receiptsUpdateForm = ({
   const btnSet = function () {
     return getTagCode(tag) == "b" ? /*#__PURE__*/React.createElement("a", {
       href: "#",
-      className: "a-btn -b",
+      className: "a-btn -lg -b",
       onClick: cigaUpdateReceipt
     }, "\uB2F4\uBC30\uD3EC\uD568") : "";
   };
@@ -463,17 +463,17 @@ const S_receiptsUpdateForm = ({
     className: "m-btnsWrap"
   }, /*#__PURE__*/React.createElement("a", {
     href: "#",
-    className: "a-btn -d",
+    className: "a-btn -lg -d",
     onClick: deleteReceipt
   }, "\uC0AD\uC81C"), /*#__PURE__*/React.createElement("a", {
     href: "#",
-    className: "a-btn -c",
+    className: "a-btn -lg -c",
     onClick: book
-  }, "\uBAA9\uB85D"), /*#__PURE__*/React.createElement("a", {
+  }, "\uBAA9\uB85D"), btnSet(), /*#__PURE__*/React.createElement("a", {
     href: "#",
-    className: "a-btn -s",
+    className: "a-btn -lg -s",
     onClick: updateReceipt
-  }, "\uC218\uC815"), btnSet()));
+  }, "\uC218\uC815")));
 };
 
 const S_receiptsCreateForm = ({
@@ -531,11 +531,11 @@ const S_receiptsCreateForm = ({
     className: "m-btnsWrap"
   }, /*#__PURE__*/React.createElement("a", {
     href: "#",
-    className: "a-btn -c",
+    className: "a-btn -lg -c",
     onClick: book
   }, "\uBAA9\uB85D"), /*#__PURE__*/React.createElement("a", {
     href: "#",
-    className: "a-btn -s",
+    className: "a-btn -lg -s",
     onClick: initReceipt
   }, "\uC800\uC7A5")));
 };

@@ -32,7 +32,7 @@ const S_receiptsUpdateForm = ({_receipt,receiptIdx,user,totalLength}) => {
         return false;
     }
     const btnSet = function(){
-        return (getTagCode(tag)=="b") ? (<a href="#" className="a-btn -b" onClick={cigaUpdateReceipt}>담배포함</a>) : "";
+        return (getTagCode(tag)=="b") ? (<a href="#" className="a-btn -lg -b" onClick={cigaUpdateReceipt}>담배포함</a>) : "";
     }
     const cigaUpdateReceipt = function(){
         receipt.useYn = "Y"; 
@@ -60,10 +60,10 @@ const S_receiptsUpdateForm = ({_receipt,receiptIdx,user,totalLength}) => {
         <M_receiptFormComment receipt={receipt} setReceipt={setReceipt}></M_receiptFormComment>
         <M_receiptFormTag receipt={receipt} setReceipt={setReceipt} user={user}></M_receiptFormTag>
         <div className="m-btnsWrap">
-            <a href="#" className="a-btn -d" onClick={deleteReceipt}>삭제</a>
-            <a href="#" className="a-btn -c" onClick={book}>목록</a>
-            <a href="#" className="a-btn -s" onClick={updateReceipt}>수정</a>
+            <a href="#" className="a-btn -lg -d" onClick={deleteReceipt}>삭제</a>
+            <a href="#" className="a-btn -lg -c" onClick={book}>목록</a>
             {btnSet()}
+            <a href="#" className="a-btn -lg -s" onClick={updateReceipt}>수정</a> 
         </div>
     </React.Fragment>;
 };
@@ -98,8 +98,8 @@ const S_receiptsCreateForm = ({_receipt,receiptIdx,user}) => {
         <M_receiptFormComment receipt={receipt} setReceipt={setReceipt}></M_receiptFormComment>
         <M_receiptFormTag receipt={receipt} setReceipt={setReceipt} user={user}></M_receiptFormTag>
         <div className="m-btnsWrap">
-            <a href="#" className="a-btn -c" onClick={book}>목록</a>
-            <a href="#" className="a-btn -s" onClick={initReceipt}>저장</a>
+            <a href="#" className="a-btn -lg -c" onClick={book}>목록</a>
+            <a href="#" className="a-btn -lg -s" onClick={initReceipt}>저장</a>
         </div>
     </React.Fragment>;
 };
