@@ -132,6 +132,7 @@ var browser,page;
     let data4 = JSON.parse(data3);
     let count = 0;
     for(let item of data4){
+        item.store = (item.store).repalce("\r","");
         await test(item);
     };
 
