@@ -38,7 +38,7 @@ const S_receiptsUpdateForm = ({_receipt,receiptIdx,user,totalLength}) => {
         receipt.useYn = "Y"; 
 
         // 작성된 소스 업로드
-        receipt.price -= 4500;
+        receipt.price -= 4800;
         firebase.database().ref(getReceiptsUrl(receiptIdx)).set(receipt);
 
         // 담배값 추출 및 마지막 인덱스 업로드
