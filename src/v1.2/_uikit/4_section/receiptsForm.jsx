@@ -42,7 +42,7 @@ const S_receiptsUpdateForm = ({_receipt,receiptIdx,user,totalLength}) => {
         firebase.database().ref(getReceiptsUrl(receiptIdx)).set(receipt);
 
         // 담배값 추출 및 마지막 인덱스 업로드
-        receipt.price = 4500;
+        receipt.price = 4800;
         receipt.tag = "용돈/담배";
         receipt.comment = "담배";
         receipt.idx = totalLength;

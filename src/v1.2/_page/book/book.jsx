@@ -3,7 +3,11 @@ $(function(){
     setHeader("가계부목록"); // 헤더삽입
 
     firebase.auth().onAuthStateChanged(user => {
-        setUserSide(getAuthUser(user.uid)); // 유저정보 삽입
+        if(user){
+            setUserSide(getAuthUser(user.uid)); // 유저정보 삽입
+        }else{
+            setUserSide(); // 유저정보 삽입
+        }
         firebase.database().ref(getReceiptsUrl()).on("value", (snapshot) => {
             const origins = snapshot.val() || [];
             let useReceipts;

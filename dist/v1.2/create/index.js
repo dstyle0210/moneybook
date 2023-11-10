@@ -1,7 +1,5 @@
 let Receipts; // 전체 영수증 목록
-
 let Idx; // 작성될 영수증 번호(PK)
-
 let Receipt = {
   // 작성될 영수증 정보
   datetime: getSmsDateTime(),
@@ -19,11 +17,11 @@ $(function () {
 
   firebase.auth().onAuthStateChanged(user => {
     setUserSide(getAuthUser(user.uid)); // 유저정보 삽입
-
     firebase.database().ref(getReceiptsUrl()).on("value", snapshot => {
       Receipts = snapshot.val();
-      Idx = Receipts ? Receipts.length : 0; // createPage
+      Idx = Receipts ? Receipts.length : 0;
 
+      // createPage
       const $reactRoot = $("#createPage");
       ReactDOM.render( /*#__PURE__*/React.createElement(S_receiptsCreateForm, {
         _receipt: Receipt,
@@ -36,7 +34,6 @@ $(function () {
     });
   });
 });
-
 function createReceipt() {
   navigator.clipboard.readText().then(text => {
     return text;
@@ -55,5 +52,4 @@ function createReceipt() {
     }, 200);
   });
 }
-
 ;

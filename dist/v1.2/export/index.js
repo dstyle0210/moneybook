@@ -25,7 +25,6 @@ $(function () {
     });
   });
 });
-
 const ExportData = ({
   origin
 }) => {

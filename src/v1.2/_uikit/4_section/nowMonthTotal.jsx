@@ -2,24 +2,61 @@ const S_nowMonthTotal = ({receipts,user,origins}) =>{
     const pasteReceipt = function(){
         navigator.clipboard.readText().then((text) => {
             return text;
-        }).then(function(origin){
+        }).then(async function(origin){
             let pasteReceipt = {};
             pasteReceipt.idx = origins.length;
             pasteReceipt.datetime = getSmsDateTime(origin);
             pasteReceipt.price = getSmsPrice(origin);
             pasteReceipt.method = getSmsMethod(origin);
-            pasteReceipt.store = getSmsStore(origin);
+            pasteReceipt.store = getSmsStore(origin).replace(/\\r/gi,"");
             pasteReceipt.useYn = "N";
             pasteReceipt.tag = "";
             pasteReceipt.origin = origin;
-            return firebase.database().ref(getReceiptsUrl(origins.length)).set(pasteReceipt);
+
+
+
+            // 금액에 따른 자동변환
+            
+            // 디지털큐브 주차
+            console.log(pasteReceipt);
+            if(pasteReceipt.method == "국민봉올림" && pasteReceipt.price==13900 && pasteReceipt.store=="카카오 T 주차"){
+                pasteReceipt.comment = "디지털큐브 주차";
+                pasteReceipt.tag = "변동/자동차,택시";
+            };
+
+            // 담배값
+            if(pasteReceipt.method == "현대네이버" && pasteReceipt.price==4800){
+                pasteReceipt.comment = "담배";
+                pasteReceipt.tag = "용돈/담배";
+            };
+            if(pasteReceipt.method == "현대네이버" && pasteReceipt.price==9600){
+                pasteReceipt.comment = "담배 2갑";
+                pasteReceipt.tag = "용돈/담배";
+            };
+            
+            // 통신요금
+            if( (/LGUPLUS 통신요금/).test(pasteReceipt.origin) ){
+                pasteReceipt.store = "LGUPLUS";
+                pasteReceipt.comment = "운양집 통신요금";
+                pasteReceipt.tag = "고정/통신비";
+            }
+
+            return await firebase.database().ref(getReceiptsUrl(origins.length)).set(pasteReceipt);
         }).then(function(){
             setTimeout(function(){
                 location.href = "/v1.2/update/?idx="+(origins.length);
             },200);
         });
     };
-
+/*
+[Web발신]
+KB국민카드9043승인
+원*봉님
+13,900원 일시불
+11/01 16:17
+카카오 T 주차
+누적3,496,324원
+*/
     return (
         <section className="s-nowMonthTotal">
             <C_monthTotal receipts={receipts} user={user}></C_monthTotal>
