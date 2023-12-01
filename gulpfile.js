@@ -2,7 +2,8 @@ const nodePath = require('path');
 const {src,dest, task, series, watch} = require("gulp");
 const replace = require('gulp-replace');
 const shell = require('gulp-shell');
-
+const fs = require("fs");
+const request = require("request");
 
 let version = "v1.2";
 task('serve:firebase', shell.task([
