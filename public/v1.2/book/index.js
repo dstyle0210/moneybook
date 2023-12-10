@@ -10,7 +10,7 @@ $(function () {
 
     firebase.database().ref(getReceiptsUrl()).on("value", snapshot => {
       const origins = snapshot.val() || [];
-      let useReceipts;
+      let useReceipts = [];
       if (origins.length) {
         // 표시할 영수증 목록
         useReceipts = origins.filter(receipt => {

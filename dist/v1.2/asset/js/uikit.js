@@ -279,7 +279,6 @@ const S_nowMonthTotal = ({
       // 금액에 따른 자동변환
 
       // 디지털큐브 주차
-      console.log(pasteReceipt);
       if (pasteReceipt.method == "국민봉올림" && pasteReceipt.price == 13900 && pasteReceipt.store == "카카오 T 주차") {
         pasteReceipt.comment = "디지털큐브 주차";
         pasteReceipt.tag = "변동/자동차,택시";
@@ -331,7 +330,26 @@ const C_monthTotal = ({
   user
 }) => {
   let monthTotal = 0;
-  let pinTotal = 0;
+  receipts.forEach(receipt => {
+    monthTotal += getTagCode(receipt.tag) != "b" ? receipt.price : 0;
+  });
+  return /*#__PURE__*/React.createElement("article", {
+    className: "c-monthTotal"
+  }, /*#__PURE__*/React.createElement("h2", null, new Date().getFullYear(), "\uB144 ", new Date().getMonth() + 1, "\uC6D4 \uC9C0\uCD9C\uAE08\uC561"), /*#__PURE__*/React.createElement("details", null, /*#__PURE__*/React.createElement("summary", null, /*#__PURE__*/React.createElement("span", {
+    className: "a-price -xl"
+  }, monthTotal.toLocaleString())), /*#__PURE__*/React.createElement(M_MethodByTotal, {
+    receipts: receipts
+  }), /*#__PURE__*/React.createElement(M_TagByTotal, {
+    receipts: receipts,
+    user: user
+  })));
+};
+
+// 지출태그 기준 총합
+const M_TagByTotal = ({
+  receipts,
+  user
+}) => {
   const tagTotal = {
     f: 0,
     r: 0,
@@ -339,28 +357,15 @@ const C_monthTotal = ({
     o: 0,
     b: 0
   };
-  if (receipts) {
-    for (receipt of receipts) {
-      tagTotal[getTagCode(receipt.tag)] += receipt.price;
-      monthTotal += getTagCode(receipt.tag) != "b" ? receipt.price : 0;
-      pinTotal += getTagCode(receipt.tag) == "b" && receipt.method != "계좌이체" ? receipt.price : 0;
-    }
-    ;
-  }
+  receipts.forEach(receipt => {
+    tagTotal[getTagCode(receipt.tag)] += receipt.price;
+  });
   const pinVD = isPinMode(user.uid) ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", {
     className: "a-tag -b"
   }, "\uC6A9\uB3C8"), " ", /*#__PURE__*/React.createElement("span", {
     className: "a-price"
-  }, tagTotal.b.toLocaleString())), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", {
-    className: "a-tag -b"
-  }, "\uC0C1\uACC4"), " ", /*#__PURE__*/React.createElement("span", {
-    className: "a-price"
-  }, pinTotal.toLocaleString()))) : "";
-  return /*#__PURE__*/React.createElement("article", {
-    className: "c-monthTotal"
-  }, /*#__PURE__*/React.createElement("h2", null, "2022\uB144 ", new Date().getMonth() + 1, "\uC6D4 \uC9C0\uCD9C\uAE08\uC561"), /*#__PURE__*/React.createElement("details", null, /*#__PURE__*/React.createElement("summary", null, /*#__PURE__*/React.createElement("span", {
-    className: "a-price -xl"
-  }, monthTotal.toLocaleString())), /*#__PURE__*/React.createElement("ul", {
+  }, tagTotal.b.toLocaleString()))) : "";
+  return /*#__PURE__*/React.createElement("ul", {
     className: "m-tagByTotal"
   }, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("label", {
     className: "a-tag -f"
@@ -378,7 +383,35 @@ const C_monthTotal = ({
     className: "a-tag -o"
   }, "\uAE30\uD0C0"), " ", /*#__PURE__*/React.createElement("span", {
     className: "a-price"
-  }, tagTotal.o.toLocaleString())), pinVD)));
+  }, tagTotal.o.toLocaleString())), pinVD);
+};
+
+// 결제방식 별 총합
+const M_MethodByTotal = ({
+  receipts
+}) => {
+  const methodTotal = {};
+  const methodNames = ["국민봉올림", "국민마이포", "현대네이버", "현대스마일"];
+  methodNames.forEach(name => {
+    methodTotal[name] = 0;
+  }); // 표시할 목록 초기화.
+
+  receipts.forEach(receipt => {
+    methodTotal[receipt.method] = methodTotal[receipt.method] || 0; // 메소드 키값 등록 (목록에 없으면 type 맞추는 용)
+    methodTotal[receipt.method] += receipt.price; // 결제방식 별 금액 합산
+  });
+
+  return /*#__PURE__*/React.createElement("ul", {
+    className: "m-methodByTotal"
+  }, methodNames.map((name, idx) => {
+    return /*#__PURE__*/React.createElement("li", {
+      key: idx
+    }, /*#__PURE__*/React.createElement("label", {
+      className: "a-method"
+    }, name), /*#__PURE__*/React.createElement("span", {
+      className: "a-price"
+    }, methodTotal[name].toLocaleString()));
+  }));
 };
 const S_receiptsUpdateForm = ({
   _receipt,

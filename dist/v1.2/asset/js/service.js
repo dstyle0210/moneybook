@@ -1,4 +1,4 @@
-config.nowVersion = "1.29.0"; // 현재 버전(개발중 버전)
+config.nowVersion = "1.29.1"; // 현재 버전(개발중 버전) 
 function getAuthUser(uid){
     if(uid==config.uidp){
         return "마봉아빠";
@@ -7,7 +7,6 @@ function getAuthUser(uid){
     };
     return null;
 };
-
 function isPinMode(uid){
     return (uid==config.uidp);
 };

@@ -18,7 +18,6 @@ const S_nowMonthTotal = ({receipts,user,origins}) =>{
             // 금액에 따른 자동변환
             
             // 디지털큐브 주차
-            console.log(pasteReceipt);
             if(pasteReceipt.method == "국민봉올림" && pasteReceipt.price==13900 && pasteReceipt.store=="카카오 T 주차"){
                 pasteReceipt.comment = "디지털큐브 주차";
                 pasteReceipt.tag = "변동/자동차,택시";
@@ -61,34 +60,57 @@ const S_nowMonthTotal = ({receipts,user,origins}) =>{
 
 const C_monthTotal = ({receipts,user}) => {
     let monthTotal = 0;
-    let pinTotal = 0;
-    const tagTotal = {f:0,r:0,c:0,o:0,b:0};
-    
-    if(receipts){
-        for(receipt of receipts){
-            tagTotal[getTagCode(receipt.tag)] += receipt.price;
-            monthTotal += (getTagCode(receipt.tag)!="b") ? receipt.price : 0;
-            pinTotal += (getTagCode(receipt.tag)=="b" && receipt.method!="계좌이체") ? receipt.price : 0;
-        };
-    }
-    const pinVD = isPinMode(user.uid) ? (<React.Fragment>
-        <li><label className="a-tag -b">용돈</label> <span className="a-price">{tagTotal.b.toLocaleString()}</span></li>
-        <li><label className="a-tag -b">상계</label> <span className="a-price">{pinTotal.toLocaleString()}</span></li> 
-        </React.Fragment>) : "";
-
+    receipts.forEach((receipt)=>{
+        monthTotal += (getTagCode(receipt.tag)!="b") ? receipt.price : 0;
+    });
     return (
         <article className="c-monthTotal">
-            <h2>2022년 {(new Date()).getMonth()+1}월 지출금액</h2>
+            <h2>{(new Date()).getFullYear()}년 {(new Date()).getMonth()+1}월 지출금액</h2>
             <details>
                 <summary><span className="a-price -xl">{monthTotal.toLocaleString()}</span></summary>
-                <ul className="m-tagByTotal">
-                    <li><label className="a-tag -f">고정</label> <span className="a-price">{tagTotal.f.toLocaleString()}</span></li>
-                    <li><label className="a-tag -r">필수</label> <span className="a-price">{tagTotal.r.toLocaleString()}</span></li>
-                    <li><label className="a-tag -c">변동</label> <span className="a-price">{tagTotal.c.toLocaleString()}</span></li>
-                    <li><label className="a-tag -o">기타</label> <span className="a-price">{tagTotal.o.toLocaleString()}</span></li>
-                    {pinVD}
-                </ul>
+                <M_MethodByTotal receipts={receipts}></M_MethodByTotal>
+                <M_TagByTotal receipts={receipts} user={user}></M_TagByTotal>
             </details>
         </article>
     );
+};
+
+// 지출태그 기준 총합
+const M_TagByTotal = ({receipts,user}) => {
+    const tagTotal = {f:0,r:0,c:0,o:0,b:0};
+    receipts.forEach((receipt)=>{
+        tagTotal[getTagCode(receipt.tag)] += receipt.price;
+    });
+
+    const pinVD = isPinMode(user.uid) ? (
+        <React.Fragment>
+            <li><label className="a-tag -b">용돈</label> <span className="a-price">{tagTotal.b.toLocaleString()}</span></li>
+        </React.Fragment>
+    ) : "";
+    
+    return (<ul className="m-tagByTotal">
+        <li><label className="a-tag -f">고정</label> <span className="a-price">{tagTotal.f.toLocaleString()}</span></li>
+        <li><label className="a-tag -r">필수</label> <span className="a-price">{tagTotal.r.toLocaleString()}</span></li>
+        <li><label className="a-tag -c">변동</label> <span className="a-price">{tagTotal.c.toLocaleString()}</span></li>
+        <li><label className="a-tag -o">기타</label> <span className="a-price">{tagTotal.o.toLocaleString()}</span></li>
+        {pinVD}
+    </ul>);
+};
+
+// 결제방식 별 총합
+const M_MethodByTotal = ({receipts}) => {
+    const methodTotal = {};
+    const methodNames = ["국민봉올림","국민마이포","현대네이버","현대스마일"];
+    methodNames.forEach((name)=>{methodTotal[name] = 0;}); // 표시할 목록 초기화.
+
+    receipts.forEach((receipt)=>{
+        methodTotal[receipt.method] = methodTotal[receipt.method] || 0; // 메소드 키값 등록 (목록에 없으면 type 맞추는 용)
+        methodTotal[receipt.method] += receipt.price; // 결제방식 별 금액 합산
+    });
+
+    return (<ul className="m-methodByTotal">
+        {methodNames.map((name,idx)=>{
+            return (<li key={idx}><label className="a-method">{name}</label><span className="a-price">{methodTotal[name].toLocaleString()}</span></li>);
+        })}
+    </ul>);
 };

@@ -6,7 +6,6 @@ function getAuthUser(uid){
     };
     return null;
 };
-
 function isPinMode(uid){
     return (uid==config.uidp);
 };
