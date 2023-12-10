@@ -38,6 +38,7 @@ const M_receiptFormMethod = ({receipt,setReceipt}) => {
                     <option value="">결제수단 선택하기</option>
                     <option value="현금">현금</option>
                     <option value="국민봉올림">국민카드 - 봉올림</option>
+                    <option value="국민마이포">국민카드 - 마이포</option>
                     <option value="국민마올림">국민카드 - 마올림</option>
                     <option value="현대스마일">현대카드 - 스마일</option>
                     <option value="현대네이버">현대카드 - 네이버</option>
@@ -121,5 +122,3 @@ const A_subTagBtn = ({name,inputName,_changeTag,tagClassName}) => {
     }, [tagClassName]);
     return(<label className="a-tagBtn"><input type="radio" name={inputName} value={name} onChange={(e) => {_changeTag(e.target.value)}} /> <span className={"a-tagbtn -"+tagClassName}>{name}</span></label>);
 }
-
-// "[Web발신]\n네이버 현대카드 승인\r\n원*봉\r\n29,700원 일시불\r\n02/11 08:51\r\n네이버페이\r\n누적272,890원"

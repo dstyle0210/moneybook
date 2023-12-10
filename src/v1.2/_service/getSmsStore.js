@@ -2,7 +2,7 @@ function getSmsStore(text){
     const method = getSmsMethod(text);
     let arr = text.split(/\r?\n/);
     const filter = () => {
-        if(method=="국민봉올림" || method=="현대네이버"){
+        if(method=="국민봉올림" || method=="국민마이포" || method=="현대네이버"){
             return arr[arr.length-2];
         }else if(method=="국민마올림"){
             return arr[arr.length-1];

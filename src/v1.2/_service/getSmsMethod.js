@@ -1,6 +1,8 @@
 function getSmsMethod(text){
     if( (/9043/).test(text) ){
         return "국민봉올림";
+    }else if( (/9020/).test(text) ){
+        return "국민마이포";
     }else if( (/0805/).test(text) ){
         return "국민마올림";
     }else if( (/스마일카드/).test(text) ){
@@ -12,5 +14,4 @@ function getSmsMethod(text){
     }else{
         return "";
     };
-    // 네이버 현대카드
 }

@@ -89,6 +89,8 @@ const M_receiptFormMethod = ({
   }, "\uD604\uAE08"), /*#__PURE__*/React.createElement("option", {
     value: "\uAD6D\uBBFC\uBD09\uC62C\uB9BC"
   }, "\uAD6D\uBBFC\uCE74\uB4DC - \uBD09\uC62C\uB9BC"), /*#__PURE__*/React.createElement("option", {
+    value: "\uAD6D\uBBFC\uB9C8\uC774\uD3EC"
+  }, "\uAD6D\uBBFC\uCE74\uB4DC - \uB9C8\uC774\uD3EC"), /*#__PURE__*/React.createElement("option", {
     value: "\uAD6D\uBBFC\uB9C8\uC62C\uB9BC"
   }, "\uAD6D\uBBFC\uCE74\uB4DC - \uB9C8\uC62C\uB9BC"), /*#__PURE__*/React.createElement("option", {
     value: "\uD604\uB300\uC2A4\uB9C8\uC77C"
@@ -255,8 +257,6 @@ const A_subTagBtn = ({
     className: "a-tagbtn -" + tagClassName
   }, name));
 };
-
-// "[Web발신]\n네이버 현대카드 승인\r\n원*봉\r\n29,700원 일시불\r\n02/11 08:51\r\n네이버페이\r\n누적272,890원"
 const S_nowMonthTotal = ({
   receipts,
   user,

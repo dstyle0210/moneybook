@@ -1,4 +1,4 @@
-config.nowVersion = "1.28.1"; // 현재 버전(개발중 버전)
+config.nowVersion = "1.29.0"; // 현재 버전(개발중 버전)
 function getAuthUser(uid){
     if(uid==config.uidp){
         return "마봉아빠";
@@ -49,6 +49,8 @@ function getSmsDateTime(text){
 function getSmsMethod(text){
     if( (/9043/).test(text) ){
         return "국민봉올림";
+    }else if( (/9020/).test(text) ){
+        return "국민마이포";
     }else if( (/0805/).test(text) ){
         return "국민마올림";
     }else if( (/스마일카드/).test(text) ){
@@ -60,7 +62,6 @@ function getSmsMethod(text){
     }else{
         return "";
     };
-    // 네이버 현대카드
 }
 function getSmsPrice(text){
     let price;
@@ -75,7 +76,7 @@ function getSmsStore(text){
     const method = getSmsMethod(text);
     let arr = text.split(/\r?\n/);
     const filter = () => {
-        if(method=="국민봉올림" || method=="현대네이버"){
+        if(method=="국민봉올림" || method=="국민마이포" || method=="현대네이버"){
             return arr[arr.length-2];
         }else if(method=="국민마올림"){
             return arr[arr.length-1];

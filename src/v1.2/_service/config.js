@@ -1,1 +1,1 @@
-config.nowVersion = "1.28.1"; // 현재 버전(개발중 버전)
+config.nowVersion = "1.29.0"; // 현재 버전(개발중 버전)

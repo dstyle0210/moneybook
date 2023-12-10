@@ -48,15 +48,6 @@ const S_nowMonthTotal = ({receipts,user,origins}) =>{
             },200);
         });
     };
-/*
-[Web발신]
-KB국민카드9043승인
-원*봉님
-13,900원 일시불
-11/01 16:17
-카카오 T 주차
-누적3,496,324원
-*/
     return (
         <section className="s-nowMonthTotal">
             <C_monthTotal receipts={receipts} user={user}></C_monthTotal>
