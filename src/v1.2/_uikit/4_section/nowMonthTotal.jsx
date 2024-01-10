@@ -33,11 +33,21 @@ const S_nowMonthTotal = ({receipts,user,origins}) =>{
                 pasteReceipt.tag = "용돈/담배";
             };
             
-            // 통신요금
+            // 구독,통신요금
             if( (/LGUPLUS 통신요금/).test(pasteReceipt.origin) ){
                 pasteReceipt.store = "LGUPLUS";
                 pasteReceipt.comment = "운양집 통신요금";
-                pasteReceipt.tag = "고정/통신비";
+                pasteReceipt.tag = "고정/구독통신비";
+            }
+            if( (/멜론/).test(pasteReceipt.origin) ){
+                pasteReceipt.store = "(주)카카오(멜론)";
+                pasteReceipt.comment = "멜론 스트리밍";
+                pasteReceipt.tag = "고정/구독통신비";
+            }
+            if( (/와우멤버십/).test(pasteReceipt.origin) ){
+                pasteReceipt.store = "쿠팡";
+                pasteReceipt.comment = "쿠팡 와우 멤버십";
+                pasteReceipt.tag = "고정/구독통신비";
             }
 
             return await firebase.database().ref(getReceiptsUrl(origins.length)).set(pasteReceipt);

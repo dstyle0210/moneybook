@@ -211,8 +211,8 @@ const M_receiptFormSubTag = ({
   let initSubTag = _tag.split("/")[1] || "";
   let subTags = {
     "": [],
-    "고정": ["세금", "공과금", "보험", "용돈", "교육비", "통신비"],
-    "필수": ["주식,식재료", "음료수,간식", "생활필수품", "대중교통", "경조사비"],
+    "고정": ["세금", "공과금", "보험", "교육비", "구독통신비"],
+    "필수": ["주식,식재료", "음료수,간식", "생활용품", "대중교통", "경조사비"],
     "변동": ["외식,커피", "의료비", "문화,여행", "자동차,택시"],
     "기타": ["미용,패션", "가구,가전", "그외,뭐지"],
     "용돈": ["식비", "담배", "음료수", "그외"]
@@ -297,11 +297,21 @@ const S_nowMonthTotal = ({
       }
       ;
 
-      // 통신요금
+      // 구독,통신요금
       if (/LGUPLUS 통신요금/.test(pasteReceipt.origin)) {
         pasteReceipt.store = "LGUPLUS";
         pasteReceipt.comment = "운양집 통신요금";
-        pasteReceipt.tag = "고정/통신비";
+        pasteReceipt.tag = "고정/구독통신비";
+      }
+      if (/멜론/.test(pasteReceipt.origin)) {
+        pasteReceipt.store = "(주)카카오(멜론)";
+        pasteReceipt.comment = "멜론 스트리밍";
+        pasteReceipt.tag = "고정/구독통신비";
+      }
+      if (/와우멤버십/.test(pasteReceipt.origin)) {
+        pasteReceipt.store = "쿠팡";
+        pasteReceipt.comment = "쿠팡 와우 멤버십";
+        pasteReceipt.tag = "고정/구독통신비";
       }
       return await firebase.database().ref(getReceiptsUrl(origins.length)).set(pasteReceipt);
     }).then(function () {

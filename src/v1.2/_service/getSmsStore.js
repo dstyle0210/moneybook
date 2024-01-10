@@ -7,7 +7,7 @@ function getSmsStore(text){
         }else if(method=="국민마올림"){
             return arr[arr.length-1];
         }else if(method=="현대스마일"){
-            let txt = arr[arr.length-3];
+            let txt = arr[arr.length-2];
             return txt.replace(/[0-9]{2}\/[0-9]{2}\s[0-9]{2}\:[0-9]{2}/gi,"");
         }else if(method=="계좌이체"){
             let txt = arr[arr.length-1];
@@ -16,7 +16,5 @@ function getSmsStore(text){
             return "";
         };
     };
-    console.log( filter() );
-    console.log( filter().replace(/\\r/gi,"") );
     return filter().replace(/\\r/gi,"");
 };

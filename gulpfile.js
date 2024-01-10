@@ -36,8 +36,6 @@ task("dist:db", function(done){
         });
 });
 
-task("dist:serve",series("dist:ready","dist:db","serve:firebase"))
-
 // 배포용 서버 설정
 task('public:ready', function(done){
     return src("./firebase.json")
@@ -63,5 +61,6 @@ task("public:db", function(done){
             done();
         });
 });
+task("dist:serve",series("dist:ready","dist:db","serve:firebase"))
 task("public:serve",series("public:ready","public:db","serve:firebase"))
 task("deploy",series("public:ready","public:db","deploy:firebase"))
