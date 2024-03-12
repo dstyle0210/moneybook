@@ -18,3 +18,9 @@ function getSmsStore(text){
     };
     return filter().replace(/\\r/gi,"");
 };
+
+function getBankStore(text){
+    if(text.indexOf("ＫＢ손")!=-1){
+        return "KB손해보험"
+    }
+};

@@ -24,12 +24,15 @@ function getReceiptsUrl(idx){
     let dateMonth = dateObj.getFullYear()+month+"";
     return "/"+dbname+"/"+dateMonth+((idx || idx==0)?"/"+idx+"":"");
 };
-function getSmsDateTime(text){ 
-    const num = "[0-9]{2}";
+function getSmsDateTime(origin,type){ 
+    const num = "[0-9]{2,4}";
     const date = new Date();
+    const isBank = type=="bank";
+    const dateSep = (isBank) ? "." : "/"; // 날짜 구분자
+    const origin_ = (isBank) ? origin.replace(/[0-9]{4}\./g,"") : origin; // 년 구분 삭제
     try{
-        const dateText = text.match( (new RegExp(num+"/"+num,"gi")) )[0];
-        const timeText = text.match( (new RegExp(num+":"+num,"gi")) )[0];
+        const dateText = (origin_.match( (new RegExp(num+dateSep+num,"gi")) )[0]).replace(/\./g,"/");
+        const timeText = origin_.match( (new RegExp(num+":"+num,"gi")) )[0];
         const dateTimeText = dateText+" "+timeText;
         const tics = dateTimeText.match((new RegExp(num,"gi")));
 
@@ -62,10 +65,11 @@ function getSmsMethod(text){
         return "";
     };
 }
-function getSmsPrice(text){
+function getSmsPrice(text,type){
     let price;
+    const isBank = type=="bank";
     try{
-        price = text.match(/[0-9,]+원/gi)[0];
+        price = (isBank) ? text.match(/[0-9,]+$/gi)[0] : text.match(/[0-9,]+원/gi)[0];
         return (price.replace(/,/gi,"").replace("원","")) * 1;
     }catch(e){
         return 0;
@@ -90,6 +94,12 @@ function getSmsStore(text){
         };
     };
     return filter().replace(/\\r/gi,"");
+};
+
+function getBankStore(text){
+    if(text.indexOf("ＫＢ손")!=-1){
+        return "KB손해보험"
+    }
 };
 function getTagCode(tag){ 
     if((/고정/).test(tag)){return "f"};
