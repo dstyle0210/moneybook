@@ -266,6 +266,12 @@ const S_nowMonthTotal = ({
     navigator.clipboard.readText().then(text => {
       return text;
     }).then(async function (origin) {
+      // CMS 공동(보험사 계좌이체)의 경우
+      if (origin.match(/CMS 공동/g)) {
+        const a = origin.replace(/[\t\r\n]+/gi, "::").split("::");
+        console.log(a);
+        return;
+      }
       let pasteReceipt = {};
       pasteReceipt.idx = origins.length;
       pasteReceipt.datetime = getSmsDateTime(origin);
@@ -313,10 +319,12 @@ const S_nowMonthTotal = ({
         pasteReceipt.comment = "쿠팡 와우 멤버십";
         pasteReceipt.tag = "고정/구독통신비";
       }
-      return await firebase.database().ref(getReceiptsUrl(origins.length)).set(pasteReceipt);
+      console.log(pasteReceipt);
+
+      // return await firebase.database().ref(getReceiptsUrl(origins.length)).set(pasteReceipt);
     }).then(function () {
       setTimeout(function () {
-        location.href = "/v1.2/update/?idx=" + origins.length;
+        // location.href = "/v1.2/update/?idx="+(origins.length);
       }, 200);
     });
   };
