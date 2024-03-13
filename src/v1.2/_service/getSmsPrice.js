@@ -1,9 +1,7 @@
-function getSmsPrice(text,type){
-    let price;
-    const isBank = type=="bank";
+function getSmsPrice(text){
     try{
-        price = (isBank) ? text.match(/[0-9,]+$/gi)[0] : text.match(/[0-9,]+원/gi)[0];
-        return (price.replace(/,/gi,"").replace("원","")) * 1;
+        const reg = isBankMethod(text) ? /[0-9,]+$/gi : /[0-9,]+원/gi;
+        return text.match(reg)[0].replace(/[,원]/gi,"") * 1;
     }catch(e){
         return 0;
     };

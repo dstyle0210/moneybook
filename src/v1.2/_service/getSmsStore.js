@@ -1,4 +1,12 @@
 function getSmsStore(text){
+    
+    // 계좌이체 선처리(특수문자형태)
+    if(text.indexOf("ＫＢ손")!=-1) return "KB손해보험";
+    if(text.indexOf("현대해")!=-1) return "현대해상보험";
+    if(text.indexOf("ＤＢ손")!=-1) return "DB손해보험";
+    if(text.indexOf("메리츠")!=-1) return "메리츠보험";
+
+    // 그외(일반)
     const method = getSmsMethod(text);
     let arr = text.split(/\r?\n/);
     const filter = () => {
@@ -17,12 +25,4 @@ function getSmsStore(text){
         };
     };
     return filter().replace(/\\r/gi,"");
-};
-
-function getBankStore(text){
-    if(text.indexOf("ＫＢ손")!=-1) return "KB손해보험";
-    if(text.indexOf("현대해")!=-1) return "현대해상보험";
-    if(text.indexOf("ＤＢ손")!=-1) return "DB손해보험";
-    if(text.indexOf("메리츠")!=-1) return "메리츠보험";
-    return "";
 };

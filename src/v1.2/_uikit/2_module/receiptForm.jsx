@@ -116,9 +116,9 @@ const M_receiptFormSubTag = ({_tag,_changeTag}) => {
     );
 };
 
-const A_subTagBtn = ({name,inputName,_changeTag,tagClassName}) => {
+const A_subTagBtn = ({name,inputName,_changeTag,tagClassName,_tag}) => {
     React.useEffect(() => {
-        $("input[name=subtag]").prop("checked",false);
+        $("input[name=subtag]").prop("checked", name==_tag );
     }, [tagClassName]);
-    return(<label className="a-tagBtn"><input type="radio" name={inputName} value={name} onChange={(e) => {_changeTag(e.target.value)}} /> <span className={"a-tagbtn -"+tagClassName}>{name}</span></label>);
+    return(<label className="a-tagBtn"><input type="radio" name={inputName} value={name} onChange={(e) => {_changeTag(e.target.value)}} defaultChecked={_tag==name} /> <span className={"a-tagbtn -"+tagClassName}>{name}</span></label>);
 }

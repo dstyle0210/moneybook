@@ -239,10 +239,11 @@ const A_subTagBtn = ({
   name,
   inputName,
   _changeTag,
-  tagClassName
+  tagClassName,
+  _tag
 }) => {
   React.useEffect(() => {
-    $("input[name=subtag]").prop("checked", false);
+    $("input[name=subtag]").prop("checked", name == _tag);
   }, [tagClassName]);
   return /*#__PURE__*/React.createElement("label", {
     className: "a-tagBtn"
@@ -252,7 +253,8 @@ const A_subTagBtn = ({
     value: name,
     onChange: e => {
       _changeTag(e.target.value);
-    }
+    },
+    defaultChecked: _tag == name
   }), " ", /*#__PURE__*/React.createElement("span", {
     className: "a-tagbtn -" + tagClassName
   }, name));
@@ -266,70 +268,93 @@ const S_nowMonthTotal = ({
     navigator.clipboard.readText().then(text => {
       return text;
     }).then(async function (origin) {
-      let pasteReceipt = {};
-      pasteReceipt.idx = origins.length;
+      // 붙여넣기한 원본내용
+      let pasteReceipt = {
+        origin,
+        idx: origins.length,
+        datetime: getSmsDateTime(origin),
+        price: getSmsPrice(origin),
+        method: getSmsMethod(origin),
+        store: getSmsStore(origin),
+        comment: "",
+        tag: "",
+        useYn: "N"
+      };
+
+      // 수정,변환내용
+      const coverReceipt = cover => {
+        Object.assign(pasteReceipt, cover, {
+          useYn: "Y"
+        });
+      };
+
+      /*! 자동변환 로직 */
 
       // CMS 공동(보험사 계좌이체)의 경우
-      if (origin.match(/CMS 공동/g)) {
-        const data = origin.replace(/[\t\r\n]+/gi, "::").split("::");
-        pasteReceipt.datetime = getSmsDateTime(origin, "bank");
-        pasteReceipt.price = getSmsPrice(origin, "bank");
-        pasteReceipt.method = "계좌이체";
-        pasteReceipt.store = getBankStore(origin);
-        pasteReceipt.comment = data[2];
-        pasteReceipt.origin = origin;
-        pasteReceipt.tag = "고정/보험";
-      } else {
-        pasteReceipt.datetime = getSmsDateTime(origin);
-        pasteReceipt.price = getSmsPrice(origin);
-        pasteReceipt.method = getSmsMethod(origin);
-        pasteReceipt.store = getSmsStore(origin).replace(/\\r/gi, "");
-        pasteReceipt.tag = "";
+      if (isBankMethod(origin)) {
+        coverReceipt({
+          comment: origin.replace(/[\t\r\n]+/gi, "::").split("::")[2],
+          tag: "고정/보험"
+        });
       }
-      pasteReceipt.useYn = "N";
-      pasteReceipt.origin = origin;
+      ;
 
-      // 금액에 따른 자동변환
-
-      // 디지털큐브 주차
-      if (pasteReceipt.method == "국민봉올림" && pasteReceipt.price == 13900 && pasteReceipt.store == "카카오 T 주차") {
-        pasteReceipt.comment = "디지털큐브 주차";
-        pasteReceipt.tag = "변동/자동차,택시";
+      // 에스플렉스 주차
+      if (pasteReceipt.method == "국민봉올림" && pasteReceipt.price == 15000 && pasteReceipt.store.indexOf("파킹클라우드") != -1) {
+        coverReceipt({
+          comment: "에스플렉스 주차",
+          tag: "변동/자동차,택시"
+        });
       }
       ;
 
       // 담배값
-      if (pasteReceipt.method == "현대네이버" && pasteReceipt.price == 4800) {
-        pasteReceipt.comment = "담배";
-        pasteReceipt.tag = "용돈/담배";
+      if (pasteReceipt.method == "현대네이버" && pasteReceipt.price % 4800 == 0) {
+        coverReceipt({
+          comment: `담배 ${pasteReceipt.price % 4800}갑`,
+          tag: "용돈/담배"
+        });
       }
-      ;
-      if (pasteReceipt.method == "현대네이버" && pasteReceipt.price == 9600) {
-        pasteReceipt.comment = "담배 2갑";
-        pasteReceipt.tag = "용돈/담배";
-      }
-      ;
 
       // 구독,통신요금
       if (/LGUPLUS 통신요금/.test(pasteReceipt.origin)) {
-        pasteReceipt.store = "LGUPLUS";
-        pasteReceipt.comment = "운양집 통신요금";
-        pasteReceipt.tag = "고정/구독통신비";
+        coverReceipt({
+          store: "LGUPLUS",
+          comment: "운양집 통신요금",
+          tag: "고정/구독통신비"
+        });
+      }
+      if (/SK텔레콤\-자동납부/.test(pasteReceipt.origin)) {
+        coverReceipt({
+          store: "SK텔레콤",
+          comment: pasteReceipt.price == "51730" ? "04** 핸드폰비" : "상봉 BTV",
+          tag: "고정/구독통신비"
+        });
       }
       if (/멜론/.test(pasteReceipt.origin)) {
-        pasteReceipt.store = "(주)카카오(멜론)";
-        pasteReceipt.comment = "멜론 스트리밍";
-        pasteReceipt.tag = "고정/구독통신비";
+        coverReceipt({
+          store: "(주)카카오(멜론)",
+          comment: "멜론 스트리밍",
+          tag: "고정/구독통신비"
+        });
       }
       if (/와우멤버십/.test(pasteReceipt.origin)) {
-        pasteReceipt.store = "쿠팡";
-        pasteReceipt.comment = "쿠팡 와우 멤버십";
-        pasteReceipt.tag = "고정/구독통신비";
+        coverReceipt({
+          store: "쿠팡",
+          comment: "쿠팡 와우 멤버십",
+          tag: "고정/구독통신비"
+        });
       }
-      return await firebase.database().ref(getReceiptsUrl(origins.length)).set(pasteReceipt);
-    }).then(function () {
+      await firebase.database().ref(getReceiptsUrl(origins.length)).set(pasteReceipt);
+      return pasteReceipt.useYn;
+    }).then(function (useYn) {
       setTimeout(function () {
-        location.href = "/v1.2/update/?idx=" + origins.length;
+        if (useYn == "Y") {
+          location.reload();
+        } else {
+          location.href = "/v1.2/update/?idx=" + origins.length;
+        }
+        ;
       }, 200);
     });
   };

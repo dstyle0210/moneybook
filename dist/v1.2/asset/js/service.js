@@ -1,4 +1,4 @@
-config.nowVersion = "1.3.0"; // 현재 버전(개발중 버전) 
+config.nowVersion = "1.3.1"; // 현재 버전(개발중 버전) 
 function getAuthUser(uid){
     if(uid==config.uidp){
         return "마봉아빠";
@@ -24,16 +24,21 @@ function getReceiptsUrl(idx){
     let dateMonth = dateObj.getFullYear()+month+"";
     return "/"+dbname+"/"+dateMonth+((idx || idx==0)?"/"+idx+"":"");
 };
-function getSmsDateTime(origin,type){ 
-    const num = "[0-9]{2,4}";
+function getSmsDateTime(origin){ 
+    const num = "[0-9]{2}";
     const date = new Date();
-    const isBank = type=="bank";
+    const isBank = isBankMethod(origin);
     const dateSep = (isBank) ? "." : "/"; // 날짜 구분자
     const origin_ = (isBank) ? origin.replace(/[0-9]{4}\./g,"") : origin; // 년 구분 삭제
     try{
         const dateText = (origin_.match( (new RegExp(num+dateSep+num,"gi")) )[0]).replace(/\./g,"/");
-        const timeText = origin_.match( (new RegExp(num+":"+num,"gi")) )[0];
+        console.log(dateText);
+        const timeText_ = origin_.match( (new RegExp(num+":"+num,"gi")) );
+        // const timeText = origin_.match( (new RegExp(num+":"+num,"gi")) )[0];
+        const timeText = timeText_ ? timeText_[0] : "00:00";
+        console.log(timeText);
         const dateTimeText = dateText+" "+timeText;
+        
         const tics = dateTimeText.match((new RegExp(num,"gi")));
 
         date.setMonth((tics[0]*1)-1);
@@ -45,9 +50,23 @@ function getSmsDateTime(origin,type){
     }finally{ 
         date.setSeconds(0);
         date.setHours( date.getHours() + 9 ); // ISO 시간규칙 적용
+        console.log( date.toISOString().split(":00.")[0] );
         return date.toISOString().split(":00.")[0];
     }
 };
+/*
+[Web발신]
+KB국민카드9043 승인
+원*봉
+55,990원 03/11
+SK텔레콤-자동납부
+*/
+// 계좌내역 복사내용인지 확인(보험 이체결과 용)
+function isBankMethod(pasteStr){
+    return !!pasteStr.match(/CMS 공동/g)
+}
+
+// 결제 방법
 function getSmsMethod(text){
     if( (/9043/).test(text) ){
         return "국민봉올림";
@@ -59,23 +78,29 @@ function getSmsMethod(text){
         return "현대스마일";
     }else if( (/네이버 현대카드/).test(text) ){
         return "현대네이버";
-    }else if( (/카카오 뱅크/).test(text) ){
+    }else if( (/카카오 뱅크/).test(text) || (/CMS 공동/).test(text) ){
         return "계좌이체";
     }else{
         return "";
     };
 }
-function getSmsPrice(text,type){
-    let price;
-    const isBank = type=="bank";
+function getSmsPrice(text){
     try{
-        price = (isBank) ? text.match(/[0-9,]+$/gi)[0] : text.match(/[0-9,]+원/gi)[0];
-        return (price.replace(/,/gi,"").replace("원","")) * 1;
+        const reg = isBankMethod(text) ? /[0-9,]+$/gi : /[0-9,]+원/gi;
+        return text.match(reg)[0].replace(/[,원]/gi,"") * 1;
     }catch(e){
         return 0;
     };
 };
 function getSmsStore(text){
+    
+    // 계좌이체 선처리(특수문자형태)
+    if(text.indexOf("ＫＢ손")!=-1) return "KB손해보험";
+    if(text.indexOf("현대해")!=-1) return "현대해상보험";
+    if(text.indexOf("ＤＢ손")!=-1) return "DB손해보험";
+    if(text.indexOf("메리츠")!=-1) return "메리츠보험";
+
+    // 그외(일반)
     const method = getSmsMethod(text);
     let arr = text.split(/\r?\n/);
     const filter = () => {
@@ -94,14 +119,6 @@ function getSmsStore(text){
         };
     };
     return filter().replace(/\\r/gi,"");
-};
-
-function getBankStore(text){
-    if(text.indexOf("ＫＢ손")!=-1) return "KB손해보험";
-    if(text.indexOf("현대해")!=-1) return "현대해상보험";
-    if(text.indexOf("ＤＢ손")!=-1) return "DB손해보험";
-    if(text.indexOf("메리츠")!=-1) return "메리츠보험";
-    return "";
 };
 function getTagCode(tag){ 
     if((/고정/).test(tag)){return "f"};
