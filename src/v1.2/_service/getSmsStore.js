@@ -20,7 +20,9 @@ function getSmsStore(text){
 };
 
 function getBankStore(text){
-    if(text.indexOf("ＫＢ손")!=-1){
-        return "KB손해보험"
-    }
+    if(text.indexOf("ＫＢ손")!=-1) return "KB손해보험";
+    if(text.indexOf("현대해")!=-1) return "현대해상보험";
+    if(text.indexOf("ＤＢ손")!=-1) return "DB손해보험";
+    if(text.indexOf("메리츠")!=-1) return "메리츠보험";
+    return "";
 };

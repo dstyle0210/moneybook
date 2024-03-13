@@ -268,12 +268,25 @@ const S_nowMonthTotal = ({
     }).then(async function (origin) {
       let pasteReceipt = {};
       pasteReceipt.idx = origins.length;
-      pasteReceipt.datetime = getSmsDateTime(origin);
-      pasteReceipt.price = getSmsPrice(origin);
-      pasteReceipt.method = getSmsMethod(origin);
-      pasteReceipt.store = getSmsStore(origin).replace(/\\r/gi, "");
+
+      // CMS 공동(보험사 계좌이체)의 경우
+      if (origin.match(/CMS 공동/g)) {
+        const data = origin.replace(/[\t\r\n]+/gi, "::").split("::");
+        pasteReceipt.datetime = getSmsDateTime(origin, "bank");
+        pasteReceipt.price = getSmsPrice(origin, "bank");
+        pasteReceipt.method = "계좌이체";
+        pasteReceipt.store = getBankStore(origin);
+        pasteReceipt.comment = data[2];
+        pasteReceipt.origin = origin;
+        pasteReceipt.tag = "고정/보험";
+      } else {
+        pasteReceipt.datetime = getSmsDateTime(origin);
+        pasteReceipt.price = getSmsPrice(origin);
+        pasteReceipt.method = getSmsMethod(origin);
+        pasteReceipt.store = getSmsStore(origin).replace(/\\r/gi, "");
+        pasteReceipt.tag = "";
+      }
       pasteReceipt.useYn = "N";
-      pasteReceipt.tag = "";
       pasteReceipt.origin = origin;
 
       // 금액에 따른 자동변환

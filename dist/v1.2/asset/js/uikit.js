@@ -272,14 +272,13 @@ const S_nowMonthTotal = ({
       // CMS 공동(보험사 계좌이체)의 경우
       if (origin.match(/CMS 공동/g)) {
         const data = origin.replace(/[\t\r\n]+/gi, "::").split("::");
-        // 2024.03.11 19:29:34	CMS 공동 , "ＫＢ손０２１０３" , "41,331"
         pasteReceipt.datetime = getSmsDateTime(origin, "bank");
         pasteReceipt.price = getSmsPrice(origin, "bank");
         pasteReceipt.method = "계좌이체";
+        pasteReceipt.store = getBankStore(origin);
         pasteReceipt.comment = data[2];
         pasteReceipt.origin = origin;
-        console.log(pasteReceipt);
-        return;
+        pasteReceipt.tag = "고정/보험";
       } else {
         pasteReceipt.datetime = getSmsDateTime(origin);
         pasteReceipt.price = getSmsPrice(origin);
@@ -327,12 +326,10 @@ const S_nowMonthTotal = ({
         pasteReceipt.comment = "쿠팡 와우 멤버십";
         pasteReceipt.tag = "고정/구독통신비";
       }
-      console.log(pasteReceipt);
-
-      // return await firebase.database().ref(getReceiptsUrl(origins.length)).set(pasteReceipt);
+      return await firebase.database().ref(getReceiptsUrl(origins.length)).set(pasteReceipt);
     }).then(function () {
       setTimeout(function () {
-        // location.href = "/v1.2/update/?idx="+(origins.length);
+        location.href = "/v1.2/update/?idx=" + origins.length;
       }, 200);
     });
   };

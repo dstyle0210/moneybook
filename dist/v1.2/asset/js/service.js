@@ -1,4 +1,4 @@
-config.nowVersion = "1.29.2"; // 현재 버전(개발중 버전) 
+config.nowVersion = "1.3.0"; // 현재 버전(개발중 버전) 
 function getAuthUser(uid){
     if(uid==config.uidp){
         return "마봉아빠";
@@ -17,7 +17,7 @@ function getMonthDate(datetime){
     return month+"."+date;
 };
 function getReceiptsUrl(idx){
-    const DBNAME = "dev"; // 연결 DB명
+    const DBNAME = "real"; // 연결 DB명
     let dbname = (location.hostname!="localhost") ? "real" : DBNAME; // 로컬호스트가 아니라면 실제DB로 연결
     let dateObj = new Date();
     let month = ((dateObj.getMonth()+1) < 9) ? "0"+(dateObj.getMonth()+1) : ""+(dateObj.getMonth()+1);
@@ -97,9 +97,11 @@ function getSmsStore(text){
 };
 
 function getBankStore(text){
-    if(text.indexOf("ＫＢ손")!=-1){
-        return "KB손해보험"
-    }
+    if(text.indexOf("ＫＢ손")!=-1) return "KB손해보험";
+    if(text.indexOf("현대해")!=-1) return "현대해상보험";
+    if(text.indexOf("ＤＢ손")!=-1) return "DB손해보험";
+    if(text.indexOf("메리츠")!=-1) return "메리츠보험";
+    return "";
 };
 function getTagCode(tag){ 
     if((/고정/).test(tag)){return "f"};
