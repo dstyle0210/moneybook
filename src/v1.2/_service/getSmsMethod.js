@@ -1,6 +1,6 @@
 // 계좌내역 복사내용인지 확인(보험 이체결과 용)
 function isBankMethod(pasteStr){
-    return !!pasteStr.match(/CMS 공동/g)
+    return (pasteStr) ? !!pasteStr.match(/CMS 공동/g) : false;
 }
 
 // 결제 방법

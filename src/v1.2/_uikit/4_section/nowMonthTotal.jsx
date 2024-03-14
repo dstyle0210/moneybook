@@ -42,7 +42,7 @@ const S_nowMonthTotal = ({receipts,user,origins}) =>{
             // 담배값
             if(pasteReceipt.method == "현대네이버" && pasteReceipt.price%4800 == 0){
                 coverReceipt({
-                    comment:`담배 ${pasteReceipt.price%4800}갑`,
+                    comment:`담배 ${pasteReceipt.price/4800}갑`,
                     tag:"용돈/담배"
                 });
             }
