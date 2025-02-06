@@ -11,6 +11,8 @@ function getSmsMethod(text){
         return "국민마이포";
     }else if( (/0805/).test(text) ){
         return "국민마올림";
+    }else if( (/7939/).test(text) ){
+        return "삼성아이디";
     }else if( (/스마일카드/).test(text) ){
         return "현대스마일";
     }else if( (/네이버 현대카드/).test(text) ){

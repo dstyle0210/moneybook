@@ -7,7 +7,6 @@ $(function () {
     } else {
       setUserSide(); // 유저정보 삽입
     }
-
     firebase.database().ref(getReceiptsUrl()).on("value", snapshot => {
       const origins = snapshot.val() || [];
       let useReceipts = [];

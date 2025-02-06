@@ -42,6 +42,7 @@ const M_receiptFormMethod = ({receipt,setReceipt}) => {
                     <option value="국민마올림">국민카드 - 마올림</option>
                     <option value="현대스마일">현대카드 - 스마일</option>
                     <option value="현대네이버">현대카드 - 네이버</option>
+                    <option value="삼성아이디">삼성카드 - ID ALL</option>
                     <option value="김포페이">김포페이</option>
                     <option value="네이버페이">네이버페이</option>
                     <option value="카카오페이">카카오페이</option>

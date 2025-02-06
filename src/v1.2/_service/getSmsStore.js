@@ -17,6 +17,9 @@ function getSmsStore(text){
         }else if(method=="현대스마일"){
             let txt = arr[arr.length-2];
             return txt.replace(/[0-9]{2}\/[0-9]{2}\s[0-9]{2}\:[0-9]{2}/gi,"");
+        }else if(method=="삼성아이디"){
+            let txt = arr[3];
+            return txt.replace(/[0-9]{2}\/[0-9]{2}\s[0-9]{2}\:[0-9]{2}/gi,"");
         }else if(method=="계좌이체"){
             let txt = arr[arr.length-1];
             return txt.replace(/간편이체|\(|\)/gi,"")
@@ -26,3 +29,13 @@ function getSmsStore(text){
     };
     return filter().replace(/\\r/gi,"");
 };
+
+
+/*
+[삼성카드]
+삼성7939승인 원*봉
+5,695원 일시불
+02/04 12:58 11번가-SKPay
+
+비인증거래 안내
+*/

@@ -154,18 +154,6 @@ body {
   padding: 10px;
 }
 
-.c-monthTotal h2 {
-  font-size: 18px;
-  line-height: 22px;
-  font-weight: bold;
-}
-.c-monthTotal summary {
-  text-align: right;
-}
-.c-monthTotal detail {
-  margin-top: 5px;
-}
-
 .m-btnsWrap {
   display: flex;
 }
@@ -294,6 +282,18 @@ body {
 .m-methodByTotal li {
   display: flex;
   justify-content: space-between;
+}
+
+.c-monthTotal h2 {
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: bold;
+}
+.c-monthTotal summary {
+  text-align: right;
+}
+.c-monthTotal detail {
+  margin-top: 5px;
 }
 
 .s-nowMonthTotal {

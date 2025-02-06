@@ -97,6 +97,8 @@ const M_receiptFormMethod = ({
   }, "\uD604\uB300\uCE74\uB4DC - \uC2A4\uB9C8\uC77C"), /*#__PURE__*/React.createElement("option", {
     value: "\uD604\uB300\uB124\uC774\uBC84"
   }, "\uD604\uB300\uCE74\uB4DC - \uB124\uC774\uBC84"), /*#__PURE__*/React.createElement("option", {
+    value: "\uC0BC\uC131\uC544\uC774\uB514"
+  }, "\uC0BC\uC131\uCE74\uB4DC - ID ALL"), /*#__PURE__*/React.createElement("option", {
     value: "\uAE40\uD3EC\uD398\uC774"
   }, "\uAE40\uD3EC\uD398\uC774"), /*#__PURE__*/React.createElement("option", {
     value: "\uB124\uC774\uBC84\uD398\uC774"
@@ -448,7 +450,6 @@ const M_MethodByTotal = ({
     methodTotal[receipt.method] = methodTotal[receipt.method] || 0; // 메소드 키값 등록 (목록에 없으면 type 맞추는 용)
     methodTotal[receipt.method] += receipt.price; // 결제방식 별 금액 합산
   });
-
   return /*#__PURE__*/React.createElement("ul", {
     className: "m-methodByTotal"
   }, methodNames.map((name, idx) => {
