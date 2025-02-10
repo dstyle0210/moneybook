@@ -5,11 +5,11 @@ function isBankMethod(pasteStr){
 
 // 결제 방법
 function getSmsMethod(text){
-    if( (/9043/).test(text) ){
+    if( (/9043/).test(text) || (/4059/).test(text) ){
         return "국민봉올림";
     }else if( (/9020/).test(text) ){
         return "국민마이포";
-    }else if( (/0805/).test(text) ){
+    }else if( (/0805/).test(text) || (/1843/).test(text) ){
         return "국민마올림";
     }else if( (/7939/).test(text) ){
         return "삼성아이디";

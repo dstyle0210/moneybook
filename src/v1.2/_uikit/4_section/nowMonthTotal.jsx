@@ -1,5 +1,5 @@
 const S_nowMonthTotal = ({receipts,user,origins}) =>{
-    const pasteReceipt = function(){
+    const _pasteReceipt = function(){
         navigator.clipboard.readText().then((text) => {
             return text;
         }).then(async function(origin){
@@ -38,9 +38,16 @@ const S_nowMonthTotal = ({receipts,user,origins}) =>{
                     tag:"변동/자동차,택시"
                 });
             };
+            // 월 정기주차
+            if(pasteReceipt.method == "삼성아이디" && pasteReceipt.price==132000){
+                coverReceipt({
+                    comment:"월 정기주차(에스플렉스)",
+                    tag:"변동/자동차,택시"
+                });
+            };
 
             // 담배값
-            if(pasteReceipt.method == "현대네이버" && pasteReceipt.price%4800 == 0){
+            if(pasteReceipt.price%4800 == 0){
                 coverReceipt({
                     comment:`담배 ${pasteReceipt.price/4800}갑`,
                     tag:"용돈/담배"
@@ -94,7 +101,7 @@ const S_nowMonthTotal = ({receipts,user,origins}) =>{
             <C_monthTotal receipts={receipts} user={user}></C_monthTotal>
             <div className="-writeBtn">
                 <a href="/v1.2/create/" className="a-btn -l">새로등록</a>
-                <a className="a-btn -l" onClick={pasteReceipt}>붙여넣기</a>
+                <a className="a-btn -l" onClick={_pasteReceipt}>붙여넣기</a>
             </div>
         </section>
     );

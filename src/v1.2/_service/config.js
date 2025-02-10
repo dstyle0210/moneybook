@@ -1,1 +1,1 @@
-config.nowVersion = "1.3.2"; // 현재 버전
+config.nowVersion = "1.3.4"; // 현재 버전

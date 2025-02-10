@@ -266,7 +266,7 @@ const S_nowMonthTotal = ({
   user,
   origins
 }) => {
-  const pasteReceipt = function () {
+  const _pasteReceipt = function () {
     navigator.clipboard.readText().then(text => {
       return text;
     }).then(async function (origin) {
@@ -309,9 +309,17 @@ const S_nowMonthTotal = ({
         });
       }
       ;
+      // 월 정기주차
+      if (pasteReceipt.method == "삼성아이디" && pasteReceipt.price == 132000) {
+        coverReceipt({
+          comment: "월 정기주차(에스플렉스)",
+          tag: "변동/자동차,택시"
+        });
+      }
+      ;
 
       // 담배값
-      if (pasteReceipt.method == "현대네이버" && pasteReceipt.price % 4800 == 0) {
+      if (pasteReceipt.price % 4800 == 0) {
         coverReceipt({
           comment: `담배 ${pasteReceipt.price / 4800}갑`,
           tag: "용돈/담배"
@@ -372,7 +380,7 @@ const S_nowMonthTotal = ({
     className: "a-btn -l"
   }, "\uC0C8\uB85C\uB4F1\uB85D"), /*#__PURE__*/React.createElement("a", {
     className: "a-btn -l",
-    onClick: pasteReceipt
+    onClick: _pasteReceipt
   }, "\uBD99\uC5EC\uB123\uAE30")));
 };
 const C_monthTotal = ({

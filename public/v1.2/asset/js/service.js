@@ -1,4 +1,4 @@
-config.nowVersion = "1.3.2"; // 현재 버전
+config.nowVersion = "1.3.4"; // 현재 버전
 function getAuthUser(uid){
     if(uid==config.uidp){
         return "마봉아빠";
@@ -51,11 +51,11 @@ function isBankMethod(pasteStr){
 
 // 결제 방법
 function getSmsMethod(text){
-    if( (/9043/).test(text) ){
+    if( (/9043/).test(text) || (/4059/).test(text) ){
         return "국민봉올림";
     }else if( (/9020/).test(text) ){
         return "국민마이포";
-    }else if( (/0805/).test(text) ){
+    }else if( (/0805/).test(text) || (/1843/).test(text) ){
         return "국민마올림";
     }else if( (/7939/).test(text) ){
         return "삼성아이디";
